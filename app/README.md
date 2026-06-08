@@ -47,7 +47,25 @@ app/
 
 Standaard **SQLite** (`database/database.sqlite`) — geen aparte database-server nodig.
 
+```bash
+php artisan migrate --seed   # incl. groothandels (Sligro, Bidfood, …)
+```
+
 Voor productie op een VPS: zet `DB_CONNECTION=pgsql` in `.env`.
+
+## Prijsupload (Fase 2)
+
+- **Foto / PDF** → OpenAI leest prijzen uit → review-scherm → opslaan
+- **Handmatig** → zelf invoeren → review-scherm → opslaan
+- **E-mail** → nog niet live (Fase 2b)
+
+Zet je OpenAI API-key in `.env`:
+
+```
+OPENAI_API_KEY=sk-...
+```
+
+Zonder key werken handmatige uploads wel; foto/PDF niet.
 
 ## Productdocumentatie
 
