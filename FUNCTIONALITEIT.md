@@ -4,7 +4,7 @@
 > Elke agent die aan dit project werkt, leest dit bestand eerst en werkt alleen aan functionaliteit die hierin staat beschreven — of werkt dit document bij vóór implementatie van nieuwe features.
 
 **Laatste update:** juni 2026  
-**Versie document:** 1.0  
+**Versie document:** 1.1  
 **Live site:** https://jorispaarde.github.io/fizzybuzz/  
 **Taal product:** Nederlands (NL)
 
@@ -64,7 +64,7 @@ Nederland (primair). Prijzen in euro's. Nederlandse taal in de interface.
 | Rol | Beschrijving | Status |
 |---|---|---|
 | **Bezoeker** | Niet-ingelogde gebruiker; ziet landingspagina | ✅ Geïmplementeerd |
-| **Lid** | Geregistreerd horecabedrijf; kan prijzen uploaden en vergelijken | 🔲 Nog te bouwen |
+| **Lid** | Geregistreerd horecabedrijf; kan prijzen uploaden en vergelijken | 🟡 Basis (registratie + dashboard) |
 | **Beheerder** | Platformbeheer; moderatie, datakwaliteit, gebruikersbeheer | 🔲 Nog te bouwen |
 
 ---
@@ -108,7 +108,7 @@ Onderstaande modules beschrijven de volledige beoogde functionaliteit. Per modul
 
 **Doel:** Horecabedrijven kunnen zich aanmelden als lid.
 
-**Status:** 🔲 Nog te bouwen
+**Status:** 🟡 Deels geïmplementeerd (`app/` — Laravel + Breeze)
 
 #### Functionaliteit
 
@@ -125,9 +125,12 @@ Onderstaande modules beschrijven de volledige beoogde functionaliteit. Per modul
 
 #### Acceptatiecriteria
 
-- [ ] Alleen geverifieerde horecabedrijven krijgen toegang
-- [ ] Eén account per bedrijf
-- [ ] Duidelijke uitleg bij registratie over wat er gedeeld wordt en wat niet
+- [ ] Alleen geverifieerde horecabedrijven krijgen toegang (e-mailverificatie nog niet actief)
+- [x] Eén account per bedrijf (uniek e-mailadres)
+- [x] Duidelijke uitleg bij registratie over wat er gedeeld wordt en wat niet
+- [x] Bedrijfsprofiel bij registratie (naam, type, regio)
+- [x] Basis-dashboard na inloggen
+- [ ] Inloggen / uitloggen op productie-VPS
 
 ---
 
@@ -402,29 +405,45 @@ Aggregatie (berekend, niet opgeslagen als ruwe data)
 
 | Onderdeel | Technologie | Status |
 |---|---|---|
-| Landingspagina | Statische HTML + CSS | ✅ Live |
-| Hosting | GitHub Pages | ✅ Live |
-| Deploy | GitHub Actions (`.github/workflows/pages.yml`) | ✅ Werkend |
-| Backend | Nog niet gekozen | 🔲 Te bepalen |
-| Database | Nog niet gekozen | 🔲 Te bepalen |
-| Authenticatie | Nog niet gekozen | 🔲 Te bepalen |
+| Landingspagina | Statische HTML + CSS | ✅ Live op GitHub Pages |
+| Applicatie | Laravel 13 + Breeze (Blade) | 🟡 Lokaal draaibaar |
+| Database (dev) | SQLite | ✅ Werkend |
+| Database (prod) | PostgreSQL op VPS | 🔲 Bij VPS-deploy |
+| Authenticatie | Laravel Breeze | 🟡 Registratie + login lokaal |
+| Anonimisering | `AnonymizationService` | 🟡 Skelet (≥3 datapunten) |
+| Betaling (later) | Stripe + Laravel Cashier | 🔲 Voorbereid in architectuur |
+| Hosting marketing | GitHub Pages | ✅ Live |
+| Hosting app (later) | Hetzner VPS | 🔲 Te deployen |
+
+### Architectuurkeuze (levelsio-stijl)
+
+- **Monoliet:** alles in één Laravel-project (`app/`)
+- **Zelf te beheren:** één VPS, geen vendor lock-in (geen Clerk/Vercel/Supabase)
+- **Twee omgevingen:**
+  - GitHub Pages → alleen statische marketing (`index.html`, `css/`)
+  - Laravel lokaal/VPS → registratie, dashboard, data
 
 ### Repository
 
 - **Repo:** `JorisPaarde/fizzybuzz`
 - **Branch:** `block3_joris` (hoofdbranch)
-- **Live URL:** https://jorispaarde.github.io/fizzybuzz/
+- **Marketing URL:** https://jorispaarde.github.io/fizzybuzz/
+- **App lokaal:** http://localhost:8000 (zie `app/README.md`)
 
 ### Bestandsstructuur (huidig)
 
 ```
 /
 ├── FUNCTIONALITEIT.md    ← dit document
-├── README.md             ← technische setup-instructies
-├── index.html            ← landingspagina
-├── css/style.css         ← styling
-├── package.json          ← lokale preview (npm start)
-└── .github/workflows/    ← deploy-pipeline
+├── README.md             ← repo-overzicht
+├── index.html            ← landingspagina (GitHub Pages)
+├── css/style.css         ← marketing-styling
+├── app/                  ← Laravel-applicatie
+│   ├── app/Models/       ← User, Product, Wholesaler, PriceSubmission, AggregatedPrice
+│   ├── app/Services/     ← AnonymizationService
+│   ├── database/         ← migraties + SQLite
+│   └── README.md         ← lokale setup-instructies
+└── .github/workflows/    ← GitHub Pages deploy (alleen statische site)
 ```
 
 ---
@@ -467,7 +486,7 @@ Aggregatie (berekend, niet opgeslagen als ruwe data)
 | Fase | Omschrijving | Modules |
 |---|---|---|
 | **Fase 0** | Landingspagina | 4.1 ✅ |
-| **Fase 1** | Registratie & basis-dashboard | 4.2 |
+| **Fase 1** | Registratie & basis-dashboard | 4.2 🟡 |
 | **Fase 2** | Handmatige prijsupload | 4.3 (handmatig) |
 | **Fase 3** | Prijsvergelijking | 4.4, 4.5, 4.6 |
 | **Fase 4** | Onderhandelingsrapporten | 4.7 |

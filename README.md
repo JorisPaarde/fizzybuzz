@@ -1,36 +1,41 @@
 # Prijsplein
 
-Homepage for **Prijsplein**, a platform that helps horeca businesses compare the prices they pay across different wholesalers.
+Platform waar horecabedrijven inkoopprijzen bij groothandels vergelijken en samen scherpere tarieven onderhandelen.
 
-> **Productdocumentatie:** alle functionaliteit staat in [`FUNCTIONALITEIT.md`](FUNCTIONALITEIT.md). Agents en ontwikkelaars lezen dit bestand eerst.
+> **Productdocumentatie:** [`FUNCTIONALITEIT.md`](FUNCTIONALITEIT.md) — lees dit eerst.
 
-## What it does
+## Twee onderdelen
 
-- Members upload the prices they pay to their wholesalers
-- Prices are shared as collective knowledge across the member network
-- Members use this insight to negotiate competitive pricing
-- The goal: end opaque pricing and achieve lower net prices for everyone
+| Onderdeel | Wat | Waar |
+|---|---|---|
+| **Marketing** | Landingspagina | GitHub Pages (live) |
+| **App** | Registratie, dashboard, data | Lokaal (`app/`) → later VPS |
 
-## Live site
-
-After merging to `block3_joris`, the site is published automatically via GitHub Actions:
+## Live marketing site
 
 **https://jorispaarde.github.io/fizzybuzz/**
 
-### One-time repo setup (required)
+Deployt automatisch bij push naar `block3_joris` (alleen `index.html` + `css/`).
 
-GitHub Pages must be enabled once in the repository settings:
+## Laravel app lokaal draaien
 
-1. Open [github.com/JorisPaarde/fizzybuzz/settings/pages](https://github.com/JorisPaarde/fizzybuzz/settings/pages)
-2. Under **Build and deployment**, set **Source** to **GitHub Actions**
-3. Go to [Actions → Deploy to GitHub Pages](https://github.com/JorisPaarde/fizzybuzz/actions/workflows/pages.yml) and click **Run workflow** (or push any commit to `block3_joris`)
+```bash
+cd app
+composer install
+cp .env.example .env
+php artisan key:generate
+touch database/database.sqlite
+php artisan migrate
+npm install && npm run build
+php artisan serve
+```
 
-After the workflow succeeds, the site is live at the URL above.
+Open **http://localhost:8000** — zie [`app/README.md`](app/README.md) voor details.
 
-## Local preview
+## Marketing preview (statisch)
 
 ```bash
 npm start
 ```
 
-Then open [http://localhost:3000](http://localhost:3000).
+Open http://localhost:3000
