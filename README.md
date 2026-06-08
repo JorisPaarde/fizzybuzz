@@ -2,7 +2,8 @@
 
 Platform waar horecabedrijven inkoopprijzen bij groothandels vergelijken en samen scherpere tarieven onderhandelen.
 
-> **Productdocumentatie:** [`FUNCTIONALITEIT.md`](FUNCTIONALITEIT.md) — lees dit eerst.
+> **Productdocumentatie:** [`FUNCTIONALITEIT.md`](FUNCTIONALITEIT.md) — lees dit eerst.  
+> **Installatie:** [`SETUP.md`](SETUP.md) — checklist, API-keys, server setup.
 
 ## Twee onderdelen
 

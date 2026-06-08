@@ -2,6 +2,8 @@
 
 De applicatie-backend voor Prijsplein. Draait lokaal; de marketing-site blijft op GitHub Pages.
 
+> **Volledige installatie-checklist:** [`../SETUP.md`](../SETUP.md) (API-keys, Mailgun, VPS, troubleshooting)
+
 ## Vereisten
 
 - PHP 8.3+
