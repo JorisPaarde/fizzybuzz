@@ -1,2 +1,10 @@
 node_modules/
 .DS_Store
+
+# Laravel app (zie app/.gitignore voor details)
+/app/vendor/
+/app/node_modules/
+/app/.env
+/app/public/build/
+/app/public/hot
+/app/storage/*.key
