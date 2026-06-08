@@ -4,7 +4,7 @@
 > Elke agent die aan dit project werkt, leest dit bestand eerst en werkt alleen aan functionaliteit die hierin staat beschreven — of werkt dit document bij vóór implementatie van nieuwe features.
 
 **Laatste update:** juni 2026  
-**Versie document:** 1.2  
+**Versie document:** 1.3  
 **Live site:** https://jorispaarde.github.io/fizzybuzz/  
 **Taal product:** Nederlands (NL)
 
@@ -30,6 +30,14 @@ Leden **uploaden de prijzen die zij betalen**. Die gegevens worden **geaggreerd 
 
 Een einde maken aan ondoorzichtige prijzen in de horeca-inkoop, zodat **alle leden netto lagere prijzen** betalen.
 
+### Waar zit de echte waarde?
+
+De actuele prijs is nuttig, maar **de echte waarde zit in prijsverloop en verschillen tussen leveranciers** — informatie die de meeste horecaondernemers nu niet centraal kunnen zien. Prijsplein combineert daarom:
+
+1. **Ledenprijzen** (crowdsourced, anoniem geaggregeerd)
+2. **Externe prijsdata** (groothandels, folders, calculatiebestanden — zie §4.11)
+3. **EAN-koppeling** over leveranciers heen (zelfde product, andere prijs)
+
 ### Kernprincipes
 
 | Principe | Betekenis |
@@ -39,6 +47,7 @@ Een einde maken aan ondoorzichtige prijzen in de horeca-inkoop, zodat **alle led
 | **Collectieve kracht** | Meer leden = completer beeld = sterkere positie voor iedereen |
 | **Transparantie** | Geen verborgen tarieven; marktprijzen worden zichtbaar |
 | **Praktisch nut** | Alles wat gebouwd wordt, moet direct helpen bij onderhandelen |
+| **Historisch inzicht** | Prijstrends en leveranciersverschillen zijn minstens zo waardevol als de actuele prijs |
 
 ---
 
@@ -213,10 +222,12 @@ Upload of e-mail ontvangen
 
 #### Functionaliteit
 
-- **Zoeken** op productnaam
+- **Zoeken** op productnaam of EAN
 - **Vergelijken** per product:
   - Laagste, hoogste en gemiddelde ledenprijs
   - Prijs per groothandel (geaggregeerd, anoniem)
+  - **Externe referentieprijzen** (§4.11) waar beschikbaar — apart gelabeld
+  - **Goedkoopste leverancier** bij EAN-match over groothandels
   - Aantal datapunten (hoeveel leden hebben dit product gemeld)
 - **Eigen positie**: waar het eigen bedrijf staat t.o.v. het gemiddelde (zonder andere individuele bedrijven te tonen)
 - **Filters**:
@@ -229,7 +240,7 @@ Upload of e-mail ontvangen
 
 - Tabel- en kaartweergave
 - Visuele indicatie: groen (onder gemiddelde), rood (boven gemiddelde)
-- Trend over tijd (indien voldoende data)
+- Trend over tijd (ledendata + externe `price_history` — §4.11)
 
 #### Acceptatiecriteria
 
@@ -242,9 +253,9 @@ Upload of e-mail ontvangen
 
 ### 4.5 Groothandelsbeheer
 
-**Doel:** Overzicht van groothandels waar leden inkopen.
+**Doel:** Overzicht van groothandels waar leden inkopen en waar het platform externe data vandaan haalt.
 
-**Status:** 🔲 Nog te bouwen
+**Status:** 🟡 Deels (seeder + lid-koppeling `/my-wholesalers`; vergelijkings-UI nog te bouwen)
 
 #### Functionaliteit
 
@@ -260,23 +271,42 @@ Upload of e-mail ontvangen
 
 ---
 
-### 4.6 Productcatalogus
+### 4.6 Productcatalogus & EAN-database
 
-**Doel:** Gestandaardiseerde productnamen voor betrouwbare vergelijking.
+**Doel:** Gestandaardiseerde productnamen en cross-leverancier vergelijking via EAN.
 
 **Status:** 🔲 Nog te bouwen
 
 #### Functionaliteit
 
 - Centrale productdatabase met categorieën (groenten, vlees, zuivel, dranken, etc.)
+- **EAN/GTIN** als primaire koppelsleutel waar beschikbaar
 - Fuzzy matching bij upload: "tomaat cherry 5kg" → "Tomaten, cherry"
 - Suggesties bij handmatige invoer
 - Nieuwe producten kunnen worden voorgesteld door leden
+- **Cross-leverancier matching**: hetzelfde product bij Sligro, HANOS en Bidfood via EAN koppelen
+
+#### EAN-vergelijkingstabel (concept)
+
+| EAN | Product | Leverancier | Verpakking | Prijs | Datum |
+|---|---|---|---|---|---|
+| 871… | Coca Cola 24×33cl | Sligro | tray | € | 2026-06-08 |
+| 871… | Coca Cola 24×33cl | HANOS | tray | € | 2026-06-08 |
+| 871… | Coca Cola 24×33cl | Bidfood | tray | € | 2026-06-08 |
+
+#### Mogelijkheden met EAN-koppeling
+
+- Goedkoopste leverancier tonen per product
+- Prijsverloop over tijd (historische prijzen)
+- Automatische offertevergelijking
+- Foodcost-berekening (koppeling met recepten/calculaties — zie §4.11 niveau 4)
 
 #### Acceptatiecriteria
 
 - [ ] Producten zijn vergelijkbaar over leden heen
 - [ ] Eenheden worden genormaliseerd (alles omgerekend naar basiseenheid waar mogelijk)
+- [ ] EAN wordt opgeslagen en gebruikt voor matching waar beschikbaar
+- [ ] Zelfde EAN bij meerdere groothandels → één vergelijkingsweergave
 - [ ] Beheerder kan producten samenvoegen
 
 ---
@@ -358,6 +388,129 @@ Upload of e-mail ontvangen
 - Product- en groothandelsamenvoeging
 - Dashboard met platformstatistieken (aantal leden, uploads, producten)
 - Auditlog van beheerdersacties
+- Overzicht externe datasyncs (status, fouten, laatste run)
+
+---
+
+### 4.11 Externe prijsdata & databronnen
+
+**Doel:** Naast ledenuploads systematisch prijsdata verzamelen uit externe bronnen, zodat het platform ook zonder grote ledenbasis al waardevol is.
+
+**Status:** 🔲 Nog te bouwen
+
+#### Strategie: zes niveaus van data-acquisitie
+
+Onderstaande niveaus zijn **onderzoeks- en implementatiepaden**, niet alles tegelijk. Elk niveau bouwt voort op het vorige.
+
+| Niveau | Bron | Kwaliteit | Beschrijving |
+|---|---|---|---|
+| **1** | Officiële API's / partnerkoppelingen | Hoogst | Sligro (Apicbase, AFAS, OCI), HANOS-integraties, PS in Foodservice productdatabase |
+| **2** | Inloggen + gestructureerde extractie | Hoog | Zakelijke accounts; productpagina's crawlen; JSON-endpoints onderscheppen (Playwright) |
+| **3** | Digitale folders & aanbiedingen | Middel | PDF-folders downloaden → OCR/extractie → historische promo-database |
+| **4** | Recept- en calculatiebestanden | Hoog (leden) | Sligro calculatiedocumenten met inkoop-, verkoopprijs en marge — upload + extractie |
+| **5** | Meer groothandels | Variabel | Bidfood, Makro, VHC, FOOX, MELEDI, Lekkerland naast Sligro/HANOS |
+| **6** | EAN-database | Fundament | Cross-leverancier matching; zie §4.6 |
+
+#### Niveau 1 — Officiële API's (eerste onderzoekspad)
+
+Veel groothandels hebben geen publieke API, maar wel partnerkoppelingen:
+
+- **Sligro** — koppelingen met Apicbase, AFAS, OCI en andere inkoopplatforms; actuele prijzen worden uitgewisseld
+- **HANOS** — vergelijkbare integraties; product- en prijsdata automatisch gesynchroniseerd
+- **PS in Foodservice** — centrale productdatabase met foodservice-productinformatie via API-koppelingen
+
+**Platformfunctionaliteit:**
+
+- Onderzoeks- en integratiemodule per leverancier (status: onderzoek / pilot / live)
+- OAuth of API-key opslag per zakelijke koppeling (versleuteld, alleen platformbeheerder)
+- Geplande sync (dagelijks) naar `ExternalPrice` records
+- Bronvermelding in vergelijkings-UI: "Sligro API" vs. "lid-upload" vs. "folder"
+
+#### Niveau 2 — Inloggen + gestructureerde extractie
+
+Bij Sligro en HANOS zijn prijzen zichtbaar na login. Technische aanpak:
+
+1. Zakelijk account aanmaken (platform of testaccount)
+2. Playwright: inloggen en productpagina's crawlen
+3. Productnaam, EAN, verpakking, prijs, aanbieding opslaan
+4. Vaak laden pagina's JSON in de achtergrond — endpoints onderscheppen i.p.v. HTML scrapen
+
+**Technische componenten (Laravel):**
+
+- `app/Console/Commands/` — geplande sync-jobs per leverancier
+- `app/Services/Scrapers/` — per groothandel een scraper-adapter (Playwright via Node of Python sidecar)
+- Response-interceptie: verborgen API-endpoints loggen en hergebruiken
+- Rate limiting en foutafhandeling; geen agressieve parallelle requests
+
+**Juridisch / ethisch:**
+
+- Alleen data verzamelen waarvoor een geldig zakelijk account bestaat
+- Gebruiksvoorwaarden groothandels respecteren; juridisch advies vóór productie-scraping
+- Geen credentials van leden gebruiken zonder expliciete toestemming
+
+#### Niveau 3 — Folders & aanbiedingen
+
+Sligro en anderen publiceren digitale folders online.
+
+**Functionaliteit:**
+
+- PDF-folders downloaden (geplande job of handmatige upload door beheerder)
+- OCR + extractie (OpenAI Vision of dedicated OCR)
+- Producten, actieprijzen en geldigheidsperiode opslaan
+- **Historische database**: seizoenspatronen, actiefrequentie, gemiddelde korting na ~1 jaar data
+
+**Waarde:** promo-prijzen zijn vaak de enige "publieke" prijsindicatie; historisch verloop is onderhandelingsmateriaal.
+
+#### Niveau 4 — Recept- en calculatiebestanden
+
+Sligro levert klanten calculatiedocumenten met inkoopprijzen, hoeveelheden, verkoopprijzen en marges.
+
+**Platformkoppeling:**
+
+- Upload via bestaande §4.3-pipeline (PDF) met extractie-profiel "calculatie"
+- Velden: ingrediënt, inkoopprijs, verkoopprijs, marge %, receptnaam
+- Koppeling met §4.6 EAN waar mogelijk → foodcost per gerecht
+- **Anonimiteit:** calculaties van leden vallen onder ledenregels (§4.8); platform-eigen testdata apart gelabeld
+
+#### Niveau 5 — Uitbreiding groothandels
+
+Standaardlijst (uitbreiden naast huidige seeder):
+
+| Groothandel | Prioriteit | Niveau 1 API | Niveau 2 scrape | Niveau 3 folders |
+|---|---|---|---|---|
+| Sligro | P1 | Onderzoek | Ja | Ja |
+| HANOS | P1 | Onderzoek | Ja | Deels |
+| Bidfood | P2 | Onderzoek | Ja | Deels |
+| Makro | P2 | — | Ja | Ja |
+| VHC | P3 | — | Onderzoek | — |
+| FOOX | P3 | — | Onderzoek | — |
+| MELEDI | P3 | — | Onderzoek | — |
+| Lekkerland | P3 | — | Onderzoek | — |
+
+Elke extra leverancier verhoogt de waarde van de EAN-database (§4.6).
+
+#### Niveau 6 — EAN-database (fundament)
+
+Zie §4.6. Externe bronnen (niveau 1–5) voeden primair de EAN-database; ledenuploads valideren en verrijken die data.
+
+#### MVP-pad externe data (technisch)
+
+| Stap | Omschrijving | Doel |
+|---|---|---|
+| 1 | Sligro zakelijk account + Playwright proof-of-concept | Endpoints vinden |
+| 2 | PostgreSQL + `external_prices` tabel + dagelijkse sync-job | 10.000+ producten |
+| 3 | HANOS-scraper toevoegen | Cross-leverancier |
+| 4 | EAN matching + historische prijzen (`price_history`) | Trends & vergelijking |
+| 5 | Folder-pipeline (PDF → extractie) | Promo-historie |
+
+#### Acceptatiecriteria
+
+- [ ] Per databron: bron-type, leverancier, sync-datum en betrouwbaarheid zichtbaar in UI
+- [ ] Externe prijzen gescheiden van ledenaggregaties (andere privacyregels)
+- [ ] Historische prijzen bewaard (niet overschrijven bij update)
+- [ ] EAN wordt waar mogelijk meegenomen bij elke externe import
+- [ ] Sync-fouten loggen en tonen in beheerdersdashboard
+- [ ] Juridische review vóór productie-scraping gedocumenteerd
 
 ---
 
@@ -393,6 +546,21 @@ Vergelijking → Significant verschil gedetecteerd → Benchmarkrapport download
 → Gesprek met leverancier → Nieuwe prijs → Update eigen prijs in platform
 ```
 
+### Flow 5: Platform verrijkt data (achtergrond)
+
+```
+Geplande sync (cron) → Scraper/API/folder-job per groothandel
+→ Product + EAN + prijs + datum → external_prices + price_history
+→ EAN matching met productcatalogus → Beschikbaar in vergelijking (§4.4)
+```
+
+### Flow 6: Lid vergelijkt leveranciers op EAN
+
+```
+Zoek product (naam of EAN) → Zelfde product bij Sligro / HANOS / Bidfood
+→ Goedkoopste leverancier + prijsverloop grafiek → Export voor onderhandeling
+```
+
 ---
 
 ## 6. Datamodel (conceptueel)
@@ -411,8 +579,25 @@ Groothandel
   └── (geaggregeerde statistieken, geen ruwe data)
 
 Product
-  ├── id, naam, categorie, standaard_eenheid
+  ├── id, naam, ean (optioneel), categorie, standaard_eenheid
   └── (geaggregeerde statistieken)
+
+ExternePrijs (platform-verzameld, niet van leden)
+  ├── id, product_id, groothandel_id, ean
+  ├── prijs, eenheid, verpakking, is_actie (boolean)
+  ├── bron (api / scrape / folder / calculatie)
+  ├── sync_job_id, opgehaald_op
+  └── (los van ledenaggregatie; geen anonimiteitsdrempel)
+
+PrijsHistorie
+  ├── external_price_id of price_submission_id
+  ├── prijs, geldig_vanaf, geldig_tot
+  └── (append-only; nooit overschrijven)
+
+DatasyncJob
+  ├── groothandel_id, type (api / scrape / folder)
+  ├── status, gestart_op, voltooid_op, aantal_records
+  └── foutlog
 
 Aggregatie (berekend, niet opgeslagen als ruwe data)
   ├── product_id + groothandel_id
@@ -447,6 +632,8 @@ Aggregatie (berekend, niet opgeslagen als ruwe data)
 | Anonimisering | `AnonymizationService` | 🟡 Skelet (≥3 datapunten) |
 | Prijsupload | Handmatig + foto/PDF + review | 🟡 Lokaal |
 | AI-extractie | OpenAI `gpt-4o-mini` | 🟡 Via `OPENAI_API_KEY` |
+| Externe data-sync | Playwright + Laravel jobs | 🔲 Zie §4.11 |
+| EAN-matching | PostgreSQL + productcatalogus | 🔲 Zie §4.6 |
 | Betaling (later) | Stripe + Laravel Cashier | 🔲 Voorbereid in architectuur |
 | Hosting marketing | GitHub Pages | ✅ Live |
 | Hosting app (later) | Hetzner VPS | 🔲 Te deployen |
@@ -475,8 +662,9 @@ Aggregatie (berekend, niet opgeslagen als ruwe data)
 ├── index.html            ← landingspagina (GitHub Pages)
 ├── css/style.css         ← marketing-styling
 ├── app/                  ← Laravel-applicatie
-│   ├── app/Models/       ← User, Product, Wholesaler, PriceSubmission, AggregatedPrice
-│   ├── app/Services/     ← AnonymizationService
+│   ├── app/Models/       ← User, Product, Wholesaler, PriceSubmission, AggregatedPrice, …
+│   ├── app/Services/     ← AnonymizationService, PriceExtractionService, Scrapers/ (later)
+│   ├── app/Console/      ← geplande sync-commands (later)
 │   ├── database/         ← migraties + SQLite
 │   └── README.md         ← lokale setup-instructies
 └── .github/workflows/    ← GitHub Pages deploy (alleen statische site)
@@ -492,6 +680,8 @@ Aggregatie (berekend, niet opgeslagen als ruwe data)
 - B2B-marktplaats of doorverkoop tussen horecabedrijven
 - Internationale uitbreiding buiten Nederland
 - AI-chatbot of automatische onderhandeling met leveranciers
+- Scraping zonder geldig zakelijk account of in strijd met leveranciersvoorwaarden (zie §4.11 juridisch)
+- Opslag of delen van inloggegevens van leden voor groothandel-scraping zonder expliciete toestemming
 
 ---
 
@@ -525,11 +715,20 @@ Aggregatie (berekend, niet opgeslagen als ruwe data)
 | **Fase 1** | Registratie & basis-dashboard | 4.2 🟡 |
 | **Fase 2** | Prijsupload (handmatig + foto/PDF + review) | 4.3 ✅ |
 | **Fase 2b** | E-mail upload (inbound mail) | 4.3 (e-mail) ✅ |
-| **Fase 3** | Prijsvergelijking | 4.4, 4.5, 4.6 |
+| **Fase 3** | Prijsvergelijking | 4.4, 4.5, 4.6 (basis) |
 | **Fase 4** | Onderhandelingsrapporten | 4.7 |
 | **Fase 5** | Bestandsupload (prijslijsten/facturen) | 4.3 (bestand) |
 | **Fase 6** | Notificaties | 4.9 |
 | **Fase 7** | Beheer & moderatie | 4.10 |
+| **Fase 8** | EAN-database & productmatching | 4.6 (EAN) |
+| **Fase 9a** | Externe data — Sligro scraper MVP | 4.11 niveau 2 |
+| **Fase 9b** | Externe data — HANOS + historische prijzen | 4.11 niveau 2, 6 |
+| **Fase 10** | Folder-pipeline (promo-historie) | 4.11 niveau 3 |
+| **Fase 11** | Officiële API-koppelingen (Sligro/HANOS/PS) | 4.11 niveau 1 |
+| **Fase 12** | Meer groothandels (Bidfood, Makro, …) | 4.11 niveau 5 |
+| **Fase 13** | Calculatiebestanden & foodcost | 4.11 niveau 4 |
+
+**Prioriteit externe data:** Fase 8 (EAN) kan parallel met Fase 3; Fase 9a is het technische MVP (Sligro + PostgreSQL + dagelijkse sync). Ledenupload (Fase 2) blijft de kern voor anonimisering; externe data maakt het platform ook waardevol vóór kritische massa leden.
 
 > **Aanpassingen aan deze roadmap:** altijd eerst dit document bijwerken, daarna implementeren.
 
