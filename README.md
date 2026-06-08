@@ -2,6 +2,8 @@
 
 Homepage for **Prijsplein**, a platform that helps horeca businesses compare the prices they pay across different wholesalers.
 
+> **Productdocumentatie:** alle functionaliteit staat in [`FUNCTIONALITEIT.md`](FUNCTIONALITEIT.md). Agents en ontwikkelaars lezen dit bestand eerst.
+
 ## What it does
 
 - Members upload the prices they pay to their wholesalers
