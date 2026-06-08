@@ -32,6 +32,14 @@
                 </div>
             </div>
 
+            @php $pending = auth()->user()->priceImports()->where('status', 'review')->count(); @endphp
+            @if ($pending > 0)
+                <div class="bg-amber-50 border border-amber-200 overflow-hidden shadow-sm sm:rounded-lg p-6">
+                    <p class="font-semibold text-amber-900">{{ $pending }} import(s) wachten op jouw controle</p>
+                    <a href="{{ route('prices.import.create') }}" class="mt-2 inline-block text-sm font-semibold text-amber-800 underline">Nu controleren →</a>
+                </div>
+            @endif
+
             <div class="grid gap-6 md:grid-cols-3">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                     <p class="text-sm text-gray-500">Gedeelde prijsregels</p>

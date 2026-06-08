@@ -68,7 +68,10 @@ class PriceUploadTest extends TestCase
             'wholesaler_id' => $wholesaler->id,
             'price' => 12.5,
             'unit' => 'doos',
+            'status' => 'approved',
         ]);
+
+        $this->assertTrue($user->fresh()->wholesalers()->whereKey($wholesaler->id)->exists());
     }
 
     public function test_user_can_edit_own_price_submission(): void

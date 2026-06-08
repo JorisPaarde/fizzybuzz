@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\DB;
 
 class PriceImportService
 {
+    public function __construct(
+        private readonly AnonymizationService $anonymizationService,
+    ) {}
+
     /**
      * @param  array<int, array<string, mixed>>  $items
      */
@@ -25,8 +29,11 @@ class PriceImportService
             abort(422, 'Deze import is al bevestigd.');
         }
 
-        return DB::transaction(function () use ($import, $wholesalerId, $effectiveDate, $items) {
+        return DB::transaction(function () use ($import, $user, $wholesalerId, $effectiveDate, $items) {
             $saved = 0;
+            $productIds = [];
+
+            $user->wholesalers()->syncWithoutDetaching([$wholesalerId]);
 
             foreach ($items as $item) {
                 if (blank($item['product_name'] ?? null) || ! is_numeric($item['price'] ?? null)) {
@@ -34,6 +41,7 @@ class PriceImportService
                 }
 
                 $product = Product::findOrCreateFromName((string) $item['product_name']);
+                $productIds[] = $product->id;
 
                 PriceSubmission::query()->create([
                     'user_id' => $import->user_id,
@@ -46,7 +54,7 @@ class PriceImportService
                     'specification' => $item['specification'] ?? null,
                     'effective_date' => $effectiveDate,
                     'source' => $import->source,
-                    'status' => PriceSubmission::STATUS_PENDING,
+                    'status' => PriceSubmission::STATUS_APPROVED,
                 ]);
 
                 $saved++;
@@ -59,8 +67,25 @@ class PriceImportService
                 'status' => PriceImport::STATUS_CONFIRMED,
             ]);
 
+            foreach (array_unique($productIds) as $productId) {
+                $this->anonymizationService->aggregate($productId, $wholesalerId);
+            }
+
             return $saved;
         });
+    }
+
+    public function resolveWholesalerId(?int $wholesalerId, ?string $newName): int
+    {
+        if (filled($newName)) {
+            return Wholesaler::findOrCreateFromName($newName)->id;
+        }
+
+        if ($wholesalerId) {
+            return $wholesalerId;
+        }
+
+        abort(422, 'Kies een groothandel of voer een nieuwe naam in.');
     }
 
     public function guessWholesalerId(?string $name): ?int
