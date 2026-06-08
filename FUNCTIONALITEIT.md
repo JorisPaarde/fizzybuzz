@@ -136,17 +136,42 @@ Onderstaande modules beschrijven de volledige beoogde functionaliteit. Per modul
 
 ### 4.3 Prijsupload
 
-**Doel:** Leden kunnen de prijzen die zij betalen invoeren of uploaden.
+**Doel:** Leden kunnen de prijzen die zij betalen zo makkelijk mogelijk invoeren of uploaden.
 
-**Status:** 🔲 Nog te bouwen
+**Status:** 🟡 In ontwikkeling (`app/` — Fase 2)
+
+#### Ontwerpprincipe
+
+**Zo weinig mogelijk typewerk.** Foto, PDF of e-mail → automatisch uitlezen → lid controleert en corrigeert → pas dan opslaan.
 
 #### Invoermethoden
 
-| Methode | Beschrijving |
-|---|---|
-| **Handmatig** | Product, groothandel, prijs, eenheid, datum invoeren |
-| **Prijslijst** | Upload van PDF/Excel/CSV prijslijst van groothandel |
-| **Factuur** | Upload van factuur; prijzen worden geëxtraheerd (handmatig of automatisch) |
+| Methode | Beschrijving | Status |
+|---|---|---|
+| **Foto** | Foto van factuur of prijslijst (mobiel) | 🟡 OpenAI Vision |
+| **PDF** | PDF van factuur of prijslijst | 🟡 OpenAI + tekstextractie |
+| **E-mail** | Mail met PDF/bijlage naar upload-adres van het platform | 🔲 Fase 2b (inbound mail) |
+| **Handmatig** | Product, groothandel, prijs, eenheid, datum invoeren | 🟡 |
+
+#### Extractie-flow (foto / PDF / e-mail)
+
+```
+Upload of e-mail ontvangen
+    → OpenAI API: regels extraheren (product, prijs, eenheid)
+    → Review-scherm: lid ziet alle regels en kan fouten corrigeren
+    → Bevestigen → PriceSubmission records (status: pending)
+    → Na goedkeuring → aggregatie (AnonymizationService)
+```
+
+**Belangrijk:** Geëxtraheerde data wordt **nooit direct opgeslagen**. Altijd eerst het review-scherm.
+
+#### Techniek extractie
+
+- **OpenAI API** (`gpt-4o-mini`) voor foto's en PDF's
+- Foto: Vision API (base64 image)
+- PDF: tekstextractie (`pdfparser`); bij gescande PDF's → lid krijgt tip om foto te uploaden
+- API-key via `OPENAI_API_KEY` in `.env` (nooit in git)
+- E-mail (later): inbound webhook (Mailgun/Postmark) → zelfde extractie-pipeline
 
 #### Gegevens per prijsregel
 
@@ -163,11 +188,14 @@ Onderstaande modules beschrijven de volledige beoogde functionaliteit. Per modul
 
 #### Acceptatiecriteria
 
+- [x] Drie invoerkanalen voorzien: handmatig, foto/PDF, e-mail (e-mail nog niet live)
+- [x] Geëxtraheerde regels zijn bewerkbaar vóór opslaan (review-scherm)
 - [ ] Lid kan meerdere groothandels koppelen
-- [ ] Lid kan prijzen bewerken en verwijderen
+- [ ] Lid kan opgeslagen prijzen bewerken en verwijderen
 - [ ] Uploadgeschiedenis is zichtbaar voor het eigen bedrijf
 - [ ] Geüploade data wordt pas na validatie opgenomen in gedeelde statistieken
 - [ ] Duidelijke foutmeldingen bij onvolledige invoer
+- [ ] OpenAI-fouten worden netjes getoond (geen crash)
 
 ---
 
@@ -411,6 +439,8 @@ Aggregatie (berekend, niet opgeslagen als ruwe data)
 | Database (prod) | PostgreSQL op VPS | 🔲 Bij VPS-deploy |
 | Authenticatie | Laravel Breeze | 🟡 Registratie + login lokaal |
 | Anonimisering | `AnonymizationService` | 🟡 Skelet (≥3 datapunten) |
+| Prijsupload | Handmatig + foto/PDF + review | 🟡 Lokaal |
+| AI-extractie | OpenAI `gpt-4o-mini` | 🟡 Via `OPENAI_API_KEY` |
 | Betaling (later) | Stripe + Laravel Cashier | 🔲 Voorbereid in architectuur |
 | Hosting marketing | GitHub Pages | ✅ Live |
 | Hosting app (later) | Hetzner VPS | 🔲 Te deployen |
@@ -487,7 +517,8 @@ Aggregatie (berekend, niet opgeslagen als ruwe data)
 |---|---|---|
 | **Fase 0** | Landingspagina | 4.1 ✅ |
 | **Fase 1** | Registratie & basis-dashboard | 4.2 🟡 |
-| **Fase 2** | Handmatige prijsupload | 4.3 (handmatig) |
+| **Fase 2** | Prijsupload (handmatig + foto/PDF + review) | 4.3 🟡 |
+| **Fase 2b** | E-mail upload (inbound mail) | 4.3 (e-mail) |
 | **Fase 3** | Prijsvergelijking | 4.4, 4.5, 4.6 |
 | **Fase 4** | Onderhandelingsrapporten | 4.7 |
 | **Fase 5** | Bestandsupload (prijslijsten/facturen) | 4.3 (bestand) |

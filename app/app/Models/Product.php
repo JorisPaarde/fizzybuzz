@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 class Product extends Model
 {
@@ -22,5 +23,18 @@ class Product extends Model
     public function aggregatedPrices(): HasMany
     {
         return $this->hasMany(AggregatedPrice::class);
+    }
+
+    public static function findOrCreateFromName(string $name): self
+    {
+        $normalized = trim($name);
+
+        return static::query()->firstOrCreate(
+            ['slug' => Str::slug($normalized)],
+            [
+                'name' => $normalized,
+                'standard_unit' => 'stuk',
+            ]
+        );
     }
 }

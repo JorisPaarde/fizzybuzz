@@ -15,6 +15,7 @@ class PriceSubmission extends Model
 
     protected $fillable = [
         'user_id',
+        'price_import_id',
         'product_id',
         'wholesaler_id',
         'price',
@@ -38,6 +39,11 @@ class PriceSubmission extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function priceImport(): BelongsTo
+    {
+        return $this->belongsTo(PriceImport::class);
     }
 
     public function product(): BelongsTo

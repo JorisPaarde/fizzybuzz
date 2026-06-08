@@ -22,13 +22,13 @@
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
-                    <h4 class="font-semibold text-lg text-gray-900">Jouw volgende stap</h4>
+                    <h4 class="font-semibold text-lg text-gray-900">Prijzen delen</h4>
                     <p class="mt-2 text-gray-600">
-                        Je hebt nog geen prijzen gedeeld. Upload je eerste inkoopprijzen om toegang te krijgen tot anonieme marktvergelijkingen.
+                        Upload een foto of PDF van je factuur of prijslijst — of voer handmatig in. Je controleert altijd eerst de regels voordat ze worden opgeslagen.
                     </p>
-                    <div class="mt-4 inline-flex items-center rounded-full bg-amber-100 px-4 py-2 text-sm font-medium text-amber-800">
-                        Fase 2 — prijsupload komt hier
-                    </div>
+                    <a href="{{ route('prices.import.create') }}" class="mt-4 inline-flex items-center rounded-md bg-amber-500 px-4 py-2 text-sm font-semibold text-slate-950 hover:bg-amber-400">
+                        Prijzen toevoegen
+                    </a>
                 </div>
             </div>
 
