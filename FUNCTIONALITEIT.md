@@ -4,7 +4,7 @@
 > Elke agent die aan dit project werkt, leest dit bestand eerst en werkt alleen aan functionaliteit die hierin staat beschreven — of werkt dit document bij vóór implementatie van nieuwe features.
 
 **Laatste update:** juni 2026  
-**Versie document:** 1.2  
+**Versie document:** 1.3  
 **Live site:** https://jorispaarde.github.io/fizzybuzz/  
 **Taal product:** Nederlands (NL)
 
@@ -466,6 +466,20 @@ Aggregatie (berekend, niet opgeslagen als ruwe data)
 - **Marketing URL:** https://jorispaarde.github.io/fizzybuzz/
 - **App lokaal:** http://localhost:8000 (zie `app/README.md`)
 
+### Publieke databronnen (zonder account) — onderzoek juni 2026
+
+Getest via `scripts/public-data-probe/probe.py`. Resultaten in `scripts/public-data-probe/results/latest.json`.
+
+| Bron | Methode | Prijzen | EAN | Volume | Account nodig? |
+|---|---|---|---|---|---|
+| **HANOS** | `api.hanos.nl/occ/v2/hanos-nl/products/search` | ✅ Ja (incl. actie) | ❌ | ~27k producten | Nee |
+| **Sligro folders** | `acties.html` → Publitas PDF | ✅ Actieprijzen | ❌ | 11 folders | Nee |
+| **Sligro promo** | `/api/product-overview/sligro-nl/nl/promotion/query` | ❌ | ✅ GTIN | ~1355 promo's | Nee |
+| **Open Food Facts** | `/api/v2/product/{ean}.json` | ❌ | ✅ | Miljoenen | Nee |
+| **Bidfood / Makro** | Website | — | — | Geblokkeerd (403/WAF) | Waarschijnlijk wel |
+
+**Conclusie:** start sync met HANOS OCC + Sligro folder-PDF's. Sligro promo-API levert EAN-catalogus; prijzen daar pas na login. Bidfood/Makro vereisen Playwright + account.
+
 ### Bestandsstructuur (huidig)
 
 ```
@@ -474,6 +488,7 @@ Aggregatie (berekend, niet opgeslagen als ruwe data)
 ├── README.md             ← repo-overzicht
 ├── index.html            ← landingspagina (GitHub Pages)
 ├── css/style.css         ← marketing-styling
+├── scripts/public-data-probe/  ← publieke databron-tests (Python)
 ├── app/                  ← Laravel-applicatie
 │   ├── app/Models/       ← User, Product, Wholesaler, PriceSubmission, AggregatedPrice
 │   ├── app/Services/     ← AnonymizationService
