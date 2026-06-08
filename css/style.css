@@ -206,8 +206,23 @@ a {
 .hero-lead {
   font-size: 1.125rem;
   color: var(--color-text-muted);
-  max-width: 34ch;
+  max-width: 38ch;
+  margin-bottom: 1rem;
+}
+
+.hero-lead em {
+  color: var(--color-accent);
+  font-style: normal;
+  font-weight: 600;
+}
+
+.hero-sub {
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+  max-width: 38ch;
   margin-bottom: 2.25rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--color-accent);
 }
 
 .hero-actions {
@@ -294,6 +309,232 @@ a {
 
 .price-insight strong {
   color: var(--color-accent);
+}
+
+.price-card-muted {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+/* Section shared */
+
+.section-lead {
+  font-size: 1.125rem;
+  color: var(--color-text-muted);
+  max-width: 52ch;
+  margin-inline: auto;
+}
+
+.section-lead strong {
+  color: var(--color-text);
+}
+
+/* Product */
+
+.product {
+  padding-block: 6rem;
+  background: var(--color-bg-elevated);
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.product-card {
+  background: var(--color-bg);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-lg);
+  padding: 2rem 1.75rem;
+}
+
+.product-card--accent {
+  border-color: rgba(232, 168, 56, 0.35);
+  background: linear-gradient(180deg, rgba(232, 168, 56, 0.08), var(--color-bg));
+}
+
+.product-card-icon {
+  display: inline-flex;
+  width: 2.5rem;
+  height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+  border-radius: 10px;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.product-card h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.625rem;
+}
+
+.product-card p {
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+}
+
+.product-footnote {
+  text-align: center;
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+  max-width: 48ch;
+  margin-inline: auto;
+}
+
+/* Sharing / reframing */
+
+.sharing {
+  padding-block: 6rem;
+}
+
+.sharing-layout {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 3rem;
+  align-items: start;
+  margin-bottom: 3.5rem;
+}
+
+.sharing-content h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3.5vw, 2.375rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+}
+
+.sharing-content p {
+  color: var(--color-text-muted);
+  margin-bottom: 1rem;
+}
+
+.sharing-content p strong {
+  color: var(--color-text);
+}
+
+.exchange-card {
+  background: var(--color-bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow);
+}
+
+.exchange-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.exchange-row p {
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+  margin-top: 0.25rem;
+}
+
+.exchange-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.exchange-row--give .exchange-label {
+  color: var(--color-negative);
+}
+
+.exchange-row--get .exchange-label {
+  color: var(--color-positive);
+}
+
+.exchange-divider {
+  text-align: center;
+  color: var(--color-accent);
+  font-size: 1.25rem;
+  margin-block: 1rem;
+}
+
+.exchange-note {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.875rem;
+  color: var(--color-accent);
+  font-weight: 500;
+}
+
+.reframe-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.reframe-card {
+  background: var(--color-bg-elevated);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+}
+
+.reframe-card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--color-accent);
+}
+
+.reframe-card p {
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+}
+
+/* Collective */
+
+.collective {
+  padding-block: 5rem;
+  background: linear-gradient(180deg, var(--color-bg-elevated), var(--color-bg));
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.collective-inner {
+  max-width: 640px;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.collective h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: 1rem;
+}
+
+.collective-inner > p {
+  color: var(--color-text-muted);
+  margin-bottom: 2rem;
+}
+
+.collective-list {
+  list-style: none;
+  text-align: left;
+  display: grid;
+  gap: 0.875rem;
+}
+
+.collective-list li {
+  padding-left: 1.25rem;
+  border-left: 2px solid var(--color-accent);
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
 }
 
 /* Section shared */
@@ -612,9 +853,15 @@ a {
 
 @media (max-width: 900px) {
   .hero-grid,
-  .benefits-layout {
+  .benefits-layout,
+  .sharing-layout {
     grid-template-columns: 1fr;
     gap: 3rem;
+  }
+
+  .product-grid,
+  .reframe-grid {
+    grid-template-columns: 1fr;
   }
 
   .hero-visual {
