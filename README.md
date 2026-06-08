@@ -15,9 +15,15 @@ After merging to `block3_joris`, the site is published automatically via GitHub 
 
 **https://jorispaarde.github.io/fizzybuzz/**
 
-### One-time repo setup
+### One-time repo setup (required)
 
-In the GitHub repository settings, open **Pages** and set **Build and deployment → Source** to **GitHub Actions**.
+GitHub Pages must be enabled once in the repository settings:
+
+1. Open [github.com/JorisPaarde/fizzybuzz/settings/pages](https://github.com/JorisPaarde/fizzybuzz/settings/pages)
+2. Under **Build and deployment**, set **Source** to **GitHub Actions**
+3. Go to [Actions → Deploy to GitHub Pages](https://github.com/JorisPaarde/fizzybuzz/actions/workflows/pages.yml) and click **Run workflow** (or push any commit to `block3_joris`)
+
+After the workflow succeeds, the site is live at the URL above.
 
 ## Local preview
 
