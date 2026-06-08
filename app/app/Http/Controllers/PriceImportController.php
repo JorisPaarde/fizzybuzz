@@ -15,7 +15,8 @@ class PriceImportController extends Controller
     public function create(): View
     {
         return view('prices.import', [
-            'emailUploadAddress' => config('mail.from.address', 'upload@prijsplein.nl'),
+            'emailUploadAddress' => config('prijsplein.inbound_email'),
+            'userEmail' => auth()->user()->email,
         ]);
     }
 
@@ -23,6 +24,10 @@ class PriceImportController extends Controller
     {
         $request->validate([
             'file' => ['required', 'file', 'mimes:jpg,jpeg,png,webp,pdf', 'max:10240'],
+        ], [
+            'file.required' => 'Kies een foto of PDF om te uploaden.',
+            'file.mimes' => 'Alleen JPG, PNG, WEBP of PDF zijn toegestaan.',
+            'file.max' => 'Het bestand mag maximaal 10 MB zijn.',
         ]);
 
         $file = $request->file('file');
@@ -66,7 +71,7 @@ class PriceImportController extends Controller
 
         return view('prices.review', [
             'import' => $import,
-            'wholesalers' => Wholesaler::query()->orderBy('name')->get(),
+            'wholesalers' => $request->user()->wholesalersForSelect(),
             'items' => $import->extracted_items ?? [],
         ]);
     }
@@ -76,7 +81,8 @@ class PriceImportController extends Controller
         $this->authorizeImport($request, $import);
 
         $validated = $request->validate([
-            'wholesaler_id' => ['required', 'exists:wholesalers,id'],
+            'wholesaler_id' => ['nullable', 'exists:wholesalers,id'],
+            'new_wholesaler_name' => ['nullable', 'string', 'max:255'],
             'effective_date' => ['required', 'date'],
             'items' => ['required', 'array', 'min:1'],
             'items.*.product_name' => ['required', 'string', 'max:255'],
@@ -84,32 +90,42 @@ class PriceImportController extends Controller
             'items.*.unit' => ['required', 'string', 'max:50'],
             'items.*.specification' => ['nullable', 'string', 'max:255'],
             'items.*.quantity_per_unit' => ['nullable', 'string', 'max:255'],
+        ], [
+            'items.required' => 'Voeg minimaal één prijsregel toe.',
+            'items.*.product_name.required' => 'Elke regel heeft een productnaam nodig.',
+            'items.*.price.required' => 'Elke regel heeft een prijs nodig.',
         ]);
+
+        $wholesalerId = $importService->resolveWholesalerId(
+            $validated['wholesaler_id'] ?? null,
+            $validated['new_wholesaler_name'] ?? null,
+        );
 
         $saved = $importService->confirm(
             $import,
             $request->user(),
-            (int) $validated['wholesaler_id'],
+            $wholesalerId,
             $validated['effective_date'],
             $validated['items'],
         );
 
         return redirect()
             ->route('prices.index')
-            ->with('status', "{$saved} prijsregel(s) opgeslagen. Ze worden na controle gedeeld met andere leden.");
+            ->with('status', "{$saved} prijsregel(s) opgeslagen en gevalideerd. Ze tellen mee zodra voldoende leden data delen.");
     }
 
     public function manualCreate(): View
     {
         return view('prices.manual', [
-            'wholesalers' => Wholesaler::query()->orderBy('name')->get(),
+            'wholesalers' => auth()->user()->wholesalersForSelect(),
         ]);
     }
 
     public function manualStore(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'wholesaler_id' => ['required', 'exists:wholesalers,id'],
+            'wholesaler_id' => ['nullable', 'exists:wholesalers,id'],
+            'new_wholesaler_name' => ['nullable', 'string', 'max:255'],
             'effective_date' => ['required', 'date'],
             'items' => ['required', 'array', 'min:1'],
             'items.*.product_name' => ['required', 'string', 'max:255'],
@@ -117,12 +133,19 @@ class PriceImportController extends Controller
             'items.*.unit' => ['required', 'string', 'max:50'],
             'items.*.specification' => ['nullable', 'string', 'max:255'],
             'items.*.quantity_per_unit' => ['nullable', 'string', 'max:255'],
+        ], [
+            'items.required' => 'Voeg minimaal één prijsregel toe.',
         ]);
+
+        $wholesalerId = app(PriceImportService::class)->resolveWholesalerId(
+            $validated['wholesaler_id'] ?? null,
+            $validated['new_wholesaler_name'] ?? null,
+        );
 
         $import = PriceImport::query()->create([
             'user_id' => $request->user()->id,
             'source' => PriceImport::SOURCE_MANUAL,
-            'wholesaler_id' => $validated['wholesaler_id'],
+            'wholesaler_id' => $wholesalerId,
             'effective_date' => $validated['effective_date'],
             'extracted_items' => $validated['items'],
             'status' => PriceImport::STATUS_REVIEW,

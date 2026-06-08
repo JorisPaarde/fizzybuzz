@@ -57,7 +57,7 @@ Voor productie op een VPS: zet `DB_CONNECTION=pgsql` in `.env`.
 
 - **Foto / PDF** → OpenAI leest prijzen uit → review-scherm → opslaan
 - **Handmatig** → zelf invoeren → review-scherm → opslaan
-- **E-mail** → nog niet live (Fase 2b)
+- **E-mail** → stuur bijlage naar `INBOUND_EMAIL_ADDRESS` (Mailgun webhook)
 
 Zet je OpenAI API-key in `.env`:
 
@@ -65,7 +65,18 @@ Zet je OpenAI API-key in `.env`:
 OPENAI_API_KEY=sk-...
 ```
 
-Zonder key werken handmatige uploads wel; foto/PDF niet.
+Zonder key werken handmatige uploads wel; foto/PDF/e-mail niet.
+
+## E-mail upload
+
+1. Zet `INBOUND_EMAIL_ADDRESS=upload@jouwdomein.nl` in `.env`
+2. Configureer Mailgun inbound route → `https://jouwdomein.nl/webhooks/inbound-email`
+3. Lid stuurt vanaf geregistreerd e-mailadres een PDF/foto
+4. Import verschijnt ter controle in de app (`/prices/import/upload`)
+
+## Groothandels
+
+Leden koppelen groothandels op `/my-wholesalers`. Deze verschijnen bovenaan bij prijsinvoer.
 
 ## Productdocumentatie
 

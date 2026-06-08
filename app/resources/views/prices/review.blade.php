@@ -13,14 +13,17 @@
                 @csrf
                 <div class="bg-white shadow-sm sm:rounded-lg p-6 space-y-6">
                     <div class="grid gap-4 md:grid-cols-2">
-                        <div>
+                        <div class="md:col-span-2">
                             <x-input-label for="wholesaler_id" value="Groothandel" />
-                            <select id="wholesaler_id" name="wholesaler_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                            <select id="wholesaler_id" name="wholesaler_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
                                 <option value="">Kies groothandel</option>
                                 @foreach ($wholesalers as $wholesaler)
                                     <option value="{{ $wholesaler->id }}" @selected(old('wholesaler_id', $import->wholesaler_id) == $wholesaler->id)>{{ $wholesaler->name }}</option>
                                 @endforeach
                             </select>
+                            <p class="mt-2 text-xs text-gray-500">Of voer een nieuwe groothandel in:</p>
+                            <x-text-input id="new_wholesaler_name" name="new_wholesaler_name" class="mt-1 block w-full" :value="old('new_wholesaler_name')" placeholder="Nieuwe groothandel" />
+                            <x-input-error :messages="$errors->get('wholesaler_id')" class="mt-2" />
                         </div>
                         <div>
                             <x-input-label for="effective_date" value="Datum" />

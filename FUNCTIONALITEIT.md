@@ -4,7 +4,7 @@
 > Elke agent die aan dit project werkt, leest dit bestand eerst en werkt alleen aan functionaliteit die hierin staat beschreven — of werkt dit document bij vóór implementatie van nieuwe features.
 
 **Laatste update:** juni 2026  
-**Versie document:** 1.1  
+**Versie document:** 1.2  
 **Live site:** https://jorispaarde.github.io/fizzybuzz/  
 **Taal product:** Nederlands (NL)
 
@@ -138,7 +138,7 @@ Onderstaande modules beschrijven de volledige beoogde functionaliteit. Per modul
 
 **Doel:** Leden kunnen de prijzen die zij betalen zo makkelijk mogelijk invoeren of uploaden.
 
-**Status:** 🟡 In ontwikkeling (`app/` — Fase 2)
+**Status:** ✅ Geïmplementeerd (`app/` — Fase 2 + 2b webhook)
 
 #### Ontwerpprincipe
 
@@ -148,10 +148,10 @@ Onderstaande modules beschrijven de volledige beoogde functionaliteit. Per modul
 
 | Methode | Beschrijving | Status |
 |---|---|---|
-| **Foto** | Foto van factuur of prijslijst (mobiel) | 🟡 OpenAI Vision |
-| **PDF** | PDF van factuur of prijslijst | 🟡 OpenAI + tekstextractie |
-| **E-mail** | Mail met PDF/bijlage naar upload-adres van het platform | 🔲 Fase 2b (inbound mail) |
-| **Handmatig** | Product, groothandel, prijs, eenheid, datum invoeren | 🟡 |
+| **Foto** | Foto van factuur of prijslijst (mobiel) | ✅ OpenAI Vision |
+| **PDF** | PDF van factuur of prijslijst | ✅ OpenAI + tekstextractie |
+| **E-mail** | Mail met PDF/bijlage naar upload-adres van het platform | ✅ Webhook (Mailgun) |
+| **Handmatig** | Product, groothandel, prijs, eenheid, datum invoeren | ✅ |
 
 #### Extractie-flow (foto / PDF / e-mail)
 
@@ -171,7 +171,7 @@ Upload of e-mail ontvangen
 - Foto: Vision API (base64 image)
 - PDF: tekstextractie (`pdfparser`); bij gescande PDF's → lid krijgt tip om foto te uploaden
 - API-key via `OPENAI_API_KEY` in `.env` (nooit in git)
-- E-mail (later): inbound webhook (Mailgun/Postmark) → zelfde extractie-pipeline
+- E-mail: inbound webhook (`POST /webhooks/inbound-email`) via Mailgun → zelfde extractie-pipeline
 
 #### Gegevens per prijsregel
 
@@ -188,14 +188,14 @@ Upload of e-mail ontvangen
 
 #### Acceptatiecriteria
 
-- [x] Drie invoerkanalen voorzien: handmatig, foto/PDF, e-mail (e-mail nog niet live)
+- [x] Vier invoerkanalen: handmatig, foto, PDF, e-mail (webhook)
 - [x] Geëxtraheerde regels zijn bewerkbaar vóór opslaan (review-scherm)
-- [ ] Lid kan meerdere groothandels koppelen
-- [ ] Lid kan opgeslagen prijzen bewerken en verwijderen
-- [ ] Uploadgeschiedenis is zichtbaar voor het eigen bedrijf
-- [ ] Geüploade data wordt pas na validatie opgenomen in gedeelde statistieken
-- [ ] Duidelijke foutmeldingen bij onvolledige invoer
-- [ ] OpenAI-fouten worden netjes getoond (geen crash)
+- [x] Lid kan meerdere groothandels koppelen (`/my-wholesalers`)
+- [x] Lid kan opgeslagen prijzen bewerken en verwijderen
+- [x] Uploadgeschiedenis is zichtbaar voor het eigen bedrijf
+- [x] Data pas na review opgeslagen; status `approved` na bevestiging door lid
+- [x] Nederlandse foutmeldingen bij onvolledige invoer
+- [x] OpenAI-fouten worden netjes getoond (geen crash)
 
 ---
 
@@ -517,8 +517,8 @@ Aggregatie (berekend, niet opgeslagen als ruwe data)
 |---|---|---|
 | **Fase 0** | Landingspagina | 4.1 ✅ |
 | **Fase 1** | Registratie & basis-dashboard | 4.2 🟡 |
-| **Fase 2** | Prijsupload (handmatig + foto/PDF + review) | 4.3 🟡 |
-| **Fase 2b** | E-mail upload (inbound mail) | 4.3 (e-mail) |
+| **Fase 2** | Prijsupload (handmatig + foto/PDF + review) | 4.3 ✅ |
+| **Fase 2b** | E-mail upload (inbound mail) | 4.3 (e-mail) ✅ |
 | **Fase 3** | Prijsvergelijking | 4.4, 4.5, 4.6 |
 | **Fase 4** | Onderhandelingsrapporten | 4.7 |
 | **Fase 5** | Bestandsupload (prijslijsten/facturen) | 4.3 (bestand) |

@@ -18,6 +18,9 @@
                     <x-nav-link :href="route('prices.index')" :active="request()->routeIs('prices.*')">
                         Mijn prijzen
                     </x-nav-link>
+                    <x-nav-link :href="route('wholesalers.index')" :active="request()->routeIs('wholesalers.*')">
+                        Groothandels
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -75,6 +78,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('prices.index')" :active="request()->routeIs('prices.*')">
                 Mijn prijzen
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('wholesalers.index')" :active="request()->routeIs('wholesalers.*')">
+                Groothandels
             </x-responsive-nav-link>
         </div>
 
