@@ -4,7 +4,7 @@
 > Elke agent die aan dit project werkt, leest dit bestand eerst en werkt alleen aan functionaliteit die hierin staat beschreven — of werkt dit document bij vóór implementatie van nieuwe features.
 
 **Laatste update:** juni 2026  
-**Versie document:** 1.4  
+**Versie document:** 1.5  
 **Live site:** https://jorispaarde.github.io/fizzybuzz/  
 **Taal product:** Nederlands (NL)
 
@@ -237,7 +237,7 @@ Lid ontvangt factuur-mail van groothandel
 
 **Doel:** Leden kunnen zien wat de markt betaalt en hun eigen prijzen daarmee vergelijken.
 
-**Status:** ✅ Fase 3a afgerond (`/compare`) · 🟡 Filters/dashboard — Fase 3b
+**Status:** ✅ Fase 3a + 3b (`/compare`, `/dashboard`)
 
 #### Functionaliteit
 
@@ -270,8 +270,8 @@ Lid ontvangt factuur-mail van groothandel
 - [x] Minimaal 3 datapunten voor marktdata (privacy)
 - [x] Eigen prijs uitgesloten bij marktpositie (geen zelfvergelijking)
 - [x] Alleen geaggregeerde data zichtbaar; geen individuele bedrijven
-- [ ] Filters (groothandel, periode) — Fase 3b
-- [ ] Dashboard-samenvatting (producten boven markt) — Fase 3b
+- [x] Filters op vergelijking (groothandel, periode 30/90/365 dagen)
+- [x] Dashboard-samenvatting: producten boven marktrange met directe links
 - [ ] Trend over tijd — Fase 3c
 - [ ] Export van vergelijkingsrapport (PDF) — Fase 4
 
@@ -573,9 +573,9 @@ Aggregatie (berekend, niet opgeslagen als ruwe data)
 | **Fase 2b** | E-mail upload (inbound mail) | 4.3 (e-mail) ✅ |
 | **Fase 2c** | E-mail doorsturen (forward facturen) | 4.3 (forward) 🔲 |
 | **Fase 3a** | Vergelijking basis (zoeken + marktrange + inkoopsegment) | 4.4 ✅ |
-| **Fase 3b** | Filters + dashboard-inzicht | 4.4, 4.5 🟡 ← **volgende stap** |
+| **Fase 3b** | Filters + dashboard-inzicht | 4.4 ✅ |
+| **Fase 4** | Onderhandelingsrapporten | 4.7 ← **volgende stap** |
 | **Fase 3c** | Productcatalogus & matching | 4.6 |
-| **Fase 4** | Onderhandelingsrapporten | 4.7 |
 | **Fase 5** | Bestandsupload (prijslijsten/facturen) | 4.3 (bestand) |
 | **Fase 6** | Notificaties | 4.9 |
 | **Fase 7** | Beheer & moderatie | 4.10 |
@@ -590,11 +590,11 @@ Aggregatie (berekend, niet opgeslagen als ruwe data)
 | 2. Aanmelden | Registratie met bedrijfsprofiel + inkoopomvang | ✅ Lokaal |
 | 3. Prijzen delen | Foto, PDF, e-mail, handmatig → review → opslaan | ✅ Lokaal |
 | 4. Vergelijken | Zoek product → zie marktrange t.o.v. eigen prijs | ✅ Lokaal (PR #14) |
-| 5. Inzicht | Dashboard: welke producten zijn duurder dan markt? | 🔲 Fase 3b |
+| 5. Inzicht | Dashboard: welke producten zijn duurder dan markt? | ✅ Lokaal |
 | 6. Onderhandelen | PDF-rapport met harde cijfers | 🔲 Fase 4 |
 | 7. Productie | App op VPS, echte gebruikers | 🔲 Deploy |
 
-**Volgende stap MVP:** **Fase 3b** — filters op de vergelijkingspagina (groothandel, periode) en een dashboard-samenvatting (“X producten boven marktrange”). Dat sluit de inzicht-loop af vóór onderhandelingsrapporten (Fase 4).
+**Volgende stap MVP:** **Fase 4** — onderhandelingsrapport (PDF) met harde cijfers per product/groothandel.
 
 Parallel optioneel: **VPS-deploy** (Fase 1 afronden) zodat early adopters de app kunnen testen.
 

@@ -4,7 +4,7 @@
             <h2 class="font-semibold text-xl text-brand-navy leading-tight">
                 {{ $product->name }}
             </h2>
-            <a href="{{ route('compare.index') }}" class="text-sm text-brand-blue font-semibold hover:underline">
+            <a href="{{ route('compare.index', $filters->toQueryArray()) }}" class="text-sm text-brand-blue font-semibold hover:underline">
                 ← Terug naar zoeken
             </a>
         </div>
@@ -12,6 +12,14 @@
 
     <div class="py-12">
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 space-y-6">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border border-gray-100 p-4">
+                @include('compare.partials.filters', [
+                    'action' => route('compare.show', $product),
+                    'filters' => $filters,
+                    'wholesalers' => $wholesalers,
+                ])
+            </div>
+
             @if ($purchaseSizeLabel)
                 <p class="text-sm text-gray-600 text-center">
                     Marktdata voor vergelijkbare bedrijven: <span class="font-medium text-brand-navy">{{ $purchaseSizeLabel }}</span>
