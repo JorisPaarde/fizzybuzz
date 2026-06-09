@@ -507,6 +507,384 @@ a {
   color: #fff;
 }
 
+/* Interactive tour (rondleiding.html) */
+
+.tour-app-body {
+  background: var(--color-bg);
+}
+
+.tour-app {
+  padding-block: 2.5rem 4rem;
+}
+
+.tour-app-container {
+  max-width: 720px;
+}
+
+.tour-app-intro h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--color-surface);
+  margin-bottom: 0.75rem;
+}
+
+.tour-app-lead {
+  color: var(--color-text-muted);
+  margin-bottom: 2rem;
+}
+
+.tour-app-progress {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.tour-app-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.875rem 0.5rem;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+
+.tour-app-tab--active {
+  background: var(--color-accent-soft);
+  border-color: rgba(46, 107, 168, 0.35);
+  color: var(--color-primary);
+}
+
+.tour-app-tab-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  background: var(--color-bg-subtle);
+  font-size: 0.8125rem;
+}
+
+.tour-app-tab--active .tour-app-tab-num {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+.tour-app-panel[hidden] {
+  display: none !important;
+}
+
+.tour-app-guide {
+  margin-bottom: 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--color-bg-subtle);
+  border-left: 3px solid var(--color-accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+}
+
+.tour-app-screen {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  margin-bottom: 1.5rem;
+}
+
+.tour-app-screen-header h2 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-surface);
+  margin-bottom: 0.25rem;
+}
+
+.tour-app-screen-header p {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.tour-app-screen-header--row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.tour-app-back {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  cursor: pointer;
+}
+
+.tour-app-search input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  margin: 1rem 0;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-bg-subtle);
+  color: var(--color-text);
+}
+
+.tour-app-list {
+  list-style: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.tour-app-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 1rem 1.25rem;
+  background: #fff;
+  border: none;
+  border-bottom: 1px solid var(--color-border);
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.tour-app-list-item:last-child {
+  border-bottom: none;
+}
+
+.tour-app-list-item:hover:not(:disabled) {
+  background: var(--color-bg-subtle);
+}
+
+.tour-app-list-item--selected {
+  background: var(--color-accent-soft);
+}
+
+.tour-app-list-item:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.tour-app-list-arrow {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-accent);
+}
+
+.tour-app-list-meta {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.tour-app-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.tour-app-filter {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  padding: 0.375rem 0.75rem;
+  background: var(--color-bg-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  color: var(--color-text-muted);
+}
+
+.tour-app-table-wrap {
+  position: relative;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.tour-app-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.tour-app-table th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  background: var(--color-bg-subtle);
+  color: var(--color-text-muted);
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tour-app-table td {
+  padding: 1rem;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text);
+}
+
+.tour-redacted {
+  display: block;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--color-text-muted);
+  filter: blur(4px);
+  user-select: none;
+}
+
+.tour-redacted--sm {
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-top: 0.25rem;
+}
+
+.tour-app-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(2px);
+  padding: 1rem;
+}
+
+.tour-app-overlay-card {
+  max-width: 320px;
+  text-align: center;
+  background: #fff;
+  border: 1px solid rgba(46, 107, 168, 0.25);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.tour-app-overlay-title {
+  font-weight: 700;
+  color: var(--color-surface);
+  margin-bottom: 0.5rem;
+}
+
+.tour-app-overlay-card p {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  margin-bottom: 1rem;
+}
+
+.tour-app-footnote {
+  margin-top: 1rem;
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.tour-app-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.tour-app-actions--center {
+  justify-content: center;
+}
+
+.tour-app-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.tour-app-summary-card {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+}
+
+.tour-app-summary-card--accent {
+  border-color: rgba(46, 107, 168, 0.3);
+  background: linear-gradient(180deg, var(--color-accent-soft), var(--color-bg-elevated));
+}
+
+.tour-app-summary-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-surface);
+  margin-bottom: 0.75rem;
+}
+
+.tour-app-summary-card ul {
+  list-style: none;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.tour-app-summary-card li {
+  padding-left: 1rem;
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+
+.tour-app-summary-card li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--color-positive);
+  font-weight: 700;
+}
+
+.tour-app-final-cta {
+  text-align: center;
+  padding: 2rem;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.tour-app-final-cta h2 {
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  color: var(--color-surface);
+  margin-bottom: 0.75rem;
+}
+
+.tour-app-final-cta > p {
+  color: var(--color-text-muted);
+  margin-bottom: 1.5rem;
+  max-width: 42ch;
+  margin-inline: auto;
+}
+
+.tour-app-disclaimer {
+  margin-top: 1.25rem;
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
 /* Price cards visual */
 
 .hero-visual {
@@ -1248,5 +1626,22 @@ a {
 
   .stat-grid {
     grid-template-columns: 1fr;
+  }
+
+  .tour-app-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .tour-app-actions .btn {
+    width: 100%;
+  }
+
+  .tour-app-progress {
+    grid-template-columns: 1fr;
+  }
+
+  .tour-app-tab {
+    flex-direction: row;
+    justify-content: flex-start;
   }
 }

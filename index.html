@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=3.2.0">
+  <link rel="stylesheet" href="css/style.css?v=3.2.1">
 </head>
 <body>
   <header class="site-header">
@@ -61,7 +61,7 @@
             betaalt — en hoe je met bewijs kunt onderhandelen.
           </p>
           <div class="hero-actions">
-            <a href="/compare" data-app-href="/compare" class="btn btn-primary">Start gratis rondleiding</a>
+            <a href="rondleiding.html" class="btn btn-primary">Start gratis rondleiding</a>
             <a href="#aanmelden" class="btn btn-secondary">Doe mee — deel en ontvang</a>
           </div>
           <p class="hero-tour-note">Geen account nodig. Bekijk echte producten en groothandels — prijzen zie je pas na aanmelding.</p>
@@ -126,7 +126,7 @@
               </li>
             </ul>
             <div class="tour-actions">
-              <a href="/compare" data-app-href="/compare" class="btn btn-primary btn-tour">Start gratis rondleiding in de app</a>
+              <a href="rondleiding.html" class="btn btn-primary btn-tour">Start gratis rondleiding</a>
               <a href="#aanmelden" class="btn btn-secondary">Liever direct lid worden</a>
             </div>
             <p class="tour-footnote">Duurt twee minuten. Sluit je tabblad en je bent weg — tenzij je nieuwsgierig wordt.</p>
@@ -432,7 +432,7 @@
         </form>
         <p class="cta-note">
           Nog niet klaar om te delen?
-          <a href="/compare" data-app-href="/compare" class="cta-tour-link">Maak eerst een gratis rondleiding</a>
+          <a href="rondleiding.html" class="cta-tour-link">Maak eerst een gratis rondleiding</a>
           — anoniem delen, alleen marktdata terug, geen verplichtingen.
         </p>
       </div>
@@ -456,15 +456,5 @@
       <p class="footer-copy">&copy; 2026 PriceSignal</p>
     </div>
   </footer>
-  <script>
-    (function () {
-      var host = window.location.hostname;
-      var isLocal = host === 'localhost' || host === '127.0.0.1';
-      var appBase = isLocal ? 'http://localhost:8000' : 'https://app.pricesignal.nl';
-      document.querySelectorAll('[data-app-href]').forEach(function (el) {
-        el.href = appBase + el.getAttribute('data-app-href');
-      });
-    })();
-  </script>
 </body>
 </html>
