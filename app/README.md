@@ -2,6 +2,8 @@
 
 De applicatie-backend voor **pricesignal.nl**. Draait lokaal; de marketing-site op GitHub Pages (later pricesignal.nl).
 
+> **Volledige installatie-checklist:** [`../SETUP.md`](../SETUP.md) (API-keys, Mailgun, VPS, troubleshooting)
+
 ## Vereisten
 
 - PHP 8.3+
