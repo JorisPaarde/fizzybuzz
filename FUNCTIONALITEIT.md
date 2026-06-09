@@ -4,7 +4,7 @@
 > Elke agent die aan dit project werkt, leest dit bestand eerst en werkt alleen aan functionaliteit die hierin staat beschreven — of werkt dit document bij vóór implementatie van nieuwe features.
 
 **Laatste update:** juni 2026  
-**Versie document:** 1.9  
+**Versie document:** 1.10  
 **Live site:** https://jorispaarde.github.io/fizzybuzz/  
 **Taal product:** Nederlands (NL)
 
@@ -226,8 +226,10 @@ Lid ontvangt factuur-mail van groothandel
 | Prijs | Ja | Bedrag in euro's |
 | Eenheid | Ja | Bijv. per kg, per liter, per doos, per stuk |
 | Hoeveelheid per eenheid | Nee | Bijv. "5 kg", "6 x 1 L" |
-| Datum | Ja | Datum waarop prijs geldt / factuurdatum |
+| Datum | Ja | Datum waarop prijs geldt / factuurdatum — **altijd verplicht**; geen prijs zonder peildatum |
 | Opmerking | Nee | Vrij tekstveld |
+
+**Datumregel (platformbreed):** Elke prijs die wordt opgeslagen, getoond of vergeleken heeft een **peildatum** (`effective_date`). In de UI staat bij markt- en eigen prijzen altijd de datum (of periode) zichtbaar — geen “naakte” bedragen zonder context.
 
 #### Acceptatiecriteria
 
@@ -263,7 +265,8 @@ Lid ontvangt factuur-mail van groothandel
   - Visuele marktrange (min–max) met positie van eigen prijs
   - **Externe referentieprijzen** (§4.11) waar beschikbaar — apart gelabeld
   - **Goedkoopste leverancier** bij EAN-match over groothandels
-  - Aantal datapunten (hoeveel leden hebben dit product gemeld)
+  - Aantal meetpunten (hoeveel leden; zichtbaar vanaf 1)
+  - Peildatum bij elke prijs in vergelijking en historie
 - **Eigen positie**: waar het eigen bedrijf staat t.o.v. de marktrange (onder / binnen / boven)
 - **Omzetklasse**: vergelijkingen binnen dezelfde omzettranche (zie §4.12) — *huidige implementatie gebruikt nog maandelijkse inkoopomvang (`small` / `medium` / `large`)*
 - **Filters**:
@@ -284,7 +287,8 @@ Lid ontvangt factuur-mail van groothandel
 - [x] Eigen prijs vs. marktrange (min–max) per groothandel
 - [x] Visuele indicatie positie in marktrange (groen/rood)
 - [x] Segmentatie op inkoopomvang bij aggregatie en vergelijking
-- [x] Minimaal 3 datapunten voor marktdata (privacy)
+- [ ] Marktdata tonen vanaf **1 meetpunt** — huidige code gebruikt nog drempel van 3 (§4.8)
+- [ ] Elke getoonde prijs vermeldt peildatum
 - [x] Eigen prijs uitgesloten bij marktpositie (geen zelfvergelijking)
 - [x] Alleen geaggregeerde data zichtbaar; geen individuele bedrijven
 - [x] Filters op vergelijking (groothandel, periode 30/90/365 dagen)
@@ -412,7 +416,7 @@ Lid ontvangt factuur-mail van groothandel
 |---|---|
 | Product | Naam (+ categorie indien bekend) |
 | Jouw prijs | Laatste goedgekeurde prijs bij jouw groothandel |
-| Markt (jouw omzetklasse) | Laagste marktprijs of range — alleen bij ≥3 datapunten |
+| Markt (jouw omzetklasse) | Laagste marktprijs of range + peildatum — zodra er marktdata is (≥1 meetpunt) |
 | Verschil | Indicatie: elders goedkoper / vergelijkbaar / boven markt |
 | Acties | Naar detail · verwijderen (prullenbak) |
 
@@ -425,10 +429,11 @@ Toggle of filterchip: **“Elders goedkoper”**.
 Toont alleen producten waar:
 
 1. Het lid een eigen goedgekeurde prijs heeft, én
-2. In de **eigen omzetklasse** (§4.12.4) een lagere anonieme marktprijs bestaat (minimaal van een andere groothandel of dezelfde groothandel via aggregatie), én
-3. Het verschil minstens een configureerbare drempel overschrijdt (start: 5%; later instelbaar)
+2. In de **eigen omzetklasse** (§4.12.4) een lagere anonieme marktprijs bestaat (bij welke groothandel dan ook)
 
-Producten zonder voldoende marktdata (minder dan 3 andere leden in dezelfde omzetklasse) vallen buiten dit filter — niet tonen alsof ze “goedkoop” zijn.
+**Geen minimumverschil** — elk bedrag dat lager is dan de eigen prijs kwalificeert; geen percentage-drempel.
+
+Producten zonder enige marktdata in de omzetklasse vallen buiten dit filter.
 
 #### 4.12.3 Productdetailpagina
 
@@ -439,9 +444,9 @@ Producten zonder voldoende marktdata (minder dan 3 andere leden in dezelfde omze
 | Sectie | Inhoud |
 |---|---|
 | **Header** | Productnaam, categorie, EAN (indien bekend), link terug naar Mijn producten |
-| **Jouw situatie** | Jouw laatste prijs, groothandel, datum, positie t.o.v. markt in **jouw omzetklasse** |
-| **Prijsgeschiedenis** | Grafiek: eigen prijsverloop over tijd + anonieme marktgemiddelde-lijn (zelfde omzetklasse). Periode: 30 / 90 / 365 dagen |
-| **Leveranciers** | Tabel: welke groothandels dit product (of via EAN hetzelfde artikel) leveren, met actuele geaggregeerde prijs per groothandel |
+| **Jouw situatie** | Jouw laatste prijs, groothandel, **peildatum**, positie t.o.v. markt in **jouw omzetklasse** |
+| **Prijsgeschiedenis** | Grafiek op **datum**: eigen prijsverloop + anonieme marktlijn (zelfde omzetklasse). Periode: 30 / 90 / 365 dagen; elke punt = prijs op peildatum |
+| **Leveranciers** | Tabel: groothandels die dit product leveren, met prijs **én peildatum** per regel (of via EAN hetzelfde artikel) |
 | **Prijzen per omzetklasse** | Tabel met kolommen per omzettranche; **standaard geselecteerd: de klasse van het ingelogde lid**. Andere klassen uitklapbaar of via tabs |
 | **Vergelijkbare producten** | Zelfde categorie of EAN-match — 🔲 afhankelijk van §4.6 |
 
@@ -501,7 +506,7 @@ Vergelijkingen en aggregaties lopen binnen de **zelfde omzetklasse** — vergeli
 - [ ] Leverancierstabel met geaggregeerde prijzen per groothandel
 - [ ] Prijzen per omzetklasse zichtbaar; standaard de klasse van het lid
 - [ ] Wisselen van omzetklasse werkt zonder pagina-reload (filter/tab)
-- [ ] Minimaal 3 datapunten-regel blijft gelden (§4.8)
+- [ ] Marktdata zichtbaar vanaf 1 meetpunt; elke prijs met peildatum (§4.8)
 
 **Omzetklasse**
 
@@ -526,15 +531,20 @@ Vergelijkingen en aggregaties lopen binnen de **zelfde omzetklasse** — vergeli
 
 #### Regels
 
-1. **Minimumdrempel**: aggregaties worden pas getoond bij ≥ 3 unieke bijdragen
+1. **Tonen vanaf 1 meetpunt**: zodra er (anonieme) marktdata is voor een product/groothandel/omzetklasse, wordt die getoond — **geen minimum van 3 bijdragen**. Liever weinig data tonen dan niets; UI vermeldt het aantal meetpunten (`1 lid`, `2 leden`, …).
 2. **Geen ranglijst van bedrijven**: nooit tonen welk bedrijf de laagste/hoogste prijs heeft
-3. **Geen ruwe data delen**: leden zien alleen statistieken (gemiddelde, mediaan, min, max, spreiding)
-4. **Eigen data**: een lid ziet altijd zijn eigen ingevoerde prijzen volledig
-5. **Regio-aggregatie**: locatiegegevens alleen op regionaal niveau, nooit per adres
-6. **AVG-compliance**: verwerkersovereenkomst, recht op inzage en verwijdering
+3. **Geen herleidbare ruwe data**: leden zien geen prijs gekoppeld aan een bedrijfsnaam; bij 1 meetpunt is de aggregatie dat ene anonieme punt
+4. **Eigen data**: een lid ziet altijd zijn eigen ingevoerde prijzen volledig, inclusief peildatum
+5. **Peildatum verplicht**: elke prijs in opslag en weergave heeft `effective_date` (§4.3)
+6. **Regio-aggregatie**: locatiegegevens alleen op regionaal niveau, nooit per adres
+7. **AVG-compliance**: verwerkersovereenkomst, recht op inzage en verwijdering
+
+> **Implementatienoot:** `AnonymizationService::MIN_DATAPOINTS = 3` in de huidige code wijkt af van dit beleid en wordt bij Fase 3d aangepast naar **1**.
 
 #### Acceptatiecriteria
 
+- [ ] Marktdata wordt getoond bij ≥1 anoniem meetpunt (niet pas bij 3)
+- [ ] Getoonde prijzen vermelden altijd peildatum
 - [ ] Privacyregels zijn technisch afgedwongen, niet alleen in beleid
 - [ ] Externe privacy-audit mogelijk
 - [ ] Dataverwijdering bij opzegging lidmaatschap
@@ -815,7 +825,7 @@ Aggregatie (berekend, niet opgeslagen als ruwe data)
 | Database (dev) | SQLite | ✅ Werkend |
 | Database (prod) | PostgreSQL op VPS | 🔲 Bij VPS-deploy |
 | Authenticatie | Laravel Breeze | 🟡 Registratie + login lokaal |
-| Anonimisering | `AnonymizationService` | ✅ Aggregatie per segment (≥3 datapunten) |
+| Anonimisering | `AnonymizationService` | 🟡 Aggregatie per segment; drempel 3 → wordt 1 (§4.8) |
 | Prijsvergelijking | `PriceComparisonService` + `/compare` | ✅ Zoeken, marktrange, inkoopsegment |
 | Mijn producten | `/my-products` + productdetail | 🔲 Zie §4.12 |
 | Omzetklasse | `revenue_tranche` op users + aggregatie | 🔲 Vervangt `purchase_size` (§4.12) |

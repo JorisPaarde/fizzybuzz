@@ -16,7 +16,7 @@ PriceSignal slaat drie soorten data op:
 |---|---|---|
 | **Leden** | `users`, `user_wholesaler` | Alleen eigen account |
 | **Ruwe prijzen** | `price_imports`, `price_submissions` | Alleen eigen bedrijf |
-| **Marktkennis** | `aggregated_prices` | Anoniem, geaggregeerd (≥3 leden) |
+| **Marktkennis** | `aggregated_prices` | Anoniem, geaggregeerd (tonen vanaf 1 meetpunt — §4.8) |
 | **Referentie** | `products`, `wholesalers` | Gedeeld, geen bedrijfskoppeling |
 
 **Kernprincipe:** individuele `price_submissions` zijn nooit publiek. Vergelijkingen gebruiken `aggregated_prices` of live-berekeningen zonder het eigen bedrijf mee te tellen.
@@ -229,7 +229,7 @@ Definitieve prijsregel van één lid. Dit is de bron van waarheid voor vergelijk
 | `unit` | string | ✓ | Bijv. `kg`, `liter`, `doos` |
 | `quantity_per_unit` | string | | Bijv. "5 kg" |
 | `specification` | string | | Merk/variant |
-| `effective_date` | date | ✓ | Geldigheidsdatum |
+| `effective_date` | date | ✓ | Peildatum (factuur-/prijsdatum) — verplicht; altijd tonen in UI naast prijs |
 | `source` | string | ✓ | `manual`, `photo`, `pdf`, `email` |
 | `notes` | text | | Vrije opmerking |
 | `status` | string | ✓ | Zie statussen hieronder |
@@ -270,7 +270,7 @@ Anonieme marktstatistiek — berekend door `AnonymizationService`.
 
 **Uniek:** `(product_id, wholesaler_id, purchase_size, period_start, period_end)`
 
-**Privacy:** alleen opgeslagen als `datapoint_count ≥ 3` (`AnonymizationService::MIN_DATAPOINTS`).
+**Privacy:** anoniem geaggregeerd; tonen vanaf **1 meetpunt** (beleid §4.8). *Huidige code:* `MIN_DATAPOINTS = 3` — wordt verlaagd bij Fase 3d.
 
 **Relaties:** `product`, `wholesaler`
 
@@ -311,7 +311,7 @@ price_imports (review)
 ```
 price_submissions (eigen lid, approved)
     +
-aggregated_prices OF live stats (zelfde purchase_size, ≥3 andere leden, eigen prijs uitgesloten)
+aggregated_prices OF live stats (zelfde segment, ≥1 ander meetpunt, eigen prijs uitgesloten)
     → marktrange + positie in UI
 ```
 
