@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InboundEmailWebhookController;
 use App\Http\Controllers\PriceComparisonController;
 use App\Http\Controllers\MemberWholesalerController;
+use App\Http\Controllers\MyProductController;
 use App\Http\Controllers\PriceImportController;
 use App\Http\Controllers\PriceSubmissionController;
 use App\Http\Controllers\ProfileController;
@@ -39,6 +40,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/prices/import/{import}/confirm', [PriceImportController::class, 'confirm'])->name('prices.import.confirm');
     Route::get('/prices/manual/create', [PriceImportController::class, 'manualCreate'])->name('prices.manual.create');
     Route::post('/prices/manual', [PriceImportController::class, 'manualStore'])->name('prices.manual.store');
+
+    Route::get('/my-products', [MyProductController::class, 'index'])->name('my-products.index');
+    Route::post('/my-products', [MyProductController::class, 'store'])->name('my-products.store');
+    Route::delete('/my-products/{product}', [MyProductController::class, 'destroy'])->name('my-products.destroy');
 
     Route::get('/my-wholesalers', [MemberWholesalerController::class, 'index'])->name('wholesalers.index');
     Route::post('/my-wholesalers', [MemberWholesalerController::class, 'store'])->name('wholesalers.store');

@@ -3,7 +3,7 @@
 > Technische referentie voor het databaseschema van de Laravel-app (`app/`).  
 > Functionele context: [`FUNCTIONALITEIT.md`](../FUNCTIONALITEIT.md)
 
-**Laatste update:** juni 2026 (geplande uitbreiding §4.12 toegevoegd)  
+**Laatste update:** juni 2026 (`user_products` geïmplementeerd — Fase 3d-1/2)  
 **Database (dev):** SQLite · **Database (prod):** PostgreSQL (gepland)
 
 ---
@@ -14,7 +14,7 @@ PriceSignal slaat drie soorten data op:
 
 | Laag | Tabellen | Zichtbaarheid |
 |---|---|---|
-| **Leden** | `users`, `user_wholesaler` | Alleen eigen account |
+| **Leden** | `users`, `user_wholesaler`, `user_products` | Alleen eigen account |
 | **Ruwe prijzen** | `price_imports`, `price_submissions` | Alleen eigen bedrijf |
 | **Marktkennis** | `aggregated_prices` | Anoniem, geaggregeerd (tonen vanaf 1 meetpunt — §4.8) |
 | **Referentie** | `products`, `wholesalers` | Gedeeld, geen bedrijfskoppeling |
@@ -30,6 +30,8 @@ erDiagram
     users ||--o{ price_submissions : "deelt"
     users ||--o{ price_imports : "uploadt"
     users }o--o{ wholesalers : "koopt bij"
+    users ||--o{ user_products : "monitort"
+    products ||--o{ user_products : "op lijst"
 
     products ||--o{ price_submissions : "heeft prijs"
     wholesalers ||--o{ price_submissions : "levert tegen"
@@ -104,6 +106,13 @@ erDiagram
         bigint user_id FK
         bigint wholesaler_id FK
     }
+
+    user_products {
+        bigint id PK
+        bigint user_id FK
+        bigint product_id FK
+        string added_via
+    }
 ```
 
 ---
@@ -129,7 +138,7 @@ Horecalid — één account per bedrijf (uniek e-mailadres).
 | `remember_token` | string | | Sessie |
 | `created_at` / `updated_at` | timestamp | ✓ | |
 
-**Relaties:** `priceSubmissions`, `priceImports`, `wholesalers` (many-to-many via `user_wholesaler`)
+**Relaties:** `priceSubmissions`, `priceImports`, `wholesalers` (many-to-many via `user_wholesaler`), `userProducts` / `trackedProducts`
 
 ---
 
@@ -146,7 +155,7 @@ Gestandaardiseerde productnamen. Aangemaakt via `Product::findOrCreateFromName()
 | `standard_unit` | string | ✓ | Standaardeenheid, default `stuk` |
 | `created_at` / `updated_at` | timestamp | ✓ | |
 
-**Relaties:** `priceSubmissions`, `aggregatedPrices`
+**Relaties:** `priceSubmissions`, `aggregatedPrices`, `userProducts` / `trackingUsers`
 
 ---
 
@@ -178,6 +187,26 @@ Koppeltabel: welke groothandels een lid gebruikt.
 | `created_at` / `updated_at` | timestamp | ✓ | |
 
 **Uniek:** `(user_id, wholesaler_id)`
+
+---
+
+### `user_products`
+
+Persoonlijke productlijst per lid (Fase 3d-1/2).
+
+| Kolom | Type | Verplicht | Beschrijving |
+|---|---|:---:|---|
+| `id` | bigint | ✓ | |
+| `user_id` | FK → users | ✓ | |
+| `product_id` | FK → products | ✓ | |
+| `added_via` | string(16) | ✓ | `upload` · `manual` (`App\Enums\AddedVia`) |
+| `created_at` / `updated_at` | timestamp | ✓ | |
+
+**Uniek:** `(user_id, product_id)`
+
+**Gedrag:** verwijderen uit lijst = rij wissen; `price_submissions` blijven bestaan. Auto-toevoegen na goedgekeurde upload via `UserProductService::addFromUpload()`.
+
+**Relaties:** `user`, `product` — model `UserProduct`
 
 ---
 
@@ -327,6 +356,7 @@ aggregated_prices OF live stats (zelfde segment, ≥1 ander meetpunt, eigen prij
 | `PriceImport` | `price_imports` | `app/Models/PriceImport.php` |
 | `PriceSubmission` | `price_submissions` | `app/Models/PriceSubmission.php` |
 | `AggregatedPrice` | `aggregated_prices` | `app/Models/AggregatedPrice.php` |
+| `UserProduct` | `user_products` | `app/Models/UserProduct.php` |
 
 Pivot `user_wholesaler` heeft geen apart model — relatie via `User::wholesalers()`.
 
@@ -359,6 +389,7 @@ Alle migraties staan in `app/database/migrations/`. Volgorde:
 8. `add_purchase_size_to_aggregated_prices_table`
 9. `create_price_imports_table` (+ `price_import_id` op submissions)
 10. `create_user_wholesaler_table`
+11. `create_user_products_table`
 
 ```bash
 cd app && php artisan migrate
@@ -368,23 +399,7 @@ cd app && php artisan migrate
 
 ## Geplande uitbreidingen (Fase 3d — §4.12)
 
-> **Nog niet geïmplementeerd.** Specificatie: [`FUNCTIONALITEIT.md`](../FUNCTIONALITEIT.md) §4.12.
-
-### `user_products` (nieuw)
-
-Persoonlijke productlijst per lid.
-
-| Kolom | Type | Verplicht | Beschrijving |
-|---|---|:---:|---|
-| `id` | bigint | ✓ | |
-| `user_id` | FK → users | ✓ | |
-| `product_id` | FK → products | ✓ | |
-| `added_via` | string(16) | ✓ | `upload` · `manual` |
-| `created_at` / `updated_at` | timestamp | ✓ | |
-
-**Uniek:** `(user_id, product_id)`
-
-**Gedrag:** verwijderen uit lijst = rij wissen; `price_submissions` blijven bestaan.
+> **Deels geïmplementeerd.** Specificatie: [`FUNCTIONALITEIT.md`](../FUNCTIONALITEIT.md) §4.12.
 
 ### Omzetklasse (`revenue_tranche`)
 

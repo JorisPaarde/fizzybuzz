@@ -35,6 +35,7 @@ Open **http://localhost:8000**
 - Registratie: http://localhost:8000/register
 - Dashboard: http://localhost:8000/dashboard
 - Vergelijken: http://localhost:8000/compare
+- Mijn producten: http://localhost:8000/my-products
 - Mijn prijzen: http://localhost:8000/prices
 - Groothandels: http://localhost:8000/my-wholesalers
 
@@ -42,8 +43,8 @@ Open **http://localhost:8000**
 
 ```
 app/
-├── app/Models/          # User, Product, Wholesaler, PriceSubmission, AggregatedPrice
-├── app/Services/        # AnonymizationService, PriceComparisonService, PriceImportService
+├── app/Models/          # User, Product, Wholesaler, PriceSubmission, AggregatedPrice, UserProduct
+├── app/Services/        # AnonymizationService, PriceComparisonService, PriceImportService, UserProductService
 ├── database/migrations/ # databaseschema
 └── resources/views/     # Blade-templates (auth, dashboard, compare, prices)
 ```
@@ -82,6 +83,13 @@ Zonder key werken handmatige uploads wel; foto/PDF/e-mail niet.
 ## Groothandels
 
 Leden koppelen groothandels op `/my-wholesalers`. Deze verschijnen bovenaan bij prijsinvoer.
+
+## Mijn producten (Fase 3d-1/2)
+
+- Persoonlijke productlijst op `/my-products`
+- Producten komen automatisch op de lijst na goedgekeurde upload
+- Handmatig toevoegen via zoeken; verwijderen via prullenbak (prijsdata blijft bewaard)
+- Lijst toont eigen prijs, markt vanaf en positie t.o.v. marktrange
 
 ## Prijsvergelijking & inzicht (Fase 3a + 3b)
 

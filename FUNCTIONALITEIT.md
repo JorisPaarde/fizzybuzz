@@ -4,7 +4,7 @@
 > Elke agent die aan dit project werkt, leest dit bestand eerst en werkt alleen aan functionaliteit die hierin staat beschreven — of werkt dit document bij vóór implementatie van nieuwe features.
 
 **Laatste update:** juni 2026  
-**Versie document:** 1.11  
+**Versie document:** 1.12  
 **Live site:** https://jorispaarde.github.io/fizzybuzz/  
 **Taal product:** Nederlands (NL)
 
@@ -42,7 +42,7 @@
 | [4.9](#49-notificaties) | Notificaties | 🔲 |
 | [4.10](#410-beheer--moderatie) | Beheer & moderatie | 🔲 |
 | [4.11](#411-externe-prijsdata--databronnen) | Externe prijsdata | 🔲 |
-| [4.12](#412-mijn-producten--productdetail) | Mijn producten & productdetail | 🔲 |
+| [4.12](#412-mijn-producten--productdetail) | Mijn producten & productdetail | 🟡 |
 
 **Gerelateerde docs:** [`docs/HOMEPAGE.md`](docs/HOMEPAGE.md) (homepage-structuur) · [`docs/DATAMODEL.md`](docs/DATAMODEL.md) (database)
 
@@ -280,7 +280,7 @@ Lid ontvangt factuur-mail van groothandel
 - [x] Data pas na review opgeslagen; status `approved` na bevestiging door lid
 - [x] Nederlandse foutmeldingen bij onvolledige invoer
 - [x] OpenAI-fouten worden netjes getoond (geen crash)
-- [ ] Goedgekeurde upload voegt producten automatisch toe aan **Mijn producten** (§4.12)
+- [x] Goedgekeurde upload voegt producten automatisch toe aan **Mijn producten** (§4.12)
 
 ---
 
@@ -429,11 +429,11 @@ Lid ontvangt factuur-mail van groothandel
 
 **Doel:** Elk lid heeft een **persoonlijke productlijst** — de set artikelen waarvoor PriceSignal prijzen checkt en inzicht geeft. De lijst is het dagelijkse startpunt voor vergelijking, filters en onderhandeling.
 
-**Status:** 🔲 Nog te bouwen
+**Status:** 🟡 Deels — Fase 3d-1 + 3d-2 live (`/my-products` lijst); filter, productdetail en omzetklasse volgen in 3d-3+
 
 #### Navigatie
 
-- Nieuw hoofdmenu-item: **Mijn producten** (`/my-products`)
+- Hoofdmenu-item: **Mijn producten** (`/my-products`) — ✅
 - Bestaand **Vergelijken** (`/compare`) blijft voor vrije zoekopdrachten en gasten-preview
 - Klik op een product in Mijn producten → **productdetailpagina** (`/my-products/{product}`)
 
@@ -530,13 +530,13 @@ Vergelijkingen en aggregaties lopen binnen de **zelfde omzetklasse** — vergeli
 
 **Mijn producten**
 
-- [ ] Tab/nav-item **Mijn producten** zichtbaar voor ingelogde leden
-- [ ] Lijst toont alle gekoppelde producten met eigen prijs en marktindicatie
-- [ ] Producten uit goedgekeurde uploads worden automatisch toegevoegd (geen duplicaten)
-- [ ] Zoeken en handmatig toevoegen van producten uit catalogus
-- [ ] Verwijderen via prullenbak-icoon (alleen lijstkoppeling, data blijft bewaard)
+- [x] Tab/nav-item **Mijn producten** zichtbaar voor ingelogde leden
+- [x] Lijst toont alle gekoppelde producten met eigen prijs en marktindicatie
+- [x] Producten uit goedgekeurde uploads worden automatisch toegevoegd (geen duplicaten)
+- [x] Zoeken en handmatig toevoegen van producten uit catalogus
+- [x] Verwijderen via prullenbak-icoon (alleen lijstkoppeling, data blijft bewaard)
 - [ ] Filter **Elders goedkoper** werkt binnen eigen omzetklasse
-- [ ] Lege staat met uitleg + link naar prijsupload
+- [x] Lege staat met uitleg + link naar prijsupload
 
 **Productdetail**
 
@@ -552,12 +552,12 @@ Vergelijkingen en aggregaties lopen binnen de **zelfde omzetklasse** — vergeli
 - [ ] Aggregatie en vergelijking gebruiken omzetklasse
 - [ ] Migratiepad van `purchase_size` gedocumenteerd en uitgevoerd
 
-**Technisch (referentie, nog niet bouwen)**
+**Technisch**
 
-- Nieuwe pivot-tabel `user_products` (`user_id`, `product_id`, `added_via` enum: `upload` / `manual`, `created_at`)
-- `users.revenue_tranche` vervangt `users.purchase_size`
-- `aggregated_prices.revenue_tranche` vervangt `purchase_size`-kolom
-- Zie ook `docs/DATAMODEL.md` (gepland)
+- [x] Pivot-tabel `user_products` (`user_id`, `product_id`, `added_via` enum: `upload` / `manual`, timestamps) — `UserProductService`, `MyProductController`
+- [ ] `users.revenue_tranche` vervangt `users.purchase_size`
+- [ ] `aggregated_prices.revenue_tranche` vervangt `purchase_size`-kolom
+- Zie ook `docs/DATAMODEL.md`
 
 ---
 
@@ -865,7 +865,7 @@ Aggregatie (berekend, niet opgeslagen als ruwe data)
 | Authenticatie | Laravel Breeze | 🟡 Registratie + login lokaal |
 | Anonimisering | `AnonymizationService` | 🟡 Aggregatie per segment; drempel 3 → wordt 1 (§4.8) |
 | Prijsvergelijking | `PriceComparisonService` + `/compare` | ✅ Zoeken, marktrange, inkoopsegment |
-| Mijn producten | `/my-products` + productdetail | 🔲 Zie §4.12 |
+| Mijn producten | `/my-products` + productdetail | 🟡 Lijst live; detail §4.12.3 nog te bouwen |
 | Omzetklasse | `revenue_tranche` op users + aggregatie | 🔲 Vervangt `purchase_size` (§4.12) |
 | Prijsupload | Handmatig + foto/PDF + e-mail + review | ✅ Lokaal |
 | AI-extractie | OpenAI `gpt-4o-mini` | 🟡 Via `OPENAI_API_KEY` |
@@ -1001,11 +1001,11 @@ Getest via `scripts/public-data-probe/probe.py`. Resultaten in `scripts/public-d
 | 3. Prijzen delen | Foto, PDF, e-mail, handmatig → review → opslaan | ✅ Lokaal |
 | 4. Vergelijken | Zoek product → marktrange (leden) of preview (gasten) | ✅ Lokaal |
 | 5. Inzicht | Dashboard: welke producten zijn duurder dan markt? | ✅ Lokaal |
-| 6. Mijn producten | Persoonlijke lijst, elders-goedkoper-filter, productdetail | 🔲 Fase 3d |
+| 6. Mijn producten | Persoonlijke lijst, elders-goedkoper-filter, productdetail | 🟡 Lijst live (3d-1/2); filter + detail volgen |
 | 7. Onderhandelen | PDF-rapport met harde cijfers | 🔲 Fase 4 |
 | 8. Productie | App op VPS, echte gebruikers | 🔲 Deploy |
 
-**Volgende stap MVP:** **Fase 3d** — Mijn producten (persoonlijke lijst), productdetail met prijsgeschiedenis en omzetklasse-segmentatie (§4.12). Daarna Fase 4 (PDF-rapport).
+**Volgende stap MVP:** **Fase 3d-3 t/m 3d-6** — filter elders goedkoper, productdetail met prijsgeschiedenis, omzetklasse-segmentatie en marktdrempel 1 meetpunt (§4.12). Daarna Fase 4 (PDF-rapport).
 
 Parallel optioneel: **VPS-deploy** (Fase 1 afronden) zodat early adopters de app kunnen testen.
 

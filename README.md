@@ -25,7 +25,7 @@
 | Prijsvergelijking met marktrange | `/compare` | ✅ (leden) |
 | Publieke preview (prijzen verborgen) | `/compare` | ✅ (gasten) |
 | Dashboard-inzicht (boven markt) | `/dashboard` | ✅ |
-| Mijn producten (persoonlijke lijst) | `/my-products` | 🔲 Fase 3d |
+| Mijn producten (persoonlijke lijst) | `/my-products` | ✅ Fase 3d-1/2 |
 | Productdetail + prijsgeschiedenis | `/my-products/{product}` | 🔲 Fase 3d |
 | Omzetklasse-segmentatie | profiel | 🔲 Fase 3d |
 | Onderhandelingsrapport (PDF) | — | 🔲 Fase 4 |
