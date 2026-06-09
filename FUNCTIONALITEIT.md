@@ -159,6 +159,7 @@ Onderstaande modules beschrijven de volledige beoogde functionaliteit. Per modul
 | **Foto** | Foto van factuur of prijslijst (mobiel) | ✅ OpenAI Vision |
 | **PDF** | PDF van factuur of prijslijst | ✅ OpenAI + tekstextractie |
 | **E-mail** | Mail met PDF/bijlage naar upload-adres van het platform | ✅ Webhook (Mailgun) |
+| **E-mail doorsturen** | Factuur of prijslijst **doorsturen** (forward) naar platform-adres | 🔲 Nog te bouwen |
 | **Handmatig** | Product, groothandel, prijs, eenheid, datum invoeren | ✅ |
 
 #### Extractie-flow (foto / PDF / e-mail)
