@@ -25,6 +25,13 @@ class Product extends Model
         return $this->hasMany(AggregatedPrice::class);
     }
 
+    public function trackingUsers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'user_products')
+            ->withPivot('added_via')
+            ->withTimestamps();
+    }
+
     public static function findOrCreateFromName(string $name): self
     {
         $normalized = trim($name);

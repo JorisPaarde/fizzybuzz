@@ -18,6 +18,9 @@
             Vergelijken
           </x-nav-link>
           @auth
+            <x-nav-link :href="route('my-products.index')" :active="request()->routeIs('my-products.*')">
+              Mijn producten
+            </x-nav-link>
             <x-nav-link :href="route('prices.index')" :active="request()->routeIs('prices.*')">
               Mijn prijzen
             </x-nav-link>
@@ -86,6 +89,9 @@
         Vergelijken
       </x-responsive-nav-link>
       @auth
+        <x-responsive-nav-link :href="route('my-products.index')" :active="request()->routeIs('my-products.*')">
+          Mijn producten
+        </x-responsive-nav-link>
         <x-responsive-nav-link :href="route('prices.index')" :active="request()->routeIs('prices.*')">
           Mijn prijzen
         </x-responsive-nav-link>

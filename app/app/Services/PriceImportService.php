@@ -14,6 +14,7 @@ class PriceImportService
 {
     public function __construct(
         private readonly AnonymizationService $anonymizationService,
+        private readonly UserProductService $userProductService,
     ) {}
 
     /**
@@ -69,6 +70,10 @@ class PriceImportService
 
             foreach (array_unique($productIds) as $productId) {
                 $this->anonymizationService->aggregate($productId, $wholesalerId);
+            }
+
+            if ($productIds !== []) {
+                $this->userProductService->addFromUpload($user, $productIds);
             }
 
             return $saved;

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\PriceImport;
 use App\Models\PriceSubmission;
 use App\Models\Product;
+use App\Enums\AddedVia;
 use App\Services\AnonymizationService;
+use App\Services\UserProductService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -46,7 +48,12 @@ class PriceSubmissionController extends Controller
         ]);
     }
 
-    public function update(Request $request, PriceSubmission $submission, AnonymizationService $anonymizationService): RedirectResponse
+    public function update(
+        Request $request,
+        PriceSubmission $submission,
+        AnonymizationService $anonymizationService,
+        UserProductService $userProductService,
+    ): RedirectResponse
     {
         $this->authorizeSubmission($request, $submission);
 
@@ -81,6 +88,7 @@ class PriceSubmissionController extends Controller
         ]);
 
         $anonymizationService->aggregate($product->id, (int) $validated['wholesaler_id']);
+        $userProductService->add($request->user(), $product, AddedVia::Upload);
 
         return redirect()
             ->route('prices.index')

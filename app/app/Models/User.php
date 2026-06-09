@@ -32,6 +32,18 @@ class User extends Authenticatable
         return $this->belongsToMany(Wholesaler::class)->withTimestamps();
     }
 
+    public function trackedProducts(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'user_products')
+            ->withPivot('added_via')
+            ->withTimestamps();
+    }
+
+    public function userProducts(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(UserProduct::class);
+    }
+
     public function wholesalersForSelect(): \Illuminate\Support\Collection
     {
         $linked = $this->wholesalers()->orderBy('name')->get();
