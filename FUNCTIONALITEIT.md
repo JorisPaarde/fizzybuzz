@@ -92,21 +92,33 @@ Onderstaande modules beschrijven de volledige beoogde functionaliteit. Per modul
 
 **Status:** ✅ Geïmplementeerd (`index.html`)
 
-#### Secties
+#### Secties (logische flow)
+
+| # | Sectie | Doel | Sutherland-principe |
+|---|---|---|---|
+| 1 | Header + trust bar | Navigatie, vertrouwen | Signaling |
+| 2 | Hero | Reframe + pitch-strip (deel/vergelijk/win) + voorbeeldkaart | Informatie-asymmetrie, loss hint |
+| 3 | Wat je wint | Drie concrete opbrengsten | Tangibel voordeel |
+| 4 | Hoe het werkt | Eén flow: upload → vergelijk → onderhandel | Lage drempel |
+| 5 | Waarom delen | Uitwisseling + drie bezwaren weerlegd | Reciprociteit, reframing |
+| 6 | Kosten van niets doen | Stilletjes te veel betalen | Loss aversion |
+| 7 | Vertrouwen | Anonimiteit, netwerk, stats | Social proof |
+| 8 | Aanmelden | CTA primair; rondleiding secundair (link) | Commitment |
+| 9 | Footer | Tagline | — |
+
+**Rondleiding** (`rondleiding.html`): aparte pagina, geen volledige homepage-sectie. Alleen secundaire link in hero en CTA.
+
+#### Secties (detail)
 
 | Sectie | Inhoud |
 |---|---|
-| Header | Logo, navigatie (Wat het doet, Wat jij krijgt, Rondleiding), CTA "Word lid" |
-| Hero | Directe waardepropositie + **Wat het doet / Wat jij krijgt** (twee kaarten) + voorbeeldvergelijking |
-| Opbrengst | Drie concrete voordelen: lagere inkoop, onderhandelen met bewijs, grip op marge |
-| Rondleiding | Gratis interactieve demo (`rondleiding.html`) — Sutherland: eerst kijken, dan delen |
-| Product | Drie stappen: delen → anonimiseren → ontvangen |
-| Waarom delen | Reciprociteit, reframing bezwaren, uitwisselingskaart |
-| Probleem | Loss framing: kosten van geen benchmark |
-| Hoe het werkt | Uitgewerkte drie stappen incl. foto/PDF/e-mail |
-| Voordelen | Anonimiteit, collectief, signaling + statistieken |
-| Samen | Netwerkeffect / social proof |
-| Aanmelden | E-mailformulier (placeholder, nog niet functioneel) |
+| Hero | “Je onderhandelt blind” + pitch-strip + prijsvergelijkingskaart |
+| Wat je wint | Minder inkoop, onderhandelen met cijfers, betere marge |
+| Hoe het werkt | Drie stappen incl. foto/PDF/e-mail |
+| Waarom delen | Uitwisselingskaart + reframing vertrouwelijkheid / tijd / weggeven |
+| Kosten | Loss framing: onzichtbare toeslag |
+| Vertrouwen | Anonimiteit, netwerk, quote + statistieken |
+| Aanmelden | E-mailformulier (placeholder) + link rondleiding |
 | Footer | Tagline en copyright |
 
 #### Acceptatiecriteria

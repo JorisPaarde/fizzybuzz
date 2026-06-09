@@ -256,39 +256,40 @@ a {
   font-weight: 600;
 }
 
-.hero-value {
+.pitch-strip {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
   margin-bottom: 1.75rem;
-}
-
-.hero-value-card {
-  padding: 1.125rem 1.25rem;
+  padding: 1rem;
   background: var(--color-bg-subtle);
-  border: 1px solid var(--color-border);
   border-radius: var(--radius);
+  border: 1px solid var(--color-border);
 }
 
-.hero-value-card--accent {
-  background: var(--color-accent-soft);
-  border-color: rgba(46, 107, 168, 0.25);
+.pitch-item {
+  padding: 0.25rem 0.5rem;
+  border-right: 1px solid var(--color-border);
 }
 
-.hero-value-label {
+.pitch-item:last-child {
+  border-right: none;
+}
+
+.pitch-label {
   display: block;
   font-size: 0.6875rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--color-accent);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
 }
 
-.hero-value-card p {
-  font-size: 0.9375rem;
+.pitch-item p {
+  font-size: 0.8125rem;
   color: var(--color-text-muted);
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
 .hero-actions {
@@ -297,11 +298,8 @@ a {
   gap: 1rem;
 }
 
-.hero-tour-note {
-  margin-top: 1.25rem;
-  font-size: 0.875rem;
-  color: var(--color-text-muted);
-  max-width: 42ch;
+.how-it-works .product-footnote {
+  margin-top: 2.5rem;
 }
 
 /* Outcomes — wat levert het op */
@@ -369,18 +367,6 @@ a {
   line-height: 1.55;
 }
 
-.outcomes-footnote {
-  text-align: center;
-  font-size: 0.9375rem;
-  color: rgba(255, 255, 255, 0.65);
-  max-width: 52ch;
-  margin-inline: auto;
-}
-
-.outcomes-footnote strong {
-  color: rgba(255, 255, 255, 0.9);
-  font-weight: 600;
-}
 
 /* Tour section */
 
@@ -1677,14 +1663,26 @@ a {
   .benefits-layout,
   .sharing-layout,
   .tour-layout,
-  .hero-value,
+  .pitch-strip,
   .outcomes-grid {
     grid-template-columns: 1fr;
     gap: 3rem;
   }
 
-  .hero-value {
-    gap: 1rem;
+  .pitch-strip {
+    gap: 0;
+    padding: 1rem;
+  }
+
+  .pitch-item {
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+    padding: 0.75rem 0;
+  }
+
+  .pitch-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
   }
 
   .outcomes-grid {

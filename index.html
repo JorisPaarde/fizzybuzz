@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="PriceSignal is het prijsinzicht-platform voor de horeca. Deel anoniem wat jij betaalt, krijg terug wat de markt betaalt — en onderhandel met bewijs in plaats van onderbuikgevoel.">
+  <meta name="description" content="PriceSignal: zie wat de horeca-markt betaalt voor inkopen. Deel anoniem jouw groothandelsprijzen, ontdek waar je te veel betaalt en onderhandel met bewijs.">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <title>PriceSignal — Inzicht in inkoopprijzen voor de horeca</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=3.3.0">
+  <link rel="stylesheet" href="css/style.css?v=3.4.0">
 </head>
 <body>
   <header class="site-header">
@@ -25,9 +25,9 @@
         PriceSignal
       </a>
       <nav class="nav" aria-label="Hoofdnavigatie">
-        <a href="#wat-het-doet">Wat het doet</a>
-        <a href="#opbrengst">Wat jij krijgt</a>
-        <a href="#rondleiding">Rondleiding</a>
+        <a href="#opbrengst">Wat je wint</a>
+        <a href="#hoe-het-werkt">Hoe het werkt</a>
+        <a href="#waarom-delen">Waarom delen</a>
         <a href="#aanmelden" class="nav-cta">Word lid</a>
       </nav>
     </div>
@@ -44,36 +44,43 @@
   </div>
 
   <main>
-    <!-- Hero: reframing (Sutherland) — het probleem is niet de prijs, het is het gebrek aan informatie -->
+    <!-- 1. Hero — reframe (Sutherland): het probleem is informatie, niet de prijs -->
     <section class="hero">
       <div class="container hero-grid">
         <div class="hero-content">
-          <p class="eyebrow">Prijsinzicht voor de horeca</p>
-          <h1>Zie wat de markt betaalt.<br>Betaal niet te veel voor inkopen.</h1>
+          <p class="eyebrow">Voor restaurants, cafés en hotels</p>
+          <h1>Je onderhandelt blind.<br>Je leverancier niet.</h1>
           <p class="hero-lead">
-            PriceSignal vergelijkt <em>jouw</em> groothandelsprijzen met wat vergelijkbare restaurants,
-            cafés en hotels betalen — anoniem, per product en per leverancier.
+            Groothandels weten precies wat anderen betalen. Jij ziet alleen je eigen factuur.
+            <strong>PriceSignal</strong> verandert dat: anoniem delen wat jij betaalt,
+            en zien wat vergelijkbare horecabedrijven in de markt betalen — per product, per leverancier.
           </p>
-          <div class="hero-value" id="wat-het-doet">
-            <div class="hero-value-card">
-              <span class="hero-value-label">Wat het doet</span>
-              <p>Je deelt wat jij betaalt (foto, PDF of handmatig). Wij maken er anonieme marktdata van — zonder jouw bedrijfsnaam te tonen.</p>
+
+          <div class="pitch-strip" id="wat-het-doet">
+            <div class="pitch-item">
+              <span class="pitch-label">Jij deelt</span>
+              <p>Een foto van je factuur. Twee minuten.</p>
             </div>
-            <div class="hero-value-card hero-value-card--accent">
-              <span class="hero-value-label">Wat jij krijgt</span>
-              <p>Per product: zit ik te hoog? Waar is het goedkoper? Met peildatum en harde cijfers om te onderhandelen.</p>
+            <div class="pitch-item">
+              <span class="pitch-label">Wij vergelijken</span>
+              <p>Anoniem met de markt, inclusief peildatum.</p>
+            </div>
+            <div class="pitch-item">
+              <span class="pitch-label">Jij wint</span>
+              <p>Waar je te duur zit — en bewijs om te onderhandelen.</p>
             </div>
           </div>
+
           <div class="hero-actions">
-            <a href="rondleiding.html" class="btn btn-primary">Start gratis rondleiding</a>
-            <a href="#aanmelden" class="btn btn-secondary">Doe mee — deel en ontvang</a>
+            <a href="#aanmelden" class="btn btn-primary">Word lid — gratis</a>
+            <a href="rondleiding.html" class="btn btn-secondary">Eerst even rondkijken</a>
           </div>
-          <p class="hero-tour-note">Geen account nodig voor de rondleiding. Lid worden = marktprijzen zien en je eigen lijst bijhouden.</p>
         </div>
+
         <div class="hero-visual" aria-hidden="true">
           <div class="price-card price-card--highlight">
             <div class="price-card-header">
-              <span class="price-card-badge">Marktinzicht</span>
+              <span class="price-card-badge">Voorbeeld</span>
               <span class="price-card-label">Tomaten · 5 kg</span>
             </div>
             <div class="price-row">
@@ -88,268 +95,50 @@
               <span class="wholesaler">Ledengemiddelde</span>
               <span class="price">€ 12,10</span>
             </div>
-            <p class="price-insight">Verschil per maand: <strong>€ 380</strong> aan tomaten alleen al</p>
+            <p class="price-insight">Alleen op tomaten al: <strong>€ 380/maand</strong> verschil mogelijk</p>
           </div>
           <div class="price-card price-card--offset">
-            <p class="price-card-muted"><strong>Zonder PriceSignal</strong> zie je alleen jouw prijs. Met PriceSignal zie je de markt — anoniem en geaggregeerd.</p>
+            <p class="price-card-muted"><strong>Zonder PriceSignal</strong> lijkt elke prijs normaal. <strong>Met PriceSignal</strong> zie je waar je staat — en wat je mist.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Directe opbrengst — wat levert het concreet op -->
+    <!-- 2. Wat je wint — concrete opbrengst -->
     <section class="outcomes" id="opbrengst">
       <div class="container">
         <div class="section-intro section-intro--center">
-          <p class="eyebrow">Concreet voordeel</p>
-          <h2>Wat levert PriceSignal jou op?</h2>
-          <p class="section-lead">Geen abstract platform — drie dingen die je morgen al merkt in je portemonnee en je gesprek met leveranciers.</p>
+          <p class="eyebrow">Wat levert het op</p>
+          <h2>Drie dingen die je morgen al merkt</h2>
+          <p class="section-lead">Geen abstract platform. Dit is wat je er concreet aan hebt als horecaondernemer.</p>
         </div>
         <div class="outcomes-grid">
           <article class="outcome-card">
             <span class="outcome-icon" aria-hidden="true">€</span>
-            <h3>Lagere inkoopkosten</h3>
-            <p>Zie waar je per product en groothandel boven de markt zit. Veel leden vinden honderden euro's per maand — zonder ander assortiment.</p>
+            <h3>Minder inkoopkosten</h3>
+            <p>Zie per product en groothandel waar je boven de markt zit. Veel ondernemers vinden honderden euro's per maand — op producten die je al koopt.</p>
           </article>
           <article class="outcome-card outcome-card--accent">
             <span class="outcome-icon" aria-hidden="true">↔</span>
-            <h3>Onderhandelen met bewijs</h3>
-            <p>Geen “ik wil korting” meer. Je komt met marktprijzen en peildata. Dat verandert het gesprek met je leverancier.</p>
+            <h3>Onderhandelen met cijfers</h3>
+            <p>“De markt betaalt € 11,20” overtuigt. “Ik wil korting” niet. Je komt met peildata, niet met onderbuikgevoel.</p>
           </article>
           <article class="outcome-card">
             <span class="outcome-icon" aria-hidden="true">◎</span>
-            <h3>Grip op je marge</h3>
-            <p>Inzicht in prijsverloop en leveranciersverschillen — de informatie die groothandels wél hebben en jij tot nu toe miste.</p>
-          </article>
-        </div>
-        <p class="outcomes-footnote">
-          Jij deelt anoniem wat je betaalt → je krijgt terug wat de markt betaalt.
-          <strong>Hoe meer horeca meedoet, hoe scherper jouw beeld wordt.</strong>
-        </p>
-      </div>
-    </section>
-
-    <!-- Gratis rondleiding — Sutherland: lage drempel, eerst ontvangen, verliesaversie -->
-    <section class="tour" id="rondleiding">
-      <div class="container">
-        <div class="tour-layout">
-          <div class="tour-content">
-            <p class="eyebrow">Gratis in de app</p>
-            <h2>Kijk eerst. Deel pas als je overtuigd bent.</h2>
-            <p class="tour-lead">
-              De meeste platforms vragen eerst vertrouwen — en geven daarna pas iets terug.
-              PriceSignal draait dat om: <strong>loop eerst rond in de app</strong>, zonder account,
-              zonder factuur, zonder iets prijs te geven.
-            </p>
-            <p>
-              Je ziet welke producten marktdata hebben, welke groothandels meedoen en hoe
-              vergelijken werkt. De prijzen zelf blijven verborgen — niet om je te pesten,
-              maar om eerlijk te zijn: <em>dit is wat je mist zolang je niet meedoet</em>.
-              Dat is geen marketingtruc. Dat is verliesaversie in het voordeel van jou.
-            </p>
-            <ul class="tour-benefits">
-              <li>
-                <strong>Geen verplichting</strong>
-                <span>Geen e-mail, geen creditcard — alleen kijken of dit voor jou werkt.</span>
-              </li>
-              <li>
-                <strong>Echte structuur, geen demo-video</strong>
-                <span>Je doorloopt dezelfde vergelijkingspagina die leden gebruiken.</span>
-              </li>
-              <li>
-                <strong>Het enige risico?</strong>
-                <span>Dat je ontdekt hoeveel informatie je nu mist — en dat onderhandelen zonder data eigenlijk gokken is.</span>
-              </li>
-            </ul>
-            <div class="tour-actions">
-              <a href="rondleiding.html" class="btn btn-primary btn-tour">Start gratis rondleiding</a>
-              <a href="#aanmelden" class="btn btn-secondary">Liever direct lid worden</a>
-            </div>
-            <p class="tour-footnote">Duurt twee minuten. Sluit je tabblad en je bent weg — tenzij je nieuwsgierig wordt.</p>
-          </div>
-
-          <aside class="tour-preview" aria-label="Voorbeeld van de rondleiding in de app">
-            <div class="tour-preview-header">
-              <span class="tour-preview-badge">Live preview</span>
-              <span class="tour-preview-title">Prijzen vergelijken</span>
-            </div>
-            <ol class="tour-steps">
-              <li class="tour-step tour-step--active">
-                <span class="tour-step-num">1</span>
-                <div>
-                  <h3>Zoek een product</h3>
-                  <p>Tomaten, koffie, bier — zie welke artikelen al marktdata hebben.</p>
-                </div>
-              </li>
-              <li class="tour-step">
-                <span class="tour-step-num">2</span>
-                <div>
-                  <h3>Open een vergelijking</h3>
-                  <p>Filter op groothandel en periode. De opbouw is volledig zichtbaar.</p>
-                </div>
-              </li>
-              <li class="tour-step">
-                <span class="tour-step-num">3</span>
-                <div>
-                  <h3>Zie wat je mist</h3>
-                  <p>Marktranges en jouw positie verschijnen na aanmelding — precies waar je nu naar kijkt.</p>
-                </div>
-              </li>
-            </ol>
-            <div class="tour-mock-card">
-              <div class="tour-mock-row">
-                <span>Markt laagste</span>
-                <span class="tour-mock-blur" aria-hidden="true">€ •••</span>
-              </div>
-              <div class="tour-mock-row">
-                <span>Markt gemiddelde</span>
-                <span class="tour-mock-blur" aria-hidden="true">€ •••</span>
-              </div>
-              <div class="tour-mock-row tour-mock-row--you">
-                <span>Jouw prijs</span>
-                <span class="tour-mock-blur tour-mock-blur--accent" aria-hidden="true">€ •••</span>
-              </div>
-              <p class="tour-mock-cta">Prijzen zichtbaar na gratis aanmelding →</p>
-            </div>
-          </aside>
-        </div>
-      </div>
-    </section>
-
-    <!-- Wat het product is -->
-    <section class="product" id="product">
-      <div class="container">
-        <div class="section-intro section-intro--center">
-          <p class="eyebrow">Zo werkt het</p>
-          <h2>Drie stappen — van factuur naar inzicht</h2>
-          <p class="section-lead">
-            Geen spreadsheet. Geen uren typen. Upload, vergelijk, onderhandel.
-          </p>
-        </div>
-        <div class="product-grid">
-          <article class="product-card">
-            <span class="product-card-icon" aria-hidden="true">↑</span>
-            <h3>Jij deelt</h3>
-            <p>Upload een foto van je factuur, een PDF of voer handmatig in wat jij betaalt. Twee minuten werk. Geen spreadsheets.</p>
-          </article>
-          <article class="product-card product-card--accent">
-            <span class="product-card-icon" aria-hidden="true">◆</span>
-            <h3>Wij anonimiseren</h3>
-            <p>Jouw bedrijf is nooit herleidbaar. Anderen zien alleen geaggregeerde marktprijzen — nooit jouw bedrijfsnaam.</p>
-          </article>
-          <article class="product-card">
-            <span class="product-card-icon" aria-hidden="true">↓</span>
-            <h3>Jij ontvangt</h3>
-            <p>Inzicht per product en groothandel: wat betaalt de markt? Waar sta jij? Wat is een realistische doelprijs?</p>
-          </article>
-        </div>
-        <p class="product-footnote">
-          Geen marktplaats. Geen tussenhandel. Alleen informatie die de horeca vandaag niet heeft —
-          en die groothandels bewust niet geeft.
-        </p>
-      </div>
-    </section>
-
-    <!-- Waarom delen — Sutherland: reciprocity, loss aversion, counter-intuitive -->
-    <section class="sharing" id="waarom-delen">
-      <div class="container">
-        <div class="sharing-layout">
-          <div class="sharing-content">
-            <p class="eyebrow">De kern</p>
-            <h2>We slagen alleen als jij je prijzen deelt</h2>
-            <p>
-              Dat klinkt als een grote vraag. Maar bedenk dit: <strong>je betaalt die prijzen al</strong>.
-              Het enige wat verandert, is dat ze niet langer nutteloos op je schijf staan — ze worden
-              ruilmiddel voor marktinzicht.
-            </p>
-            <p>
-              Dit is geen rekenkundig probleem — het is een <em>psychologisch</em> probleem.
-              Ondernemers voelen zich alleen staan tegenover leveranciers die wél alle data hebben.
-              PriceSignal maakt van die eenzaamheid een collectief voordeel.
-            </p>
-          </div>
-          <aside class="exchange-card">
-            <h3>De uitwisseling</h3>
-            <div class="exchange-row exchange-row--give">
-              <span class="exchange-label">Jij geeft</span>
-              <p>Jouw inkoopprijzen — anoniem, veilig, controleerbaar</p>
-            </div>
-            <div class="exchange-divider" aria-hidden="true">↕</div>
-            <div class="exchange-row exchange-row--get">
-              <span class="exchange-label">Jij krijgt</span>
-              <p>Marktprijzen van honderden producten en alle grote groothandels</p>
-            </div>
-            <p class="exchange-note">Hoe meer leden delen, hoe waardevoller jouw lidmaatschap wordt.</p>
-          </aside>
-        </div>
-
-        <div class="reframe-grid">
-          <article class="reframe-card">
-            <h3>“Mijn prijzen zijn vertrouwelijk”</h3>
-            <p>
-              Klopt — en dat blijven ze. Niemand ziet dat <em>Café De Hoek</em> € 14,80 betaalt.
-              Ze zien dat <em>ergens in Utrecht</em> iemand tussen € 11 en € 13 betaalt. Geheimhouding
-              beschermt nu de groothandel. Delen beschermt jou.
-            </p>
-          </article>
-          <article class="reframe-card">
-            <h3>“Ik geef te veel weg”</h3>
-            <p>
-              Tegengesteld waar: wie niets deelt, krijgt niets terug. Het is geen donatie — het is
-              een <strong>uitwisseling</strong>. Eén factuur uploaden kan je duizenden euro's besparen
-              op andere producten. Dat is geen naïviteit, dat is asymmetrische winst.
-            </p>
-          </article>
-          <article class="reframe-card">
-            <h3>“Ik heb geen tijd”</h3>
-            <p>
-              Een foto van je factuur. Een e-mail met je prijslijst. De app leest het uit — jij
-              controleert en bevestigt. Minder tijd dan één telefoontje met je leverancier waarin
-              je toch geen vuist kunt maken.
-            </p>
+            <h3>Betere marge</h3>
+            <p>Inzicht in prijsverloop en leveranciersverschillen. Dezelfde informatie die je groothandel wél heeft — nu ook voor jou.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- Loss aversion -->
-    <section class="problem" id="waarom">
-      <div class="container">
-        <div class="section-intro">
-          <p class="eyebrow">Waarom nu</p>
-          <h2>Zonder benchmark betaal je stilletjes te veel</h2>
-          <p>
-            Niet dramatisch — gewoon € 200 hier, € 400 daar per maand. Geld dat je nooit mist
-            omdat je nooit wist dat anderen minder betaalden voor hetzelfde product.
-          </p>
-        </div>
-        <div class="problem-grid">
-          <article class="problem-card">
-            <div class="problem-icon" aria-hidden="true">?</div>
-            <h3>De onzichtbare toeslag</h3>
-            <p>Elke horecaondernemer krijgt een eigen tarief. Zonder benchmark voelt elke prijs “normaal” — ook als die dat niet is.</p>
-          </article>
-          <article class="problem-card">
-            <div class="problem-icon" aria-hidden="true">↔</div>
-            <h3>Onderhandelen zonder bewijs</h3>
-            <p>“Ik wil een betere prijs” overtuigt niemand. “De markt betaalt € 11,20” wel. Informatie is je hefboom.</p>
-          </article>
-          <article class="problem-card">
-            <div class="problem-icon" aria-hidden="true">↑</div>
-            <h3>Alleen spelen = verliezen</h3>
-            <p>De groothandel heeft duizenden klanten aan data. Jij hebt alleen je eigen factuur. Dat is geen onderhandeling, dat is gokken.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- Hoe het werkt -->
+    <!-- 3. Hoe het werkt — één duidelijke flow -->
     <section class="how-it-works" id="hoe-het-werkt">
       <div class="container">
         <div class="section-intro section-intro--center">
-          <p class="eyebrow">Zo makkelijk mogelijk</p>
-          <h2>Van factuur naar onderhandelingsmacht in drie stappen</h2>
-          <p>We hebben de drempel zo laag mogelijk gemaakt — want zonder jouw data geen product.</p>
+          <p class="eyebrow">Hoe het werkt</p>
+          <h2>Van factuur naar inzicht in drie stappen</h2>
+          <p class="section-lead">Geen spreadsheet. Geen uren werk. Upload, vergelijk, onderhandel.</p>
         </div>
         <ol class="steps">
           <li class="step">
@@ -357,18 +146,18 @@
             <div class="step-body">
               <h3>Deel wat jij betaalt</h3>
               <p>
-                Foto, PDF, e-mail of handmatig. Upload je factuur of prijslijst — de app haalt de
-                regels eruit. Jij controleert en corrigeert. Pas daarna wordt het opgeslagen.
+                Foto, PDF, e-mail of handmatig. Upload je factuur — de app leest de regels uit.
+                Jij controleert en bevestigt. Pas daarna wordt het opgeslagen.
               </p>
             </div>
           </li>
           <li class="step">
             <span class="step-number">2</span>
             <div class="step-body">
-              <h3>Ontvang wat de markt betaalt</h3>
+              <h3>Zie wat de markt betaalt</h3>
               <p>
-                Prijzen van leden worden geaggreerd en anoniem gedeeld. Je ziet per product en
-                groothandel: gemiddelde, laagste, hoogste — en waar jij staat.
+                Prijzen van leden worden anoniem geaggregeerd. Per product en groothandel zie je
+                laagste, hoogste en gemiddelde — en waar <em>jouw</em> prijs staat. Altijd met peildatum.
               </p>
             </div>
           </li>
@@ -377,48 +166,139 @@
             <div class="step-body">
               <h3>Onderhandel met bewijs</h3>
               <p>
-                Ga naar je leverancier met marktdata in plaats van onderbuikgevoel. Dat is geen
-                agressief gedrag — het is professioneel inkopen.
+                Ga naar je leverancier met marktdata. Geen agressie — gewoon professioneel inkopen
+                met dezelfde informatie die zij al hadden.
               </p>
             </div>
           </li>
         </ol>
+        <p class="product-footnote">
+          Geen marktplaats. Geen tussenhandel. Alleen informatie die de horeca vandaag niet heeft.
+        </p>
       </div>
     </section>
 
-    <!-- Trust / signaling -->
-    <section class="benefits" id="voordelen">
+    <!-- 4. Waarom delen — reciprociteit + bezwaren (Sutherland) -->
+    <section class="sharing" id="waarom-delen">
+      <div class="container">
+        <div class="sharing-layout">
+          <div class="sharing-content">
+            <p class="eyebrow">De uitwisseling</p>
+            <h2>Je betaalt die prijzen al. Nu worden ze nuttig.</h2>
+            <p>
+              PriceSignal werkt alleen als leden delen — dat is eerlijk. Maar je geeft niets weg
+              dat je niet al kwijt bent: <strong>je factuur staat al in je administratie</strong>.
+              Het enige dat verandert, is dat die cijfers ruilmiddel worden voor marktinzicht.
+            </p>
+            <p>
+              Wie niets deelt, krijgt niets terug. Wie deelt, krijgt toegang tot wat honderden
+              producten en alle grote groothandels kosten bij vergelijkbare bedrijven.
+            </p>
+          </div>
+          <aside class="exchange-card">
+            <h3>In één oogopslag</h3>
+            <div class="exchange-row exchange-row--give">
+              <span class="exchange-label">Jij geeft</span>
+              <p>Jouw inkoopprijzen — anoniem, veilig, controleerbaar</p>
+            </div>
+            <div class="exchange-divider" aria-hidden="true">↕</div>
+            <div class="exchange-row exchange-row--get">
+              <span class="exchange-label">Jij krijgt</span>
+              <p>Marktprijzen per product, groothandel en peildatum</p>
+            </div>
+            <p class="exchange-note">Hoe meer horeca meedoet, hoe scherper jouw beeld wordt.</p>
+          </aside>
+        </div>
+
+        <div class="reframe-grid">
+          <article class="reframe-card">
+            <h3>“Mijn prijzen zijn vertrouwelijk”</h3>
+            <p>
+              Klopt — en dat blijven ze. Niemand ziet dat <em>Café De Hoek</em> € 14,80 betaalt.
+              Ze zien dat ergens in de regio iemand tussen € 11 en € 13 betaalt.
+              Geheimhouding beschermt nu de groothandel. Delen beschermt jou.
+            </p>
+          </article>
+          <article class="reframe-card">
+            <h3>“Ik geef te veel weg”</h3>
+            <p>
+              Andersom: wie niets deelt, betaalt blind. Eén factuur uploaden kan duizenden euro's
+              besparen op andere producten. Geen donatie — een <strong>uitwisseling</strong>
+              met asymmetrische winst voor jou.
+            </p>
+          </article>
+          <article class="reframe-card">
+            <h3>“Ik heb geen tijd”</h3>
+            <p>
+              Een foto van je factuur. De app leest het uit, jij checkt het. Minder tijd dan
+              één telefoontje met je leverancier waarin je toch geen vuist kunt maken.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Kosten van niets doen — loss aversion (Sutherland) -->
+    <section class="problem" id="kosten">
+      <div class="container">
+        <div class="section-intro">
+          <p class="eyebrow">Waarom nu</p>
+          <h2>Elke maand zonder inzicht kost je geld — stilletjes</h2>
+          <p>
+            Geen faillissement. Gewoon € 200 hier, € 400 daar. Per product, per leverancier.
+            Geld dat je nooit mist omdat je nooit wist dat anderen minder betaalden.
+          </p>
+        </div>
+        <div class="problem-grid">
+          <article class="problem-card">
+            <div class="problem-icon" aria-hidden="true">?</div>
+            <h3>Elke prijs voelt normaal</h3>
+            <p>Elke horecaondernemer krijgt een eigen tarief. Zonder benchmark weet je niet of die eerlijk is.</p>
+          </article>
+          <article class="problem-card">
+            <div class="problem-icon" aria-hidden="true">↔</div>
+            <h3>Zij hebben de data</h3>
+            <p>Je groothandel ziet duizenden klantprijzen. Jij ziet alleen je eigen factuur. Dat is geen gelijkwaardig gesprek.</p>
+          </article>
+          <article class="problem-card">
+            <div class="problem-icon" aria-hidden="true">↑</div>
+            <h3>Je concurreert op marge</h3>
+            <p>Betere gerechten alleen is niet genoeg. Marges beginnen bij inkoop — en inkoop begint bij informatie.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Vertrouwen + netwerk -->
+    <section class="benefits" id="vertrouwen">
       <div class="container">
         <div class="benefits-layout">
           <div class="benefits-content">
             <p class="eyebrow">Waarom dit werkt</p>
-            <h2>Slimme ondernemers delen wel</h2>
+            <h2>Samen sterker dan alleen</h2>
             <p>
-              Niet omdat ze naïef zijn. Omdat ze begrijpen dat informatie-asymmetrie de grootste
-              kostenpost is die nooit op je factuur staat. PriceSignal is het tegengif.
+              Dit is geen app die voor je werkt — het is een netwerk dat met je meegroeit.
+              Elk lid maakt de volgende vergelijking nauwkeuriger. Restaurant in Amsterdam deelt
+              koffieprijzen → jij in Utrecht profiteert.
             </p>
             <ul class="benefit-list">
               <li>
                 <strong>100% anoniem</strong>
-                <span>Jouw bedrijf is nooit zichtbaar in gedeelde data. Technisch afgedwongen, niet alleen beloofd.</span>
+                <span>Jouw bedrijf is nooit zichtbaar in gedeelde data. Technisch afgedwongen.</span>
               </li>
               <li>
                 <strong>Geven = ontvangen</strong>
-                <span>Wie niet bijdraagt, profiteert niet. Eerlijk en motiverend — zo houden we de data eerlijk.</span>
-              </li>
-              <li>
-                <strong>Collectieve intelligentie</strong>
-                <span>Elk lid maakt het netwerk waardevoller. Jouw buurman-café helpt jou — jij helpt het hotel om de hoek.</span>
+                <span>Eerlijk en motiverend. Zo houden we de data betrouwbaar.</span>
               </li>
               <li>
                 <strong>Meetbaar resultaat</strong>
-                <span>Minder inkoopkosten betekent direct meer marge. Geen abstract idee — gewoon betere cijfers.</span>
+                <span>Minder inkoopkosten betekent direct meer marge op je kaart.</span>
               </li>
             </ul>
           </div>
           <aside class="benefits-aside">
             <blockquote>
-              <p>“Je concurreert niet op betere gerechten alleen — je concurreert op betere marges. En marges beginnen bij inkoop.”</p>
+              <p>“Informatie-asymmetrie is de grootste kostenpost die nooit op je factuur staat. PriceSignal is het tegengif.”</p>
             </blockquote>
             <div class="stat-grid">
               <div class="stat">
@@ -435,30 +315,13 @@
       </div>
     </section>
 
-    <!-- Social proof / collective -->
-    <section class="collective" id="samen">
-      <div class="container collective-inner">
-        <h2>Hoe meer horecaondernemers meedoen, hoe sterker jij staat</h2>
-        <p>
-          Dit is geen app die voor je werkt — het is een netwerk dat met je meegroeit.
-          Elke gedeelde prijs maakt de volgende vergelijking nauwkeuriger. Elke nieuwe deelnemer
-          versterkt jouw positie. Dat is de kern: <strong>we bouwen samen iets dat individueel
-          onmogelijk is</strong>.
-        </p>
-        <ul class="collective-list">
-          <li>Restaurant in Amsterdam deelt koffieprijzen → jij in Utrecht profiteert</li>
-          <li>Hotel deelt groothandel B → jij ziet of jouw tarief eerlijk is</li>
-          <li>Café uploadt een factuur → jij onderhandelt morgen met diezelfde data</li>
-        </ul>
-      </div>
-    </section>
-
+    <!-- 7. CTA — lid worden primair; rondleiding secundair -->
     <section class="cta" id="aanmelden">
       <div class="container cta-inner">
-        <h2>Klaar om te zien wat jij betaalt t.o.v. de markt?</h2>
+        <h2>Deel je prijzen. Krijg de markt terug.</h2>
         <p>
-          Gratis aanmelden. Upload je eerste factuur. Zie per product waar je staat —
-          en wat je kunt besparen. Twee minuten werk.
+          Gratis aanmelden. Upload je eerste factuur. Ontdek waar je te veel betaalt —
+          en onderhandel met bewijs. Twee minuten werk.
         </p>
         <form class="signup-form" action="#" method="post">
           <label for="email" class="visually-hidden">E-mailadres</label>
@@ -466,9 +329,9 @@
           <button type="submit" class="btn btn-primary">Word lid</button>
         </form>
         <p class="cta-note">
-          Nog niet klaar om te delen?
-          <a href="rondleiding.html" class="cta-tour-link">Maak eerst een gratis rondleiding</a>
-          — anoniem delen, alleen marktdata terug, geen verplichtingen.
+          Nog twijfelen?
+          <a href="rondleiding.html" class="cta-tour-link">Bekijk de gratis rondleiding</a>
+          — geen account nodig.
         </p>
       </div>
     </section>
