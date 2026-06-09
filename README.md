@@ -2,7 +2,8 @@
 
 **pricesignal.nl** — platform waar horecabedrijven inkoopprijzen bij groothandels vergelijken en samen scherpere tarieven onderhandelen.
 
-> **Productdocumentatie:** [`FUNCTIONALITEIT.md`](FUNCTIONALITEIT.md) — lees dit eerst.
+> **Productdocumentatie:** [`FUNCTIONALITEIT.md`](FUNCTIONALITEIT.md) — lees dit eerst.  
+> **Datamodel:** [`docs/DATAMODEL.md`](docs/DATAMODEL.md)
 
 ## Twee onderdelen
 

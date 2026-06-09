@@ -41,9 +41,9 @@ Open **http://localhost:8000**
 ```
 app/
 ├── app/Models/          # User, Product, Wholesaler, PriceSubmission, AggregatedPrice
-├── app/Services/        # AnonymizationService (privacyregels)
+├── app/Services/        # AnonymizationService, PriceComparisonService, PriceImportService
 ├── database/migrations/ # databaseschema
-└── resources/views/     # Blade-templates (auth, dashboard)
+└── resources/views/     # Blade-templates (auth, dashboard, compare, prices)
 ```
 
 ## Database
@@ -81,6 +81,14 @@ Zonder key werken handmatige uploads wel; foto/PDF/e-mail niet.
 
 Leden koppelen groothandels op `/my-wholesalers`. Deze verschijnen bovenaan bij prijsinvoer.
 
+## Prijsvergelijking (Fase 3a)
+
+- Zoek op productnaam op `/compare`
+- Per groothandel: jouw prijs vs. anonieme marktrange (min–max)
+- Vergelijking binnen je inkoopomvang-segment (klein / middel / groot)
+- Minimaal 3 andere leden nodig voor marktdata (privacy)
+
 ## Productdocumentatie
 
-Zie [`../FUNCTIONALITEIT.md`](../FUNCTIONALITEIT.md) voor de volledige functionele scope.
+- Functionele scope: [`../FUNCTIONALITEIT.md`](../FUNCTIONALITEIT.md)
+- Datamodel: [`../docs/DATAMODEL.md`](../docs/DATAMODEL.md)

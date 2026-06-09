@@ -489,11 +489,13 @@ Aggregatie (berekend, niet opgeslagen als ruwe data)
 /
 ├── FUNCTIONALITEIT.md    ← dit document
 ├── README.md             ← repo-overzicht
+├── docs/
+│   └── DATAMODEL.md      ← databaseschema & relaties
 ├── index.html            ← landingspagina (GitHub Pages)
 ├── css/style.css         ← marketing-styling
 ├── app/                  ← Laravel-applicatie
 │   ├── app/Models/       ← User, Product, Wholesaler, PriceSubmission, AggregatedPrice
-│   ├── app/Services/     ← AnonymizationService
+│   ├── app/Services/     ← AnonymizationService, PriceComparisonService
 │   ├── database/         ← migraties + SQLite
 │   └── README.md         ← lokale setup-instructies
 └── .github/workflows/    ← GitHub Pages deploy (alleen statische site)
