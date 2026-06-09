@@ -19,7 +19,8 @@
                 @auth
                     <a href="{{ route('dashboard') }}" class="rounded-lg bg-brand-signal px-6 py-3 font-semibold text-white hover:bg-cyan-700">Naar dashboard</a>
                 @else
-                    <a href="{{ route('register') }}" class="rounded-lg bg-brand-signal px-6 py-3 font-semibold text-white hover:bg-cyan-700">Word lid</a>
+                    <a href="{{ route('compare.index') }}" class="rounded-lg bg-brand-signal px-6 py-3 font-semibold text-white hover:bg-cyan-700">Bekijk marktprijzen</a>
+                    <a href="{{ route('register') }}" class="rounded-lg border border-slate-500 px-6 py-3 font-semibold text-slate-100 hover:border-white">Word lid</a>
                     <a href="{{ route('login') }}" class="rounded-lg border border-slate-500 px-6 py-3 font-semibold text-slate-100 hover:border-white">Inloggen</a>
                 @endauth
             </div>

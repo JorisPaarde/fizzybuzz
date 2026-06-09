@@ -20,13 +20,13 @@ Route::get('/dashboard', DashboardController::class)
     ->middleware(['auth'])
     ->name('dashboard');
 
+Route::get('/compare', [PriceComparisonController::class, 'index'])->name('compare.index');
+Route::get('/compare/{product}', [PriceComparisonController::class, 'show'])->name('compare.show');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    Route::get('/compare', [PriceComparisonController::class, 'index'])->name('compare.index');
-    Route::get('/compare/{product}', [PriceComparisonController::class, 'show'])->name('compare.show');
 
     Route::get('/prices', [PriceSubmissionController::class, 'index'])->name('prices.index');
     Route::get('/prices/{submission}/edit', [PriceSubmissionController::class, 'edit'])->name('prices.edit');

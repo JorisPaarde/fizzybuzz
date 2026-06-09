@@ -4,7 +4,7 @@
 > Elke agent die aan dit project werkt, leest dit bestand eerst en werkt alleen aan functionaliteit die hierin staat beschreven — of werkt dit document bij vóór implementatie van nieuwe features.
 
 **Laatste update:** juni 2026  
-**Versie document:** 1.5  
+**Versie document:** 1.6  
 **Live site:** https://jorispaarde.github.io/fizzybuzz/  
 **Taal product:** Nederlands (NL)
 
