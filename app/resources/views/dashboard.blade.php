@@ -22,6 +22,18 @@
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border border-gray-100">
                 <div class="p-6">
+                    <h4 class="font-semibold text-lg text-brand-navy">Prijzen vergelijken</h4>
+                    <p class="mt-2 text-gray-600">
+                        Ontdek of jij meer betaalt dan vergelijkbare horecabedrijven voor hetzelfde product.
+                    </p>
+                    <a href="{{ route('compare.index') }}" class="mt-4 inline-flex items-center rounded-md border border-brand-blue px-4 py-2 text-sm font-semibold text-brand-blue hover:bg-sky-50">
+                        Naar vergelijking
+                    </a>
+                </div>
+            </div>
+
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border border-gray-100">
+                <div class="p-6">
                     <h4 class="font-semibold text-lg text-brand-navy">Prijzen delen</h4>
                     <p class="mt-2 text-gray-600">
                         Upload een foto of PDF van je factuur of prijslijst — of voer handmatig in. Je controleert altijd eerst de regels voordat ze worden opgeslagen.

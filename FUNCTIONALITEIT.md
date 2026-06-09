@@ -209,7 +209,7 @@ Upload of e-mail ontvangen
 
 **Doel:** Leden kunnen zien wat de markt betaalt en hun eigen prijzen daarmee vergelijken.
 
-**Status:** 🔲 Nog te bouwen
+**Status:** 🟡 Deels — Fase 3a live (`/compare`)
 
 #### Functionaliteit
 
@@ -233,10 +233,14 @@ Upload of e-mail ontvangen
 
 #### Acceptatiecriteria
 
-- [ ] Geen individueel herleidbare data zichtbaar voor andere leden
-- [ ] Minimaal 3 datapunten nodig voordat een aggregatie getoond wordt (privacy)
-- [ ] Eigen prijzen altijd volledig zichtbaar voor het eigen bedrijf
-- [ ] Export van vergelijkingsrapport (PDF) voor onderhandelingsgesprekken
+- [x] Zoeken op productnaam (`/compare`)
+- [x] Eigen prijs vs. marktgemiddelde per groothandel
+- [x] Visuele indicatie boven/onder gemiddelde (groen/rood)
+- [x] Minimaal 3 datapunten voor marktdata (privacy)
+- [ ] Geen individueel herleidbare data zichtbaar voor andere leden (Fase 3a: alleen aggregaten)
+- [ ] Filters (groothandel, periode, regio) — Fase 3b
+- [ ] Trend over tijd — Fase 3c
+- [ ] Export van vergelijkingsrapport (PDF) — Fase 4
 
 ---
 
@@ -526,7 +530,9 @@ Aggregatie (berekend, niet opgeslagen als ruwe data)
 | **Fase 1** | Registratie & basis-dashboard | 4.2 🟡 |
 | **Fase 2** | Prijsupload (handmatig + foto/PDF + review) | 4.3 ✅ |
 | **Fase 2b** | E-mail upload (inbound mail) | 4.3 (e-mail) ✅ |
-| **Fase 3** | Prijsvergelijking | 4.4, 4.5, 4.6 |
+| **Fase 3a** | Vergelijking basis (zoeken + eigen vs. markt) | 4.4 🟡 |
+| **Fase 3b** | Filters + dashboard-inzicht | 4.4, 4.5 |
+| **Fase 3c** | Productcatalogus & matching | 4.6 |
 | **Fase 4** | Onderhandelingsrapporten | 4.7 |
 | **Fase 5** | Bestandsupload (prijslijsten/facturen) | 4.3 (bestand) |
 | **Fase 6** | Notificaties | 4.9 |
