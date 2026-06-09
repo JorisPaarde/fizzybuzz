@@ -12,6 +12,10 @@
 
     <div class="py-12">
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 space-y-6">
+            @if ($isGuest)
+                <x-member-cta />
+            @endif
+
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border border-gray-100 p-4">
                 @include('compare.partials.filters', [
                     'action' => route('compare.show', $product),
@@ -20,7 +24,11 @@
                 ])
             </div>
 
-            @if ($purchaseSizeLabel)
+            @if ($isGuest)
+                <p class="text-sm text-gray-600 text-center">
+                    Preview op basis van: <span class="font-medium text-brand-navy">{{ $purchaseSizeLabel }}</span>
+                </p>
+            @elseif ($purchaseSizeLabel)
                 <p class="text-sm text-gray-600 text-center">
                     Marktdata voor vergelijkbare bedrijven: <span class="font-medium text-brand-navy">{{ $purchaseSizeLabel }}</span>
                 </p>
@@ -33,22 +41,32 @@
             @if (empty($rows))
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border border-gray-100 p-6">
                     <p class="text-gray-600">
-                        Nog geen data voor dit product. Voeg je eigen prijs toe of wacht tot meer leden delen.
+                        @if ($isGuest)
+                            Nog onvoldoende publieke marktdata voor dit product.
+                        @else
+                            Nog geen data voor dit product. Voeg je eigen prijs toe of wacht tot meer leden delen.
+                        @endif
                     </p>
-                    <a href="{{ route('prices.import.create') }}" class="mt-4 inline-block text-brand-blue font-semibold hover:underline">
-                        Prijzen toevoegen →
-                    </a>
+                    @unless ($isGuest)
+                        <a href="{{ route('prices.import.create') }}" class="mt-4 inline-block text-brand-blue font-semibold hover:underline">
+                            Prijzen toevoegen →
+                        </a>
+                    @endunless
                 </div>
             @else
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border border-gray-100">
-                    <div class="overflow-x-auto">
+                <div class="relative bg-white overflow-hidden shadow-sm sm:rounded-lg border border-gray-100">
+                    <div class="overflow-x-auto {{ $isGuest ? 'pointer-events-none' : '' }}">
                         <table class="min-w-full text-sm">
                             <thead>
                                 <tr class="border-b bg-gray-50 text-left text-gray-500">
                                     <th class="px-6 py-3 font-medium">Groothandel</th>
-                                    <th class="px-6 py-3 font-medium">Jouw prijs</th>
+                                    @unless ($isGuest)
+                                        <th class="px-6 py-3 font-medium">Jouw prijs</th>
+                                    @endunless
                                     <th class="px-6 py-3 font-medium">Marktrange</th>
-                                    <th class="px-6 py-3 font-medium">Jouw positie</th>
+                                    @unless ($isGuest)
+                                        <th class="px-6 py-3 font-medium">Jouw positie</th>
+                                    @endunless
                                     <th class="px-6 py-3 font-medium">Data</th>
                                 </tr>
                             </thead>
@@ -58,16 +76,27 @@
                                         <td class="px-6 py-4 font-medium text-brand-navy">
                                             {{ $row['wholesaler_name'] }}
                                         </td>
+                                        @unless ($isGuest)
+                                            <td class="px-6 py-4">
+                                                @if ($row['user_price'] !== null)
+                                                    € {{ number_format($row['user_price'], 2, ',', '.') }}
+                                                    <span class="text-gray-500">/ {{ $row['user_unit'] }}</span>
+                                                @else
+                                                    <span class="text-gray-400">—</span>
+                                                @endif
+                                            </td>
+                                        @endunless
                                         <td class="px-6 py-4">
-                                            @if ($row['user_price'] !== null)
-                                                € {{ number_format($row['user_price'], 2, ',', '.') }}
-                                                <span class="text-gray-500">/ {{ $row['user_unit'] }}</span>
-                                            @else
-                                                <span class="text-gray-400">—</span>
-                                            @endif
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            @if ($row['market'])
+                                            @if ($isGuest)
+                                                @if ($row['has_market_data'] ?? false)
+                                                    <div class="space-y-2">
+                                                        <x-redacted-value hint="Range" />
+                                                        <x-redacted-value hint="Gemiddelde" class="text-xs" />
+                                                    </div>
+                                                @else
+                                                    <span class="text-gray-500">Nog onvoldoende data</span>
+                                                @endif
+                                            @elseif ($row['market'])
                                                 @php $market = $row['market']; @endphp
                                                 <div class="space-y-2">
                                                     <div class="font-medium text-brand-navy">
@@ -93,25 +122,33 @@
                                                 <span class="text-gray-500">Nog onvoldoende data</span>
                                             @endif
                                         </td>
-                                        <td class="px-6 py-4">
-                                            @if ($row['range_position'] === 'below')
-                                                <span class="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">
-                                                    {{ abs($row['difference_from_min_percent']) }}% onder laagste
-                                                </span>
-                                            @elseif ($row['range_position'] === 'above')
-                                                <span class="inline-flex items-center rounded-full bg-red-50 px-2.5 py-0.5 text-xs font-semibold text-red-800">
-                                                    +{{ $row['difference_from_max_percent'] }}% boven hoogste
-                                                </span>
-                                            @elseif ($row['range_position'] === 'within')
-                                                <span class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-semibold text-gray-700">
-                                                    Binnen marktrange
-                                                </span>
-                                            @else
-                                                <span class="text-gray-400">—</span>
-                                            @endif
-                                        </td>
+                                        @unless ($isGuest)
+                                            <td class="px-6 py-4">
+                                                @if ($row['range_position'] === 'below')
+                                                    <span class="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">
+                                                        {{ abs($row['difference_from_min_percent']) }}% onder laagste
+                                                    </span>
+                                                @elseif ($row['range_position'] === 'above')
+                                                    <span class="inline-flex items-center rounded-full bg-red-50 px-2.5 py-0.5 text-xs font-semibold text-red-800">
+                                                        +{{ $row['difference_from_max_percent'] }}% boven hoogste
+                                                    </span>
+                                                @elseif ($row['range_position'] === 'within')
+                                                    <span class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-semibold text-gray-700">
+                                                        Binnen marktrange
+                                                    </span>
+                                                @else
+                                                    <span class="text-gray-400">—</span>
+                                                @endif
+                                            </td>
+                                        @endunless
                                         <td class="px-6 py-4 text-gray-500">
-                                            @if ($row['market'])
+                                            @if ($isGuest)
+                                                @if (($row['datapoint_count'] ?? null) !== null)
+                                                    {{ $row['datapoint_count'] }} leden
+                                                @else
+                                                    &lt; {{ $minDatapoints }} leden
+                                                @endif
+                                            @elseif ($row['market'])
                                                 {{ $row['market']->datapoint_count }} leden
                                             @else
                                                 &lt; {{ $minDatapoints }} leden
@@ -122,6 +159,17 @@
                             </tbody>
                         </table>
                     </div>
+
+                    @if ($isGuest)
+                        <div class="absolute inset-0 flex items-center justify-center bg-white/60 backdrop-blur-[1px]">
+                            <div class="mx-4 max-w-md">
+                                <x-member-cta
+                                    title="Ontgrendel marktprijzen"
+                                    description="Meld je aan om exacte prijzen, marktranges en jouw positie per groothandel te zien."
+                                />
+                            </div>
+                        </div>
+                    @endif
                 </div>
 
                 <p class="text-sm text-gray-500 text-center">

@@ -15,18 +15,29 @@ class PriceComparisonController extends Controller
     {
         $filters = ComparisonFilters::fromRequest($request);
         $query = $request->string('q')->trim()->toString();
+        $isGuest = ! $request->user();
 
-        $products = $comparisonService->searchProducts(
-            $request->user(),
-            filled($query) ? $query : null,
-            $filters,
-        );
+        if ($isGuest) {
+            $products = $comparisonService->searchPublicProducts(
+                filled($query) ? $query : null,
+                $filters,
+            );
+            $wholesalers = $comparisonService->getPublicWholesalersForFilter($filters);
+        } else {
+            $products = $comparisonService->searchProducts(
+                $request->user(),
+                filled($query) ? $query : null,
+                $filters,
+            );
+            $wholesalers = $comparisonService->getWholesalersForFilter($request->user());
+        }
 
         return view('compare.index', [
             'query' => $query,
             'products' => $products,
             'filters' => $filters,
-            'wholesalers' => $comparisonService->getWholesalersForFilter($request->user()),
+            'wholesalers' => $wholesalers,
+            'isGuest' => $isGuest,
             'minDatapoints' => AnonymizationService::MIN_DATAPOINTS,
         ]);
     }
@@ -34,6 +45,23 @@ class PriceComparisonController extends Controller
     public function show(Request $request, Product $product, PriceComparisonService $comparisonService): View
     {
         $filters = ComparisonFilters::fromRequest($request);
+        $isGuest = ! $request->user();
+
+        if ($isGuest) {
+            $comparison = $comparisonService->compareProductForGuest($product, $filters);
+
+            return view('compare.show', [
+                'product' => $comparison['product'],
+                'rows' => $comparison['rows'],
+                'purchaseSize' => PriceComparisonService::GUEST_PREVIEW_PURCHASE_SIZE,
+                'purchaseSizeLabel' => $comparison['purchase_size_label'],
+                'filters' => $filters,
+                'wholesalers' => $comparisonService->getPublicWholesalersForFilter($filters),
+                'isGuest' => true,
+                'minDatapoints' => AnonymizationService::MIN_DATAPOINTS,
+            ]);
+        }
+
         $comparison = $comparisonService->compareProductForUser($request->user(), $product, $filters);
 
         return view('compare.show', [
@@ -43,6 +71,7 @@ class PriceComparisonController extends Controller
             'purchaseSizeLabel' => $comparison['purchase_size_label'],
             'filters' => $filters,
             'wholesalers' => $comparisonService->getWholesalersForFilter($request->user()),
+            'isGuest' => false,
             'minDatapoints' => AnonymizationService::MIN_DATAPOINTS,
         ]);
     }

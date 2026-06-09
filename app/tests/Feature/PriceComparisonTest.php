@@ -15,11 +15,6 @@ class PriceComparisonTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_compare_index_requires_auth(): void
-    {
-        $this->get(route('compare.index'))->assertRedirect(route('login'));
-    }
-
     public function test_user_can_search_and_view_product_comparison_with_price_range(): void
     {
         $user = User::factory()->create(['purchase_size' => 'medium']);

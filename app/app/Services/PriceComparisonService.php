@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Data\ComparisonFilters;
+use App\Models\AggregatedPrice;
 use App\Models\PriceSubmission;
 use App\Models\Product;
 use App\Models\User;
@@ -11,9 +12,120 @@ use Illuminate\Support\Collection;
 
 class PriceComparisonService
 {
+    /** Standaardsegment voor publieke preview (gasten). */
+    public const GUEST_PREVIEW_PURCHASE_SIZE = 'medium';
+
     public function __construct(
         private readonly AnonymizationService $anonymizationService,
     ) {}
+
+    /**
+     * Producten met publieke marktdata — voor gasten (preview).
+     */
+    public function searchPublicProducts(
+        ?string $query = null,
+        ?ComparisonFilters $filters = null,
+        int $limit = 20,
+    ): Collection {
+        $filters ??= new ComparisonFilters;
+
+        $builder = Product::query()
+            ->whereHas('aggregatedPrices', fn ($a) => $a
+                ->where('datapoint_count', '>=', AnonymizationService::MIN_DATAPOINTS)
+                ->where('purchase_size', self::GUEST_PREVIEW_PURCHASE_SIZE)
+                ->when(
+                    $filters->wholesalerId,
+                    fn ($query) => $query->where('wholesaler_id', $filters->wholesalerId)
+                ));
+
+        if (filled($query)) {
+            $builder->where(function ($q) use ($query) {
+                $q->where('name', 'like', '%'.$query.'%')
+                    ->orWhere('slug', 'like', '%'.str($query)->slug().'%');
+            });
+        }
+
+        return $builder
+            ->orderBy('name')
+            ->limit($limit)
+            ->get();
+    }
+
+    /**
+     * Groothandels met publieke marktdata — voor gast-filterdropdown.
+     */
+    public function getPublicWholesalersForFilter(?ComparisonFilters $filters = null): Collection
+    {
+        $filters ??= new ComparisonFilters;
+
+        $wholesalerIds = AggregatedPrice::query()
+            ->where('datapoint_count', '>=', AnonymizationService::MIN_DATAPOINTS)
+            ->where('purchase_size', self::GUEST_PREVIEW_PURCHASE_SIZE)
+            ->distinct()
+            ->pluck('wholesaler_id');
+
+        return Wholesaler::query()
+            ->whereIn('id', $wholesalerIds)
+            ->orderBy('name')
+            ->get();
+    }
+
+    /**
+     * Publieke productvergelijking voor gasten — zonder prijzen in de response.
+     *
+     * @return array{
+     *     product: Product,
+     *     purchase_size_label: string,
+     *     rows: array<int, array{
+     *         wholesaler_id: int,
+     *         wholesaler_name: string,
+     *         has_market_data: bool,
+     *         datapoint_count: int|null
+     *     }>
+     * }
+     */
+    public function compareProductForGuest(
+        Product $product,
+        ?ComparisonFilters $filters = null,
+    ): array {
+        $filters ??= new ComparisonFilters;
+        $periodStart = $filters->periodStart();
+        $periodEnd = $filters->periodEnd();
+        $purchaseSize = self::GUEST_PREVIEW_PURCHASE_SIZE;
+
+        $marketPrices = $this->anonymizationService
+            ->getPublicComparisons($product->id, $purchaseSize, $filters->wholesalerId)
+            ->unique('wholesaler_id');
+
+        $rows = [];
+
+        foreach ($marketPrices as $market) {
+            $stats = $this->anonymizationService->getSegmentStats(
+                $product->id,
+                $market->wholesaler_id,
+                $purchaseSize,
+                $periodStart,
+                $periodEnd,
+            );
+
+            $rows[] = [
+                'wholesaler_id' => (int) $market->wholesaler_id,
+                'wholesaler_name' => $market->wholesaler?->name ?? 'Onbekend',
+                'has_market_data' => $stats !== null,
+                'datapoint_count' => $stats['datapoint_count'] ?? null,
+            ];
+        }
+
+        usort($rows, fn ($a, $b) => strcmp($a['wholesaler_name'], $b['wholesaler_name']));
+
+        $purchaseSizeLabel = AnonymizationService::purchaseSizeLabels()[$purchaseSize] ?? $purchaseSize;
+
+        return [
+            'product' => $product,
+            'purchase_size_label' => $purchaseSizeLabel,
+            'rows' => $rows,
+        ];
+    }
 
     /**
      * Groothandels waar het lid prijsdata voor heeft — voor filterdropdown.

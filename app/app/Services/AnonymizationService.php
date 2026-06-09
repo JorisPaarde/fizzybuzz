@@ -114,6 +114,35 @@ class AnonymizationService
         ?Carbon $periodStart = null,
         ?Carbon $periodEnd = null,
     ): ?array {
+        return $this->getSegmentStats(
+            $productId,
+            $wholesalerId,
+            $purchaseSize,
+            $periodStart,
+            $periodEnd,
+            $excludeUserId,
+        );
+    }
+
+    /**
+     * Geaggregeerde marktstatistiek voor een segment (optioneel zonder één lid).
+     *
+     * @return array{
+     *     avg_price: float,
+     *     median_price: float,
+     *     min_price: float,
+     *     max_price: float,
+     *     datapoint_count: int
+     * }|null
+     */
+    public function getSegmentStats(
+        int $productId,
+        int $wholesalerId,
+        string $purchaseSize,
+        ?Carbon $periodStart = null,
+        ?Carbon $periodEnd = null,
+        ?int $excludeUserId = null,
+    ): ?array {
         $periodStart ??= now()->subDays(90)->startOfDay();
         $periodEnd ??= now()->endOfDay();
 
@@ -121,9 +150,9 @@ class AnonymizationService
             ->where('product_id', $productId)
             ->where('wholesaler_id', $wholesalerId)
             ->where('status', PriceSubmission::STATUS_APPROVED)
-            ->where('user_id', '!=', $excludeUserId)
             ->whereBetween('effective_date', [$periodStart, $periodEnd])
-            ->whereHas('user', fn ($query) => $query->where('purchase_size', $purchaseSize));
+            ->whereHas('user', fn ($query) => $query->where('purchase_size', $purchaseSize))
+            ->when($excludeUserId, fn ($query) => $query->where('user_id', '!=', $excludeUserId));
 
         $prices = (clone $submissionQuery)
             ->pluck('price')
