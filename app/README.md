@@ -32,6 +32,9 @@ Open **http://localhost:8000**
 
 - Registratie: http://localhost:8000/register
 - Dashboard: http://localhost:8000/dashboard
+- Vergelijken: http://localhost:8000/compare
+- Mijn prijzen: http://localhost:8000/prices
+- Groothandels: http://localhost:8000/my-wholesalers
 
 ## Structuur
 

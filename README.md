@@ -9,7 +9,20 @@
 | Onderdeel | Wat | Waar |
 |---|---|---|
 | **Marketing** | Landingspagina | GitHub Pages (live) |
-| **App** | Registratie, dashboard, data | Lokaal (`app/`) → later VPS |
+| **App** | Registratie, prijsupload, vergelijking | Lokaal (`app/`) → later VPS |
+
+## Wat werkt (MVP)
+
+| Feature | Route | Status |
+|---|---|---|
+| Registratie + bedrijfsprofiel (inkoopomvang) | `/register` | ✅ |
+| Prijsupload (foto, PDF, e-mail, handmatig) | `/prices` | ✅ |
+| Groothandels koppelen | `/my-wholesalers` | ✅ |
+| Prijsvergelijking met marktrange | `/compare` | ✅ (PR #14) |
+| Dashboard-inzicht (boven markt) | `/dashboard` | 🔲 Fase 3b |
+| Onderhandelingsrapport (PDF) | — | 🔲 Fase 4 |
+
+Zie [`FUNCTIONALITEIT.md`](FUNCTIONALITEIT.md) voor de volledige roadmap.
 
 ## Live marketing site
 

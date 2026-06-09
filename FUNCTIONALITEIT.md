@@ -4,7 +4,7 @@
 > Elke agent die aan dit project werkt, leest dit bestand eerst en werkt alleen aan functionaliteit die hierin staat beschreven — of werkt dit document bij vóór implementatie van nieuwe features.
 
 **Laatste update:** juni 2026  
-**Versie document:** 1.2  
+**Versie document:** 1.3  
 **Live site:** https://jorispaarde.github.io/fizzybuzz/  
 **Taal product:** Nederlands (NL)
 
@@ -64,7 +64,7 @@ Nederland (primair). Prijzen in euro's. Nederlandse taal in de interface.
 | Rol | Beschrijving | Status |
 |---|---|---|
 | **Bezoeker** | Niet-ingelogde gebruiker; ziet landingspagina | ✅ Geïmplementeerd |
-| **Lid** | Geregistreerd horecabedrijf; kan prijzen uploaden en vergelijken | 🟡 Basis (registratie + dashboard) |
+| **Lid** | Geregistreerd horecabedrijf; kan prijzen uploaden en vergelijken | 🟡 Upload + vergelijking live; dashboard basis |
 | **Beheerder** | Platformbeheer; moderatie, datakwaliteit, gebruikersbeheer | 🔲 Nog te bouwen |
 
 ---
@@ -135,7 +135,8 @@ Onderstaande modules beschrijven de volledige beoogde functionaliteit. Per modul
 - [ ] Alleen geverifieerde horecabedrijven krijgen toegang (e-mailverificatie nog niet actief)
 - [x] Eén account per bedrijf (uniek e-mailadres)
 - [x] Duidelijke uitleg bij registratie over wat er gedeeld wordt en wat niet
-- [x] Bedrijfsprofiel bij registratie (naam, type, regio)
+- [x] Bedrijfsprofiel bij registratie (naam, type, regio, inkoopomvang)
+- [x] Bedrijfsprofiel bewerkbaar in profiel (inkoopomvang, regio, type)
 - [x] Basis-dashboard na inloggen
 - [ ] Inloggen / uitloggen op productie-VPS
 
@@ -210,7 +211,7 @@ Upload of e-mail ontvangen
 
 **Doel:** Leden kunnen zien wat de markt betaalt en hun eigen prijzen daarmee vergelijken.
 
-**Status:** 🟡 Deels — Fase 3a live (`/compare`)
+**Status:** ✅ Fase 3a afgerond (`/compare`) · 🟡 Filters/dashboard — Fase 3b
 
 #### Functionaliteit
 
@@ -231,7 +232,7 @@ Upload of e-mail ontvangen
 #### Weergave
 
 - Tabel- en kaartweergave
-- Visuele indicatie: groen (onder gemiddelde), rood (boven gemiddelde)
+- Visuele indicatie: groen (onder range), rood (boven range), grijs (binnen range)
 - Trend over tijd (indien voldoende data)
 
 #### Acceptatiecriteria
@@ -241,8 +242,10 @@ Upload of e-mail ontvangen
 - [x] Visuele indicatie positie in marktrange (groen/rood)
 - [x] Segmentatie op inkoopomvang bij aggregatie en vergelijking
 - [x] Minimaal 3 datapunten voor marktdata (privacy)
-- [ ] Geen individueel herleidbare data zichtbaar voor andere leden (Fase 3a: alleen aggregaten)
-- [ ] Filters (groothandel, periode, regio) — Fase 3b
+- [x] Eigen prijs uitgesloten bij marktpositie (geen zelfvergelijking)
+- [x] Alleen geaggregeerde data zichtbaar; geen individuele bedrijven
+- [ ] Filters (groothandel, periode) — Fase 3b
+- [ ] Dashboard-samenvatting (producten boven markt) — Fase 3b
 - [ ] Trend over tijd — Fase 3c
 - [ ] Export van vergelijkingsrapport (PDF) — Fase 4
 
@@ -252,19 +255,24 @@ Upload of e-mail ontvangen
 
 **Doel:** Overzicht van groothandels waar leden inkopen.
 
-**Status:** 🔲 Nog te bouwen
+**Status:** 🟡 Deels — ledenbeheer live (`/my-wholesalers`)
 
 #### Functionaliteit
 
-- Standaardlijst met bekende groothandels (Sligro, Bidfood, Hanos, etc.)
+- Standaardlijst met bekende groothandels (Sligro, Bidfood, Hanos, etc.) — via seeder
 - Leden kunnen groothandel toevoegen als deze niet in de lijst staat
-- Per groothandel: gemiddelde ledenprijs per productcategorie
-- Koppeling met eigen prijsupload
+- Leden kunnen groothandels koppelen/ontkoppelen aan hun profiel
+- Gekoppelde groothandels staan bovenaan bij prijsinvoer
+- Per groothandel: gemiddelde ledenprijs per productcategorie — 🔲 Fase 3b
+- Koppeling met eigen prijsupload — ✅
 
 #### Acceptatiecriteria
 
-- [ ] Groothandels zijn normaliseerd (geen duplicaten door spelfouten)
-- [ ] Beheerder kan groothandels samenvoegen en modereren
+- [x] Standaardlijst groothandels beschikbaar
+- [x] Lid kan groothandel koppelen en nieuwe toevoegen
+- [x] Gekoppelde groothandels in upload-flow
+- [ ] Groothandels zijn genormaliseerd (geen duplicaten door spelfouten)
+- [ ] Beheerder kan groothandels samenvoegen en modereren — Fase 7
 
 ---
 
@@ -452,8 +460,9 @@ Aggregatie (berekend, niet opgeslagen als ruwe data)
 | Database (dev) | SQLite | ✅ Werkend |
 | Database (prod) | PostgreSQL op VPS | 🔲 Bij VPS-deploy |
 | Authenticatie | Laravel Breeze | 🟡 Registratie + login lokaal |
-| Anonimisering | `AnonymizationService` | 🟡 Skelet (≥3 datapunten) |
-| Prijsupload | Handmatig + foto/PDF + review | 🟡 Lokaal |
+| Anonimisering | `AnonymizationService` | ✅ Aggregatie per segment (≥3 datapunten) |
+| Prijsvergelijking | `PriceComparisonService` + `/compare` | ✅ Zoeken, marktrange, inkoopsegment |
+| Prijsupload | Handmatig + foto/PDF + e-mail + review | ✅ Lokaal |
 | AI-extractie | OpenAI `gpt-4o-mini` | 🟡 Via `OPENAI_API_KEY` |
 | Betaling (later) | Stripe + Laravel Cashier | 🔲 Voorbereid in architectuur |
 | Hosting marketing | GitHub Pages | ✅ Live |
@@ -534,8 +543,8 @@ Aggregatie (berekend, niet opgeslagen als ruwe data)
 | **Fase 1** | Registratie & basis-dashboard | 4.2 🟡 |
 | **Fase 2** | Prijsupload (handmatig + foto/PDF + review) | 4.3 ✅ |
 | **Fase 2b** | E-mail upload (inbound mail) | 4.3 (e-mail) ✅ |
-| **Fase 3a** | Vergelijking basis (zoeken + eigen vs. markt) | 4.4 🟡 |
-| **Fase 3b** | Filters + dashboard-inzicht | 4.4, 4.5 |
+| **Fase 3a** | Vergelijking basis (zoeken + marktrange + inkoopsegment) | 4.4 ✅ |
+| **Fase 3b** | Filters + dashboard-inzicht | 4.4, 4.5 🟡 ← **volgende stap** |
 | **Fase 3c** | Productcatalogus & matching | 4.6 |
 | **Fase 4** | Onderhandelingsrapporten | 4.7 |
 | **Fase 5** | Bestandsupload (prijslijsten/facturen) | 4.3 (bestand) |
@@ -543,6 +552,22 @@ Aggregatie (berekend, niet opgeslagen als ruwe data)
 | **Fase 7** | Beheer & moderatie | 4.10 |
 
 > **Aanpassingen aan deze roadmap:** altijd eerst dit document bijwerken, daarna implementeren.
+
+### Huidige MVP-status (juni 2026)
+
+| Stap | Wat de gebruiker kan | Status |
+|---|---|---|
+| 1. Ontdekken | Landingspagina met uitleg | ✅ Live |
+| 2. Aanmelden | Registratie met bedrijfsprofiel + inkoopomvang | ✅ Lokaal |
+| 3. Prijzen delen | Foto, PDF, e-mail, handmatig → review → opslaan | ✅ Lokaal |
+| 4. Vergelijken | Zoek product → zie marktrange t.o.v. eigen prijs | ✅ Lokaal (PR #14) |
+| 5. Inzicht | Dashboard: welke producten zijn duurder dan markt? | 🔲 Fase 3b |
+| 6. Onderhandelen | PDF-rapport met harde cijfers | 🔲 Fase 4 |
+| 7. Productie | App op VPS, echte gebruikers | 🔲 Deploy |
+
+**Volgende stap MVP:** **Fase 3b** — filters op de vergelijkingspagina (groothandel, periode) en een dashboard-samenvatting (“X producten boven marktrange”). Dat sluit de inzicht-loop af vóór onderhandelingsrapporten (Fase 4).
+
+Parallel optioneel: **VPS-deploy** (Fase 1 afronden) zodat early adopters de app kunnen testen.
 
 ---
 
