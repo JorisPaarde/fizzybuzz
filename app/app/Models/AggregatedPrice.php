@@ -13,6 +13,7 @@ class AggregatedPrice extends Model
     protected $fillable = [
         'product_id',
         'wholesaler_id',
+        'purchase_size',
         'avg_price',
         'median_price',
         'min_price',

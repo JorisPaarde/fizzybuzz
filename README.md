@@ -2,14 +2,29 @@
 
 **pricesignal.nl** — platform waar horecabedrijven inkoopprijzen bij groothandels vergelijken en samen scherpere tarieven onderhandelen.
 
-> **Productdocumentatie:** [`FUNCTIONALITEIT.md`](FUNCTIONALITEIT.md) — lees dit eerst.
+> **Productdocumentatie:** [`FUNCTIONALITEIT.md`](FUNCTIONALITEIT.md) — lees dit eerst.  
+> **Datamodel:** [`docs/DATAMODEL.md`](docs/DATAMODEL.md)
 
 ## Twee onderdelen
 
 | Onderdeel | Wat | Waar |
 |---|---|---|
 | **Marketing** | Landingspagina | GitHub Pages (live) |
-| **App** | Registratie, dashboard, data | Lokaal (`app/`) → later VPS |
+| **App** | Registratie, prijsupload, vergelijking | Lokaal (`app/`) → later VPS |
+
+## Wat werkt (MVP)
+
+| Feature | Route | Status |
+|---|---|---|
+| Registratie + bedrijfsprofiel (inkoopomvang) | `/register` | ✅ |
+| Prijsupload (foto, PDF, e-mail, handmatig) | `/prices` | ✅ |
+| Factuur doorsturen per e-mail (forward) | — | 🔲 Gepland |
+| Groothandels koppelen | `/my-wholesalers` | ✅ |
+| Prijsvergelijking met marktrange | `/compare` | ✅ (PR #14) |
+| Dashboard-inzicht (boven markt) | `/dashboard` | 🔲 Fase 3b |
+| Onderhandelingsrapport (PDF) | — | 🔲 Fase 4 |
+
+Zie [`FUNCTIONALITEIT.md`](FUNCTIONALITEIT.md) voor de volledige roadmap.
 
 ## Live marketing site
 

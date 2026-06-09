@@ -4,7 +4,7 @@
 > Elke agent die aan dit project werkt, leest dit bestand eerst en werkt alleen aan functionaliteit die hierin staat beschreven — of werkt dit document bij vóór implementatie van nieuwe features.
 
 **Laatste update:** juni 2026  
-**Versie document:** 1.2  
+**Versie document:** 1.4  
 **Live site:** https://jorispaarde.github.io/fizzybuzz/  
 **Taal product:** Nederlands (NL)
 
@@ -64,7 +64,7 @@ Nederland (primair). Prijzen in euro's. Nederlandse taal in de interface.
 | Rol | Beschrijving | Status |
 |---|---|---|
 | **Bezoeker** | Niet-ingelogde gebruiker; ziet landingspagina | ✅ Geïmplementeerd |
-| **Lid** | Geregistreerd horecabedrijf; kan prijzen uploaden en vergelijken | 🟡 Basis (registratie + dashboard) |
+| **Lid** | Geregistreerd horecabedrijf; kan prijzen uploaden en vergelijken | 🟡 Upload + vergelijking live; dashboard basis |
 | **Beheerder** | Platformbeheer; moderatie, datakwaliteit, gebruikersbeheer | 🔲 Nog te bouwen |
 
 ---
@@ -124,7 +124,8 @@ Onderstaande modules beschrijven de volledige beoogde functionaliteit. Per modul
   - Bedrijfsnaam
   - Type horeca (restaurant, café, hotel, catering, overig)
   - Locatie (regio/stad — voor aggregatie, niet publiek per bedrijf)
-  - Aantal medewerkers / omvang (optioneel, voor segmentatie)
+  - Maandelijkse inkoopomvang (klein / middel / groot — voor segmentatie)
+  - Aantal medewerkers (optioneel)
 - Akkoord met voorwaarden, met nadruk op anonimiteitsregels
 - Inloggen / uitloggen
 - Wachtwoord vergeten
@@ -134,7 +135,8 @@ Onderstaande modules beschrijven de volledige beoogde functionaliteit. Per modul
 - [ ] Alleen geverifieerde horecabedrijven krijgen toegang (e-mailverificatie nog niet actief)
 - [x] Eén account per bedrijf (uniek e-mailadres)
 - [x] Duidelijke uitleg bij registratie over wat er gedeeld wordt en wat niet
-- [x] Bedrijfsprofiel bij registratie (naam, type, regio)
+- [x] Bedrijfsprofiel bij registratie (naam, type, regio, inkoopomvang)
+- [x] Bedrijfsprofiel bewerkbaar in profiel (inkoopomvang, regio, type)
 - [x] Basis-dashboard na inloggen
 - [ ] Inloggen / uitloggen op productie-VPS
 
@@ -157,6 +159,7 @@ Onderstaande modules beschrijven de volledige beoogde functionaliteit. Per modul
 | **Foto** | Foto van factuur of prijslijst (mobiel) | ✅ OpenAI Vision |
 | **PDF** | PDF van factuur of prijslijst | ✅ OpenAI + tekstextractie |
 | **E-mail** | Mail met PDF/bijlage naar upload-adres van het platform | ✅ Webhook (Mailgun) |
+| **E-mail doorsturen** | Factuur of prijslijst **doorsturen** (forward) naar platform-adres | 🔲 Nog te bouwen |
 | **Handmatig** | Product, groothandel, prijs, eenheid, datum invoeren | ✅ |
 
 #### Extractie-flow (foto / PDF / e-mail)
@@ -179,6 +182,30 @@ Upload of e-mail ontvangen
 - API-key via `OPENAI_API_KEY` in `.env` (nooit in git)
 - E-mail: inbound webhook (`POST /webhooks/inbound-email`) via Mailgun → zelfde extractie-pipeline
 
+#### E-mail doorsturen (forward) — gepland
+
+Leden ontvangen facturen en prijslijsten vaak al per e-mail van hun groothandel. In plaats van downloaden en opnieuw uploaden, moeten ze de ontvangen mail kunnen **doorsturen** naar een vast PriceSignal-adres (bijv. `upload@pricesignal.nl`).
+
+**Gewenste flow:**
+
+```
+Lid ontvangt factuur-mail van groothandel
+    → Doorsturen (forward) naar upload@pricesignal.nl
+    → Platform herkent lid via afzender-e-mailadres
+    → Bijlagen (PDF) en/of mailtekst → extractie-pipeline
+    → Review-scherm in de app → bevestigen → opslaan
+```
+
+**Vereisten (nog te implementeren):**
+
+- Duidelijk platform-adres zichtbaar in app en onboarding
+- Herkenning van geregistreerd lid op basis van doorstuur-e-mailadres
+- Ondersteuning voor doorgestuurde mails (incl. `Fwd:` / `Doorst:` en ingesloten bijlagen)
+- Bevestiging per e-mail dat import ontvangen is (of foutmelding)
+- Zelfde review-stap als bij foto/PDF — nooit direct opslaan
+
+> **Technische basis:** inbound webhook (Mailgun) bestaat al; de volledige forward-ervaring voor eindgebruikers is nog niet af.
+
 #### Gegevens per prijsregel
 
 | Veld | Verplicht | Beschrijving |
@@ -195,6 +222,7 @@ Upload of e-mail ontvangen
 #### Acceptatiecriteria
 
 - [x] Vier invoerkanalen: handmatig, foto, PDF, e-mail (webhook)
+- [ ] Facturen doorsturen per e-mail (forward naar platform-adres)
 - [x] Geëxtraheerde regels zijn bewerkbaar vóór opslaan (review-scherm)
 - [x] Lid kan meerdere groothandels koppelen (`/my-wholesalers`)
 - [x] Lid kan opgeslagen prijzen bewerken en verwijderen
@@ -209,16 +237,18 @@ Upload of e-mail ontvangen
 
 **Doel:** Leden kunnen zien wat de markt betaalt en hun eigen prijzen daarmee vergelijken.
 
-**Status:** 🔲 Nog te bouwen
+**Status:** ✅ Fase 3a afgerond (`/compare`) · 🟡 Filters/dashboard — Fase 3b
 
 #### Functionaliteit
 
 - **Zoeken** op productnaam
 - **Vergelijken** per product:
-  - Laagste, hoogste en gemiddelde ledenprijs
+  - Laagste, hoogste en gemiddelde ledenprijs (per inkoopomvang-segment)
   - Prijs per groothandel (geaggregeerd, anoniem)
+  - Visuele marktrange (min–max) met positie van eigen prijs
   - Aantal datapunten (hoeveel leden hebben dit product gemeld)
-- **Eigen positie**: waar het eigen bedrijf staat t.o.v. het gemiddelde (zonder andere individuele bedrijven te tonen)
+- **Eigen positie**: waar het eigen bedrijf staat t.o.v. de marktrange (onder / binnen / boven)
+- **Inkoopomvang**: vergelijkingen binnen dezelfde categorie (klein &lt; €5k/maand, middel €5–20k, groot &gt; €20k)
 - **Filters**:
   - Groothandel
   - Productcategorie
@@ -228,15 +258,22 @@ Upload of e-mail ontvangen
 #### Weergave
 
 - Tabel- en kaartweergave
-- Visuele indicatie: groen (onder gemiddelde), rood (boven gemiddelde)
+- Visuele indicatie: groen (onder range), rood (boven range), grijs (binnen range)
 - Trend over tijd (indien voldoende data)
 
 #### Acceptatiecriteria
 
-- [ ] Geen individueel herleidbare data zichtbaar voor andere leden
-- [ ] Minimaal 3 datapunten nodig voordat een aggregatie getoond wordt (privacy)
-- [ ] Eigen prijzen altijd volledig zichtbaar voor het eigen bedrijf
-- [ ] Export van vergelijkingsrapport (PDF) voor onderhandelingsgesprekken
+- [x] Zoeken op productnaam (`/compare`)
+- [x] Eigen prijs vs. marktrange (min–max) per groothandel
+- [x] Visuele indicatie positie in marktrange (groen/rood)
+- [x] Segmentatie op inkoopomvang bij aggregatie en vergelijking
+- [x] Minimaal 3 datapunten voor marktdata (privacy)
+- [x] Eigen prijs uitgesloten bij marktpositie (geen zelfvergelijking)
+- [x] Alleen geaggregeerde data zichtbaar; geen individuele bedrijven
+- [ ] Filters (groothandel, periode) — Fase 3b
+- [ ] Dashboard-samenvatting (producten boven markt) — Fase 3b
+- [ ] Trend over tijd — Fase 3c
+- [ ] Export van vergelijkingsrapport (PDF) — Fase 4
 
 ---
 
@@ -244,19 +281,24 @@ Upload of e-mail ontvangen
 
 **Doel:** Overzicht van groothandels waar leden inkopen.
 
-**Status:** 🔲 Nog te bouwen
+**Status:** 🟡 Deels — ledenbeheer live (`/my-wholesalers`)
 
 #### Functionaliteit
 
-- Standaardlijst met bekende groothandels (Sligro, Bidfood, Hanos, etc.)
+- Standaardlijst met bekende groothandels (Sligro, Bidfood, Hanos, etc.) — via seeder
 - Leden kunnen groothandel toevoegen als deze niet in de lijst staat
-- Per groothandel: gemiddelde ledenprijs per productcategorie
-- Koppeling met eigen prijsupload
+- Leden kunnen groothandels koppelen/ontkoppelen aan hun profiel
+- Gekoppelde groothandels staan bovenaan bij prijsinvoer
+- Per groothandel: gemiddelde ledenprijs per productcategorie — 🔲 Fase 3b
+- Koppeling met eigen prijsupload — ✅
 
 #### Acceptatiecriteria
 
-- [ ] Groothandels zijn normaliseerd (geen duplicaten door spelfouten)
-- [ ] Beheerder kan groothandels samenvoegen en modereren
+- [x] Standaardlijst groothandels beschikbaar
+- [x] Lid kan groothandel koppelen en nieuwe toevoegen
+- [x] Gekoppelde groothandels in upload-flow
+- [ ] Groothandels zijn genormaliseerd (geen duplicaten door spelfouten)
+- [ ] Beheerder kan groothandels samenvoegen en modereren — Fase 7
 
 ---
 
@@ -444,8 +486,9 @@ Aggregatie (berekend, niet opgeslagen als ruwe data)
 | Database (dev) | SQLite | ✅ Werkend |
 | Database (prod) | PostgreSQL op VPS | 🔲 Bij VPS-deploy |
 | Authenticatie | Laravel Breeze | 🟡 Registratie + login lokaal |
-| Anonimisering | `AnonymizationService` | 🟡 Skelet (≥3 datapunten) |
-| Prijsupload | Handmatig + foto/PDF + review | 🟡 Lokaal |
+| Anonimisering | `AnonymizationService` | ✅ Aggregatie per segment (≥3 datapunten) |
+| Prijsvergelijking | `PriceComparisonService` + `/compare` | ✅ Zoeken, marktrange, inkoopsegment |
+| Prijsupload | Handmatig + foto/PDF + e-mail + review | ✅ Lokaal |
 | AI-extractie | OpenAI `gpt-4o-mini` | 🟡 Via `OPENAI_API_KEY` |
 | Betaling (later) | Stripe + Laravel Cashier | 🔲 Voorbereid in architectuur |
 | Hosting marketing | GitHub Pages | ✅ Live |
@@ -472,11 +515,13 @@ Aggregatie (berekend, niet opgeslagen als ruwe data)
 /
 ├── FUNCTIONALITEIT.md    ← dit document
 ├── README.md             ← repo-overzicht
+├── docs/
+│   └── DATAMODEL.md      ← databaseschema & relaties
 ├── index.html            ← landingspagina (GitHub Pages)
 ├── css/style.css         ← marketing-styling
 ├── app/                  ← Laravel-applicatie
 │   ├── app/Models/       ← User, Product, Wholesaler, PriceSubmission, AggregatedPrice
-│   ├── app/Services/     ← AnonymizationService
+│   ├── app/Services/     ← AnonymizationService, PriceComparisonService
 │   ├── database/         ← migraties + SQLite
 │   └── README.md         ← lokale setup-instructies
 └── .github/workflows/    ← GitHub Pages deploy (alleen statische site)
@@ -526,13 +571,32 @@ Aggregatie (berekend, niet opgeslagen als ruwe data)
 | **Fase 1** | Registratie & basis-dashboard | 4.2 🟡 |
 | **Fase 2** | Prijsupload (handmatig + foto/PDF + review) | 4.3 ✅ |
 | **Fase 2b** | E-mail upload (inbound mail) | 4.3 (e-mail) ✅ |
-| **Fase 3** | Prijsvergelijking | 4.4, 4.5, 4.6 |
+| **Fase 2c** | E-mail doorsturen (forward facturen) | 4.3 (forward) 🔲 |
+| **Fase 3a** | Vergelijking basis (zoeken + marktrange + inkoopsegment) | 4.4 ✅ |
+| **Fase 3b** | Filters + dashboard-inzicht | 4.4, 4.5 🟡 ← **volgende stap** |
+| **Fase 3c** | Productcatalogus & matching | 4.6 |
 | **Fase 4** | Onderhandelingsrapporten | 4.7 |
 | **Fase 5** | Bestandsupload (prijslijsten/facturen) | 4.3 (bestand) |
 | **Fase 6** | Notificaties | 4.9 |
 | **Fase 7** | Beheer & moderatie | 4.10 |
 
 > **Aanpassingen aan deze roadmap:** altijd eerst dit document bijwerken, daarna implementeren.
+
+### Huidige MVP-status (juni 2026)
+
+| Stap | Wat de gebruiker kan | Status |
+|---|---|---|
+| 1. Ontdekken | Landingspagina met uitleg | ✅ Live |
+| 2. Aanmelden | Registratie met bedrijfsprofiel + inkoopomvang | ✅ Lokaal |
+| 3. Prijzen delen | Foto, PDF, e-mail, handmatig → review → opslaan | ✅ Lokaal |
+| 4. Vergelijken | Zoek product → zie marktrange t.o.v. eigen prijs | ✅ Lokaal (PR #14) |
+| 5. Inzicht | Dashboard: welke producten zijn duurder dan markt? | 🔲 Fase 3b |
+| 6. Onderhandelen | PDF-rapport met harde cijfers | 🔲 Fase 4 |
+| 7. Productie | App op VPS, echte gebruikers | 🔲 Deploy |
+
+**Volgende stap MVP:** **Fase 3b** — filters op de vergelijkingspagina (groothandel, periode) en een dashboard-samenvatting (“X producten boven marktrange”). Dat sluit de inzicht-loop af vóór onderhandelingsrapporten (Fase 4).
+
+Parallel optioneel: **VPS-deploy** (Fase 1 afronden) zodat early adopters de app kunnen testen.
 
 ---
 
