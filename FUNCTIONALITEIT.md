@@ -4,9 +4,47 @@
 > Elke agent die aan dit project werkt, leest dit bestand eerst en werkt alleen aan functionaliteit die hierin staat beschreven — of werkt dit document bij vóór implementatie van nieuwe features.
 
 **Laatste update:** juni 2026  
-**Versie document:** 1.10  
+**Versie document:** 1.11  
 **Live site:** https://jorispaarde.github.io/fizzybuzz/  
 **Taal product:** Nederlands (NL)
+
+---
+
+## Inhoudsopgave
+
+| § | Onderwerp |
+|---|---|
+| [1](#1-productvisie) | Productvisie |
+| [2](#2-doelgroep) | Doelgroep |
+| [3](#3-gebruikersrollen) | Gebruikersrollen |
+| [4](#4-functionele-modules) | Functionele modules |
+| [5](#5-gebruikersflows) | Gebruikersflows |
+| [6](#6-datamodel-conceptueel) | Datamodel (conceptueel) |
+| [7](#7-niet-functionele-eisen) | Niet-functionele eisen |
+| [8](#8-technische-context-huidige-staat) | Technische context |
+| [9](#9-wat-expliciet-niet-in-scope-is-voorlopig) | Buiten scope |
+| [10](#10-ontwerprichtlijnen) | Ontwerprichtlijnen |
+| [11](#11-roadmap-voorgestelde-volgorde) | Roadmap |
+| [12](#12-werkwijze-voor-agents) | Werkwijze agents |
+
+### Module-index (§4)
+
+| Module | Onderwerp | Status |
+|---|---|---|
+| [4.1](#41-landingspagina-marketing) | Landingspagina | ✅ |
+| [4.2](#42-registratie--lidmaatschap) | Registratie & lidmaatschap | 🟡 |
+| [4.3](#43-prijsupload) | Prijsupload | ✅ |
+| [4.4](#44-prijsvergelijking--inzicht) | Prijsvergelijking & inzicht | ✅ |
+| [4.5](#45-groothandelsbeheer) | Groothandelsbeheer | 🟡 |
+| [4.6](#46-productcatalogus--ean-database) | Productcatalogus & EAN | 🔲 |
+| [4.7](#47-onderhandelingsondersteuning) | Onderhandelingsrapporten | 🔲 |
+| [4.8](#48-anonimiteit--privacy) | Anonimiteit & privacy | 🔲 |
+| [4.9](#49-notificaties) | Notificaties | 🔲 |
+| [4.10](#410-beheer--moderatie) | Beheer & moderatie | 🔲 |
+| [4.11](#411-externe-prijsdata--databronnen) | Externe prijsdata | 🔲 |
+| [4.12](#412-mijn-producten--productdetail) | Mijn producten & productdetail | 🔲 |
+
+**Gerelateerde docs:** [`docs/HOMEPAGE.md`](docs/HOMEPAGE.md) (homepage-structuur) · [`docs/DATAMODEL.md`](docs/DATAMODEL.md) (database)
 
 ---
 
@@ -88,44 +126,33 @@ Onderstaande modules beschrijven de volledige beoogde functionaliteit. Per modul
 
 ### 4.1 Landingspagina (marketing)
 
-**Doel:** Uitleggen wat PriceSignal is en bezoekers overtuigen om lid te worden.
+**Doel:** In 30 seconden duidelijk maken wat PriceSignal doet, wat het oplevert, en bezoekers overtuigen om lid te worden.
 
 **Status:** ✅ Geïmplementeerd (`index.html`)
 
-#### Secties (logische flow)
+**Volledige structuur, Sutherland-uitgangspunten en wijzigingschecklist:** [`docs/HOMEPAGE.md`](docs/HOMEPAGE.md)
 
-| # | Sectie | Doel | Sutherland-principe |
-|---|---|---|---|
-| 1 | Header + trust bar | Navigatie, vertrouwen | Signaling |
-| 2 | Hero | Reframe + pitch-strip (deel/vergelijk/win) + voorbeeldkaart | Informatie-asymmetrie, loss hint |
-| 3 | Wat je wint | Drie concrete opbrengsten | Tangibel voordeel |
-| 4 | Hoe het werkt | Eén flow: upload → vergelijk → onderhandel | Lage drempel |
-| 5 | Waarom delen | Uitwisseling + drie bezwaren weerlegd | Reciprociteit, reframing |
-| 6 | Kosten van niets doen | Stilletjes te veel betalen | Loss aversion |
-| 7 | Vertrouwen | Anonimiteit, netwerk, stats | Social proof |
-| 8 | Aanmelden | CTA primair; rondleiding secundair (link) | Commitment |
-| 9 | Footer | Tagline | — |
+#### Samenvatting structuur
 
-**Rondleiding** (`rondleiding.html`): aparte pagina, geen volledige homepage-sectie. Alleen secundaire link in hero en CTA.
+| # | Sectie | Sutherland |
+|---|---|---|
+| 1 | Hero + pitch-strip + voorbeeldkaart | Reframe, informatie-asymmetrie |
+| 2 | Wat je wint (3 opbrengsten) | Tangibel voordeel |
+| 3 | Hoe het werkt (3 stappen) | Lage drempel |
+| 4 | Waarom delen + bezwaren | Reciprociteit, reframing |
+| 5 | Kosten van niets doen | Loss aversion |
+| 6 | Vertrouwen + stats | Social proof |
+| 7 | Aanmelden (CTA) | Commitment |
 
-#### Secties (detail)
-
-| Sectie | Inhoud |
-|---|---|
-| Hero | “Je onderhandelt blind” + pitch-strip + prijsvergelijkingskaart |
-| Wat je wint | Minder inkoop, onderhandelen met cijfers, betere marge |
-| Hoe het werkt | Drie stappen incl. foto/PDF/e-mail |
-| Waarom delen | Uitwisselingskaart + reframing vertrouwelijkheid / tijd / weggeven |
-| Kosten | Loss framing: onzichtbare toeslag |
-| Vertrouwen | Anonimiteit, netwerk, quote + statistieken |
-| Aanmelden | E-mailformulier (placeholder) + link rondleiding |
-| Footer | Tagline en copyright |
+**Rondleiding:** aparte pagina (`rondleiding.html`), secundaire link — geen homepage-sectie.
 
 #### Acceptatiecriteria
 
 - [x] Responsive (mobiel + desktop)
 - [x] Nederlandse teksten
-- [x] Duidelijke uitleg van productdoel
+- [x] Duidelijke uitleg van productdoel (wat het doet + wat het oplevert bovenaan)
+- [x] Vaste sectievolgorde gedocumenteerd in `docs/HOMEPAGE.md`
+- [x] Rondleiding secundair (niet hoofdverhaal)
 - [ ] Werkend aanmeldformulier (koppeling met backend)
 
 ---
@@ -884,7 +911,8 @@ Getest via `scripts/public-data-probe/probe.py`. Resultaten in `scripts/public-d
 ├── FUNCTIONALITEIT.md    ← dit document
 ├── README.md             ← repo-overzicht
 ├── docs/
-│   └── DATAMODEL.md      ← databaseschema & relaties
+│   ├── DATAMODEL.md      ← databaseschema & relaties
+│   └── HOMEPAGE.md       ← landingspagina structuur & copy-uitgangspunten
 ├── index.html            ← landingspagina (GitHub Pages)
 ├── css/style.css         ← marketing-styling
 ├── scripts/public-data-probe/  ← publieke databron-tests (Python)
