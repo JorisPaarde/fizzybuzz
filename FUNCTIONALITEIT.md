@@ -502,11 +502,11 @@ Aggregatie (berekend, niet opgeslagen als ruwe data)
 | Element | Waarde |
 |---|---|
 | Merknaam | PriceSignal — pricesignal.nl |
-| Achtergrond | Licht (#f4f7fb) |
-| Primair | Navy (#0c2d4a / #1b4f8a) |
-| Accent | Signal teal (#0891b2) |
-| Tekst | Donker (#0f172a) |
-| Font | Inter (sans-serif) |
+| Achtergrond | Licht (#f7f9fc) |
+| Primair | Corporate navy (#0b2545) |
+| Accent | Trust blue (#2e6ba8) |
+| Tekst | Donker (#1a2b3c) |
+| Font | Source Sans 3 (sans-serif) |
 | Toon | Corporate, betrouwbaar, professioneel — geen jargon |
 
 ### Tone of voice
