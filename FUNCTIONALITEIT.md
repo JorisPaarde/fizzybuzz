@@ -793,7 +793,7 @@ Aggregatie (berekend, niet opgeslagen als ruwe data)
 | 1. Ontdekken | Landingspagina met uitleg | ✅ Live |
 | 2. Aanmelden | Registratie met bedrijfsprofiel + inkoopomvang | ✅ Lokaal |
 | 3. Prijzen delen | Foto, PDF, e-mail, handmatig → review → opslaan | ✅ Lokaal |
-| 4. Vergelijken | Zoek product → zie marktrange t.o.v. eigen prijs | ✅ Lokaal (PR #14) |
+| 4. Vergelijken | Zoek product → marktrange (leden) of preview (gasten) | ✅ Lokaal |
 | 5. Inzicht | Dashboard: welke producten zijn duurder dan markt? | ✅ Lokaal |
 | 6. Onderhandelen | PDF-rapport met harde cijfers | 🔲 Fase 4 |
 | 7. Productie | App op VPS, echte gebruikers | 🔲 Deploy |
