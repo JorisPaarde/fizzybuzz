@@ -124,7 +124,8 @@ Onderstaande modules beschrijven de volledige beoogde functionaliteit. Per modul
   - Bedrijfsnaam
   - Type horeca (restaurant, café, hotel, catering, overig)
   - Locatie (regio/stad — voor aggregatie, niet publiek per bedrijf)
-  - Aantal medewerkers / omvang (optioneel, voor segmentatie)
+  - Maandelijkse inkoopomvang (klein / middel / groot — voor segmentatie)
+  - Aantal medewerkers (optioneel)
 - Akkoord met voorwaarden, met nadruk op anonimiteitsregels
 - Inloggen / uitloggen
 - Wachtwoord vergeten
@@ -215,10 +216,12 @@ Upload of e-mail ontvangen
 
 - **Zoeken** op productnaam
 - **Vergelijken** per product:
-  - Laagste, hoogste en gemiddelde ledenprijs
+  - Laagste, hoogste en gemiddelde ledenprijs (per inkoopomvang-segment)
   - Prijs per groothandel (geaggregeerd, anoniem)
+  - Visuele marktrange (min–max) met positie van eigen prijs
   - Aantal datapunten (hoeveel leden hebben dit product gemeld)
-- **Eigen positie**: waar het eigen bedrijf staat t.o.v. het gemiddelde (zonder andere individuele bedrijven te tonen)
+- **Eigen positie**: waar het eigen bedrijf staat t.o.v. de marktrange (onder / binnen / boven)
+- **Inkoopomvang**: vergelijkingen binnen dezelfde categorie (klein &lt; €5k/maand, middel €5–20k, groot &gt; €20k)
 - **Filters**:
   - Groothandel
   - Productcategorie
@@ -234,8 +237,9 @@ Upload of e-mail ontvangen
 #### Acceptatiecriteria
 
 - [x] Zoeken op productnaam (`/compare`)
-- [x] Eigen prijs vs. marktgemiddelde per groothandel
-- [x] Visuele indicatie boven/onder gemiddelde (groen/rood)
+- [x] Eigen prijs vs. marktrange (min–max) per groothandel
+- [x] Visuele indicatie positie in marktrange (groen/rood)
+- [x] Segmentatie op inkoopomvang bij aggregatie en vergelijking
 - [x] Minimaal 3 datapunten voor marktdata (privacy)
 - [ ] Geen individueel herleidbare data zichtbaar voor andere leden (Fase 3a: alleen aggregaten)
 - [ ] Filters (groothandel, periode, regio) — Fase 3b

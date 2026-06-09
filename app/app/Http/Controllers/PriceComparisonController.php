@@ -33,6 +33,8 @@ class PriceComparisonController extends Controller
         return view('compare.show', [
             'product' => $comparison['product'],
             'rows' => $comparison['rows'],
+            'purchaseSize' => $comparison['purchase_size'],
+            'purchaseSizeLabel' => $comparison['purchase_size_label'],
             'minDatapoints' => AnonymizationService::MIN_DATAPOINTS,
         ]);
     }

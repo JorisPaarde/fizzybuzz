@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\AggregatedPrice;
 use App\Models\PriceSubmission;
 use App\Models\Product;
 use App\Models\User;
@@ -25,7 +24,11 @@ class PriceComparisonService
                     ->where('user_id', $user->id)
                     ->where('status', PriceSubmission::STATUS_APPROVED))
                     ->orWhereHas('aggregatedPrices', fn ($a) => $a
-                        ->where('datapoint_count', '>=', AnonymizationService::MIN_DATAPOINTS));
+                        ->where('datapoint_count', '>=', AnonymizationService::MIN_DATAPOINTS)
+                        ->when(
+                            $user->purchase_size,
+                            fn ($query) => $query->where('purchase_size', $user->purchase_size)
+                        ));
             });
 
         if (filled($query)) {
@@ -46,14 +49,18 @@ class PriceComparisonService
      *
      * @return array{
      *     product: Product,
+     *     purchase_size: string|null,
+     *     purchase_size_label: string|null,
      *     rows: array<int, array{
      *         wholesaler_id: int,
      *         wholesaler_name: string,
      *         user_price: float|null,
      *         user_unit: string|null,
      *         market: AggregatedPrice|null,
-     *         position: 'below'|'above'|'at'|null,
-     *         difference_percent: float|null
+     *         range_position: 'below'|'within'|'above'|null,
+     *         range_percent: float|null,
+     *         difference_from_min_percent: float|null,
+     *         difference_from_max_percent: float|null
      *     }>
      * }
      */
@@ -68,13 +75,13 @@ class PriceComparisonService
             ->get()
             ->unique('wholesaler_id');
 
-        $marketPrices = $this->anonymizationService
-            ->getPublicComparisons($product->id)
+        $storedMarketPrices = $this->anonymizationService
+            ->getPublicComparisons($product->id, $user->purchase_size)
             ->unique('wholesaler_id')
             ->keyBy('wholesaler_id');
 
         $wholesalerIds = $userSubmissions->pluck('wholesaler_id')
-            ->merge($marketPrices->keys())
+            ->merge($storedMarketPrices->keys())
             ->unique()
             ->values();
 
@@ -82,43 +89,74 @@ class PriceComparisonService
 
         foreach ($wholesalerIds as $wholesalerId) {
             $submission = $userSubmissions->firstWhere('wholesaler_id', $wholesalerId);
-            $market = $marketPrices->get($wholesalerId);
+            $marketStats = $user->purchase_size
+                ? $this->anonymizationService->getComparisonStatsExcludingUser(
+                    $product->id,
+                    (int) $wholesalerId,
+                    $user->purchase_size,
+                    $user->id,
+                )
+                : null;
+            $market = $marketStats ? (object) $marketStats : null;
 
             $userPrice = $submission ? (float) $submission->price : null;
-            $position = null;
-            $differencePercent = null;
+            $rangePosition = null;
+            $rangePercent = null;
+            $differenceFromMinPercent = null;
+            $differenceFromMaxPercent = null;
 
-            if ($userPrice !== null && $market !== null) {
-                $avg = (float) $market->avg_price;
-                if ($userPrice < $avg * 0.995) {
-                    $position = 'below';
-                } elseif ($userPrice > $avg * 1.005) {
-                    $position = 'above';
+            if ($userPrice !== null && $marketStats !== null) {
+                $min = (float) $marketStats['min_price'];
+                $max = (float) $marketStats['max_price'];
+
+                if ($userPrice < $min * 0.995) {
+                    $rangePosition = 'below';
+                } elseif ($userPrice > $max * 1.005) {
+                    $rangePosition = 'above';
                 } else {
-                    $position = 'at';
+                    $rangePosition = 'within';
                 }
-                $differencePercent = $avg > 0
-                    ? round((($userPrice - $avg) / $avg) * 100, 1)
-                    : null;
+
+                if ($max > $min) {
+                    $rangePercent = round(min(100, max(0, (($userPrice - $min) / ($max - $min)) * 100)), 1);
+                } else {
+                    $rangePercent = 50.0;
+                }
+
+                if ($min > 0) {
+                    $differenceFromMinPercent = round((($userPrice - $min) / $min) * 100, 1);
+                }
+
+                if ($max > 0) {
+                    $differenceFromMaxPercent = round((($userPrice - $max) / $max) * 100, 1);
+                }
             }
 
             $rows[] = [
                 'wholesaler_id' => (int) $wholesalerId,
                 'wholesaler_name' => $submission?->wholesaler?->name
-                    ?? $market?->wholesaler?->name
+                    ?? $storedMarketPrices->get($wholesalerId)?->wholesaler?->name
                     ?? 'Onbekend',
                 'user_price' => $userPrice,
                 'user_unit' => $submission?->unit,
                 'market' => $market,
-                'position' => $position,
-                'difference_percent' => $differencePercent,
+                'range_position' => $rangePosition,
+                'range_percent' => $rangePercent,
+                'difference_from_min_percent' => $differenceFromMinPercent,
+                'difference_from_max_percent' => $differenceFromMaxPercent,
             ];
         }
 
         usort($rows, fn ($a, $b) => strcmp($a['wholesaler_name'], $b['wholesaler_name']));
 
+        $purchaseSizeLabel = $user->purchase_size
+            ? (AnonymizationService::purchaseSizeLabels()[$user->purchase_size] ?? $user->purchase_size)
+            : null;
+
         return [
             'product' => $product,
+            'purchase_size' => $user->purchase_size,
+            'purchase_size_label' => $purchaseSizeLabel,
             'rows' => $rows,
         ];
     }

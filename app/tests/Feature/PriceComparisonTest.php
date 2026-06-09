@@ -20,10 +20,10 @@ class PriceComparisonTest extends TestCase
         $this->get(route('compare.index'))->assertRedirect(route('login'));
     }
 
-    public function test_user_can_search_and_view_product_comparison(): void
+    public function test_user_can_search_and_view_product_comparison_with_price_range(): void
     {
-        $user = User::factory()->create();
-        $otherUsers = User::factory()->count(2)->create();
+        $user = User::factory()->create(['purchase_size' => 'medium']);
+        $otherUsers = User::factory()->count(2)->create(['purchase_size' => 'medium']);
         $wholesaler = Wholesaler::query()->create(['name' => 'Sligro', 'slug' => 'sligro']);
         $product = Product::findOrCreateFromName('Tomaten cherry');
 
@@ -38,18 +38,29 @@ class PriceComparisonTest extends TestCase
             'status' => PriceSubmission::STATUS_APPROVED,
         ]);
 
-        foreach ([$otherUsers[0], $otherUsers[1], User::factory()->create()] as $other) {
+        foreach ([10.00, 12.00] as $index => $price) {
             PriceSubmission::query()->create([
-                'user_id' => $other->id,
+                'user_id' => $otherUsers[$index]->id,
                 'product_id' => $product->id,
                 'wholesaler_id' => $wholesaler->id,
-                'price' => 11.00,
+                'price' => $price,
                 'unit' => 'doos',
                 'effective_date' => now(),
                 'source' => 'manual',
                 'status' => PriceSubmission::STATUS_APPROVED,
             ]);
         }
+
+        PriceSubmission::query()->create([
+            'user_id' => User::factory()->create(['purchase_size' => 'medium'])->id,
+            'product_id' => $product->id,
+            'wholesaler_id' => $wholesaler->id,
+            'price' => 11.00,
+            'unit' => 'doos',
+            'effective_date' => now(),
+            'source' => 'manual',
+            'status' => PriceSubmission::STATUS_APPROVED,
+        ]);
 
         app(AnonymizationService::class)->aggregate($product->id, $wholesaler->id);
 
@@ -63,13 +74,16 @@ class PriceComparisonTest extends TestCase
             ->assertOk()
             ->assertSee('Sligro')
             ->assertSee('14,80')
-            ->assertSee('boven gemiddelde')
+            ->assertSee('10,00')
+            ->assertSee('12,00')
+            ->assertSee('boven hoogste')
+            ->assertSee('Middel (€5.000 – €20.000/maand)')
             ->assertSee('leden');
     }
 
     public function test_market_data_hidden_below_minimum_datapoints(): void
     {
-        $user = User::factory()->create();
+        $user = User::factory()->create(['purchase_size' => 'medium']);
         $wholesaler = Wholesaler::query()->create(['name' => 'Hanos', 'slug' => 'hanos']);
         $product = Product::findOrCreateFromName('Melk');
 
@@ -87,6 +101,7 @@ class PriceComparisonTest extends TestCase
         AggregatedPrice::query()->create([
             'product_id' => $product->id,
             'wholesaler_id' => $wholesaler->id,
+            'purchase_size' => 'medium',
             'avg_price' => 2.00,
             'median_price' => 2.00,
             'min_price' => 1.80,
@@ -100,6 +115,59 @@ class PriceComparisonTest extends TestCase
             ->get(route('compare.show', $product))
             ->assertOk()
             ->assertSee('Nog onvoldoende data')
-            ->assertDontSee('2,00');
+            ->assertDontSee('1,80');
+    }
+
+    public function test_market_data_is_segmented_by_purchase_size(): void
+    {
+        $user = User::factory()->create(['purchase_size' => 'small']);
+        $wholesaler = Wholesaler::query()->create(['name' => 'Bidfood', 'slug' => 'bidfood']);
+        $product = Product::findOrCreateFromName('Olijfolie');
+
+        PriceSubmission::query()->create([
+            'user_id' => $user->id,
+            'product_id' => $product->id,
+            'wholesaler_id' => $wholesaler->id,
+            'price' => 8.50,
+            'unit' => 'fles',
+            'effective_date' => now(),
+            'source' => 'manual',
+            'status' => PriceSubmission::STATUS_APPROVED,
+        ]);
+
+        foreach (User::factory()->count(3)->create(['purchase_size' => 'small']) as $other) {
+            PriceSubmission::query()->create([
+                'user_id' => $other->id,
+                'product_id' => $product->id,
+                'wholesaler_id' => $wholesaler->id,
+                'price' => 7.00,
+                'unit' => 'fles',
+                'effective_date' => now(),
+                'source' => 'manual',
+                'status' => PriceSubmission::STATUS_APPROVED,
+            ]);
+        }
+
+        foreach (User::factory()->count(3)->create(['purchase_size' => 'large']) as $other) {
+            PriceSubmission::query()->create([
+                'user_id' => $other->id,
+                'product_id' => $product->id,
+                'wholesaler_id' => $wholesaler->id,
+                'price' => 5.00,
+                'unit' => 'fles',
+                'effective_date' => now(),
+                'source' => 'manual',
+                'status' => PriceSubmission::STATUS_APPROVED,
+            ]);
+        }
+
+        app(AnonymizationService::class)->aggregate($product->id, $wholesaler->id);
+
+        $this->actingAs($user)
+            ->get(route('compare.show', $product))
+            ->assertOk()
+            ->assertSee('7,00')
+            ->assertDontSee('5,00')
+            ->assertSee('Klein (tot €5.000/maand)');
     }
 }

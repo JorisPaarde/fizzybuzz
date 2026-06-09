@@ -23,6 +23,7 @@ class RegistrationTest extends TestCase
             'business_name' => 'Test Horeca BV',
             'business_type' => 'restaurant',
             'region' => 'Amsterdam',
+            'purchase_size' => 'medium',
             'email' => 'test@example.com',
             'password' => 'password',
             'password_confirmation' => 'password',

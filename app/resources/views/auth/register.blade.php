@@ -45,6 +45,18 @@
         </div>
 
         <div class="mt-4">
+            <x-input-label for="purchase_size" value="Maandelijkse inkoopomvang" />
+            <select id="purchase_size" name="purchase_size" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required>
+                <option value="">Kies je inkoopomvang</option>
+                @foreach (\App\Enums\PurchaseSize::options() as $value => $label)
+                    <option value="{{ $value }}" @selected(old('purchase_size') === $value)>{{ $label }}</option>
+                @endforeach
+            </select>
+            <p class="mt-1 text-xs text-gray-500">Vergelijkingen worden gegroepeerd op vergelijkbare bedrijven.</p>
+            <x-input-error :messages="$errors->get('purchase_size')" class="mt-2" />
+        </div>
+
+        <div class="mt-4">
             <x-input-label for="employees_count" value="Aantal medewerkers (optioneel)" />
             <x-text-input id="employees_count" class="block mt-1 w-full" type="number" name="employees_count" :value="old('employees_count')" min="1" />
             <x-input-error :messages="$errors->get('employees_count')" class="mt-2" />

@@ -26,15 +26,21 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $validated = $request->validated();
+        $user = $request->user();
+        $user->fill($validated);
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
         }
 
-        $request->user()->save();
+        $user->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        $status = array_key_exists('business_name', $validated) || array_key_exists('purchase_size', $validated)
+            ? 'business-profile-updated'
+            : 'profile-updated';
+
+        return Redirect::route('profile.edit')->with('status', $status);
     }
 
     /**

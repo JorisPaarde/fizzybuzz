@@ -16,9 +16,10 @@ class ProfileUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name' => ['required', 'string', 'max:255'],
+        $rules = [
+            'name' => ['sometimes', 'required', 'string', 'max:255'],
             'email' => [
+                'sometimes',
                 'required',
                 'string',
                 'lowercase',
@@ -26,6 +27,13 @@ class ProfileUpdateRequest extends FormRequest
                 'max:255',
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
+            'business_name' => ['sometimes', 'required', 'string', 'max:255'],
+            'business_type' => ['sometimes', 'required', 'in:restaurant,cafe,hotel,catering,other'],
+            'region' => ['sometimes', 'required', 'string', 'max:255'],
+            'purchase_size' => ['sometimes', 'required', 'in:small,medium,large'],
+            'employees_count' => ['nullable', 'integer', 'min:1', 'max:10000'],
         ];
+
+        return $rules;
     }
 }
