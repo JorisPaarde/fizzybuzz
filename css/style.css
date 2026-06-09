@@ -273,6 +273,240 @@ a {
   gap: 1rem;
 }
 
+.hero-tour-note {
+  margin-top: 1.25rem;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  max-width: 42ch;
+}
+
+/* Tour section */
+
+.tour {
+  padding-block: 6rem;
+  background: linear-gradient(180deg, var(--color-bg-subtle) 0%, var(--color-bg) 100%);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.tour-layout {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 3.5rem;
+  align-items: start;
+}
+
+.tour-content h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3.5vw, 2.375rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+  color: var(--color-surface);
+}
+
+.tour-lead {
+  font-size: 1.125rem;
+  color: var(--color-text-muted);
+  margin-bottom: 1rem;
+}
+
+.tour-content > p {
+  color: var(--color-text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.tour-content > p em {
+  color: var(--color-primary);
+  font-style: normal;
+  font-weight: 600;
+}
+
+.tour-benefits {
+  list-style: none;
+  display: grid;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.tour-benefits li {
+  padding-left: 1.25rem;
+  border-left: 3px solid var(--color-accent);
+}
+
+.tour-benefits strong {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+  color: var(--color-surface);
+}
+
+.tour-benefits span {
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+}
+
+.tour-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.btn-tour {
+  box-shadow: 0 4px 16px rgba(11, 37, 69, 0.15);
+}
+
+.tour-footnote {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.tour-preview {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.tour-preview-header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.tour-preview-badge {
+  display: inline-block;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-positive);
+  background: rgba(13, 110, 79, 0.1);
+  padding: 0.25rem 0.625rem;
+  border-radius: 999px;
+  margin-bottom: 0.5rem;
+}
+
+.tour-preview-title {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-surface);
+}
+
+.tour-steps {
+  list-style: none;
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.tour-step {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  align-items: start;
+  padding: 1rem;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.tour-step--active {
+  background: var(--color-accent-soft);
+  border-color: rgba(46, 107, 168, 0.2);
+}
+
+.tour-step-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-size: 0.875rem;
+  font-weight: 700;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.tour-step h3 {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: var(--color-surface);
+}
+
+.tour-step p {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.tour-mock-card {
+  background: var(--color-bg-subtle);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+}
+
+.tour-mock-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-block: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.tour-mock-row:last-of-type {
+  border-bottom: none;
+}
+
+.tour-mock-row--you {
+  font-weight: 600;
+  color: var(--color-surface);
+}
+
+.tour-mock-blur {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-muted);
+  letter-spacing: 0.15em;
+  filter: blur(3px);
+  user-select: none;
+}
+
+.tour-mock-blur--accent {
+  color: var(--color-negative);
+}
+
+.tour-mock-cta {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  text-align: center;
+}
+
+.cta-tour-link {
+  color: var(--color-text-inverse);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.cta-tour-link:hover {
+  color: #fff;
+}
+
 /* Price cards visual */
 
 .hero-visual {
@@ -961,7 +1195,8 @@ a {
 @media (max-width: 900px) {
   .hero-grid,
   .benefits-layout,
-  .sharing-layout {
+  .sharing-layout,
+  .tour-layout {
     grid-template-columns: 1fr;
     gap: 3rem;
   }
@@ -998,8 +1233,13 @@ a {
     flex-direction: column;
   }
 
-  .hero-actions .btn {
+  .hero-actions .btn,
+  .tour-actions .btn {
     width: 100%;
+  }
+
+  .tour-actions {
+    flex-direction: column;
   }
 
   .signup-form {

@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=3.1.0">
+  <link rel="stylesheet" href="css/style.css?v=3.2.0">
 </head>
 <body>
   <header class="site-header">
@@ -25,6 +25,7 @@
         PriceSignal
       </a>
       <nav class="nav" aria-label="Hoofdnavigatie">
+        <a href="#rondleiding">Gratis rondleiding</a>
         <a href="#product">Wat het is</a>
         <a href="#waarom-delen">Waarom delen</a>
         <a href="#hoe-het-werkt">Hoe het werkt</a>
@@ -60,9 +61,10 @@
             betaalt — en hoe je met bewijs kunt onderhandelen.
           </p>
           <div class="hero-actions">
-            <a href="#aanmelden" class="btn btn-primary">Doe mee — deel en ontvang</a>
-            <a href="#product" class="btn btn-secondary">Wat is PriceSignal?</a>
+            <a href="/compare" data-app-href="/compare" class="btn btn-primary">Start gratis rondleiding</a>
+            <a href="#aanmelden" class="btn btn-secondary">Doe mee — deel en ontvang</a>
           </div>
+          <p class="hero-tour-note">Geen account nodig. Bekijk echte producten en groothandels — prijzen zie je pas na aanmelding.</p>
         </div>
         <div class="hero-visual" aria-hidden="true">
           <div class="price-card price-card--highlight">
@@ -87,6 +89,93 @@
           <div class="price-card price-card--offset">
             <p class="price-card-muted"><strong>Zonder PriceSignal</strong> zie je alleen jouw prijs. Met PriceSignal zie je de markt — anoniem en geaggregeerd.</p>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gratis rondleiding — Sutherland: lage drempel, eerst ontvangen, verliesaversie -->
+    <section class="tour" id="rondleiding">
+      <div class="container">
+        <div class="tour-layout">
+          <div class="tour-content">
+            <p class="eyebrow">Gratis in de app</p>
+            <h2>Kijk eerst. Deel pas als je overtuigd bent.</h2>
+            <p class="tour-lead">
+              De meeste platforms vragen eerst vertrouwen — en geven daarna pas iets terug.
+              PriceSignal draait dat om: <strong>loop eerst rond in de app</strong>, zonder account,
+              zonder factuur, zonder iets prijs te geven.
+            </p>
+            <p>
+              Je ziet welke producten marktdata hebben, welke groothandels meedoen en hoe
+              vergelijken werkt. De prijzen zelf blijven verborgen — niet om je te pesten,
+              maar om eerlijk te zijn: <em>dit is wat je mist zolang je niet meedoet</em>.
+              Dat is geen marketingtruc. Dat is verliesaversie in het voordeel van jou.
+            </p>
+            <ul class="tour-benefits">
+              <li>
+                <strong>Geen verplichting</strong>
+                <span>Geen e-mail, geen creditcard — alleen kijken of dit voor jou werkt.</span>
+              </li>
+              <li>
+                <strong>Echte structuur, geen demo-video</strong>
+                <span>Je doorloopt dezelfde vergelijkingspagina die leden gebruiken.</span>
+              </li>
+              <li>
+                <strong>Het enige risico?</strong>
+                <span>Dat je ontdekt hoeveel informatie je nu mist — en dat onderhandelen zonder data eigenlijk gokken is.</span>
+              </li>
+            </ul>
+            <div class="tour-actions">
+              <a href="/compare" data-app-href="/compare" class="btn btn-primary btn-tour">Start gratis rondleiding in de app</a>
+              <a href="#aanmelden" class="btn btn-secondary">Liever direct lid worden</a>
+            </div>
+            <p class="tour-footnote">Duurt twee minuten. Sluit je tabblad en je bent weg — tenzij je nieuwsgierig wordt.</p>
+          </div>
+
+          <aside class="tour-preview" aria-label="Voorbeeld van de rondleiding in de app">
+            <div class="tour-preview-header">
+              <span class="tour-preview-badge">Live preview</span>
+              <span class="tour-preview-title">Prijzen vergelijken</span>
+            </div>
+            <ol class="tour-steps">
+              <li class="tour-step tour-step--active">
+                <span class="tour-step-num">1</span>
+                <div>
+                  <h3>Zoek een product</h3>
+                  <p>Tomaten, koffie, bier — zie welke artikelen al marktdata hebben.</p>
+                </div>
+              </li>
+              <li class="tour-step">
+                <span class="tour-step-num">2</span>
+                <div>
+                  <h3>Open een vergelijking</h3>
+                  <p>Filter op groothandel en periode. De opbouw is volledig zichtbaar.</p>
+                </div>
+              </li>
+              <li class="tour-step">
+                <span class="tour-step-num">3</span>
+                <div>
+                  <h3>Zie wat je mist</h3>
+                  <p>Marktranges en jouw positie verschijnen na aanmelding — precies waar je nu naar kijkt.</p>
+                </div>
+              </li>
+            </ol>
+            <div class="tour-mock-card">
+              <div class="tour-mock-row">
+                <span>Markt laagste</span>
+                <span class="tour-mock-blur" aria-hidden="true">€ •••</span>
+              </div>
+              <div class="tour-mock-row">
+                <span>Markt gemiddelde</span>
+                <span class="tour-mock-blur" aria-hidden="true">€ •••</span>
+              </div>
+              <div class="tour-mock-row tour-mock-row--you">
+                <span>Jouw prijs</span>
+                <span class="tour-mock-blur tour-mock-blur--accent" aria-hidden="true">€ •••</span>
+              </div>
+              <p class="tour-mock-cta">Prijzen zichtbaar na gratis aanmelding →</p>
+            </div>
+          </aside>
         </div>
       </div>
     </section>
@@ -341,7 +430,11 @@
           <input type="email" id="email" name="email" placeholder="jouw@horecabedrijf.nl" required>
           <button type="submit" class="btn btn-primary">Word lid</button>
         </form>
-        <p class="cta-note">Anoniem delen. Alleen marktdata terug. Geen verplichtingen — wél wederzijdse waarde.</p>
+        <p class="cta-note">
+          Nog niet klaar om te delen?
+          <a href="/compare" data-app-href="/compare" class="cta-tour-link">Maak eerst een gratis rondleiding</a>
+          — anoniem delen, alleen marktdata terug, geen verplichtingen.
+        </p>
       </div>
     </section>
   </main>
@@ -363,5 +456,15 @@
       <p class="footer-copy">&copy; 2026 PriceSignal</p>
     </div>
   </footer>
+  <script>
+    (function () {
+      var host = window.location.hostname;
+      var isLocal = host === 'localhost' || host === '127.0.0.1';
+      var appBase = isLocal ? 'http://localhost:8000' : 'https://app.pricesignal.nl';
+      document.querySelectorAll('[data-app-href]').forEach(function (el) {
+        el.href = appBase + el.getAttribute('data-app-href');
+      });
+    })();
+  </script>
 </body>
 </html>
