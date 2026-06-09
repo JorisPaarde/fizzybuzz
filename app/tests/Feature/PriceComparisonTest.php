@@ -170,4 +170,40 @@ class PriceComparisonTest extends TestCase
             ->assertDontSee('5,00')
             ->assertSee('Klein (tot €5.000/maand)');
     }
+
+    public function test_compare_filters_by_wholesaler(): void
+    {
+        $user = User::factory()->create(['purchase_size' => 'medium']);
+        $sligro = Wholesaler::query()->create(['name' => 'Sligro', 'slug' => 'sligro']);
+        $hanos = Wholesaler::query()->create(['name' => 'Hanos', 'slug' => 'hanos']);
+        $product = Product::findOrCreateFromName('Pasta penne');
+
+        PriceSubmission::query()->create([
+            'user_id' => $user->id,
+            'product_id' => $product->id,
+            'wholesaler_id' => $sligro->id,
+            'price' => 5.00,
+            'unit' => 'zak',
+            'effective_date' => now(),
+            'source' => 'manual',
+            'status' => PriceSubmission::STATUS_APPROVED,
+        ]);
+
+        PriceSubmission::query()->create([
+            'user_id' => $user->id,
+            'product_id' => $product->id,
+            'wholesaler_id' => $hanos->id,
+            'price' => 9.99,
+            'unit' => 'zak',
+            'effective_date' => now(),
+            'source' => 'manual',
+            'status' => PriceSubmission::STATUS_APPROVED,
+        ]);
+
+        $this->actingAs($user)
+            ->get(route('compare.show', ['product' => $product, 'wholesaler_id' => $sligro->id]))
+            ->assertOk()
+            ->assertSee('5,00')
+            ->assertDontSee('9,99');
+    }
 }

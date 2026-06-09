@@ -13,16 +13,15 @@
                     Marktdata wordt pas getoond bij minimaal {{ $minDatapoints }} anonieme bijdragen.
                 </p>
 
-                <form method="GET" action="{{ route('compare.index') }}" class="mt-4 flex gap-2">
-                    <input
-                        type="search"
-                        name="q"
-                        value="{{ $query }}"
-                        placeholder="Bijv. tomaten, cola, melk…"
-                        class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-brand-blue focus:ring-brand-blue"
-                    >
-                    <x-primary-button>Zoeken</x-primary-button>
-                </form>
+                <div class="mt-4">
+                    @include('compare.partials.filters', [
+                        'action' => route('compare.index'),
+                        'filters' => $filters,
+                        'wholesalers' => $wholesalers,
+                        'query' => $query,
+                        'showSearch' => true,
+                    ])
+                </div>
             </div>
 
             @if ($products->isEmpty())
@@ -42,7 +41,7 @@
                         @foreach ($products as $product)
                             <li>
                                 <a
-                                    href="{{ route('compare.show', $product) }}"
+                                    href="{{ route('compare.show', array_merge(['product' => $product], $filters->toQueryArray())) }}"
                                     class="flex items-center justify-between px-6 py-4 hover:bg-gray-50 transition"
                                 >
                                     <span class="font-medium text-brand-navy">{{ $product->name }}</span>

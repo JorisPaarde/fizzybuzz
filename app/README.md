@@ -81,12 +81,14 @@ Zonder key werken handmatige uploads wel; foto/PDF/e-mail niet.
 
 Leden koppelen groothandels op `/my-wholesalers`. Deze verschijnen bovenaan bij prijsinvoer.
 
-## Prijsvergelijking (Fase 3a)
+## Prijsvergelijking & inzicht (Fase 3a + 3b)
 
 - Zoek op productnaam op `/compare`
 - Per groothandel: jouw prijs vs. anonieme marktrange (min–max)
 - Vergelijking binnen je inkoopomvang-segment (klein / middel / groot)
 - Minimaal 3 andere leden nodig voor marktdata (privacy)
+- Filters: groothandel en periode (30/90/365 dagen)
+- Dashboard (`/dashboard`): overzicht producten boven marktrange
 
 ## Productdocumentatie
 

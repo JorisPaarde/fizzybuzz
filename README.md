@@ -21,7 +21,7 @@
 | Factuur doorsturen per e-mail (forward) | — | 🔲 Gepland |
 | Groothandels koppelen | `/my-wholesalers` | ✅ |
 | Prijsvergelijking met marktrange | `/compare` | ✅ (PR #14) |
-| Dashboard-inzicht (boven markt) | `/dashboard` | 🔲 Fase 3b |
+| Dashboard-inzicht (boven markt) | `/dashboard` | ✅ |
 | Onderhandelingsrapport (PDF) | — | 🔲 Fase 4 |
 
 Zie [`FUNCTIONALITEIT.md`](FUNCTIONALITEIT.md) voor de volledige roadmap.
