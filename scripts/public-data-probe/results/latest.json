@@ -1,0 +1,227 @@
+{
+  "probed_at": "2026-06-08T19:47:23.242713+00:00",
+  "summary": {
+    "total_methods": 5,
+    "successful": 4,
+    "with_prices": 2,
+    "best_sources": [
+      "sligro_folder_pdf",
+      "hanos_occ_api"
+    ]
+  },
+  "results": [
+    {
+      "method_id": "sligro_promotions_api",
+      "name": "Sligro aanbiedingen API",
+      "success": true,
+      "requires_account": false,
+      "http_status": 200,
+      "record_count": 1355,
+      "has_prices": false,
+      "has_ean": true,
+      "notes": "Productcatalogus promo-assortiment; prijzen niet in API-response zonder login.",
+      "sample": [
+        {
+          "code": "847229",
+          "name": "Asperges wit AA",
+          "gtin": "08716668170154",
+          "packaging": "Krat 5 kg",
+          "brand": "Unbranded",
+          "url": "https://www.sligro.nl/Brands/Unbranded/Asperges-wit-AA/p/847229"
+        },
+        {
+          "code": "225208",
+          "name": "Sriracha mayo",
+          "gtin": "08710401935666",
+          "packaging": "Fles 53 cl",
+          "brand": "Kern",
+          "url": "https://www.sligro.nl/Navigatie/Kruidenierswaren/Sauzen%2C-soepen-%26-dressings/Sauzen-%26--toebehoren/Snacksauzen/Sriracha-mayo/p/225208"
+        },
+        {
+          "code": "881891",
+          "name": "Paprika chips",
+          "gtin": "08710398307583",
+          "packaging": "Doos 20 zakjes x 40 g",
+          "brand": "Lay's Flatchips",
+          "url": "https://www.sligro.nl/Navigatie/Kruidenierswaren/Chips%2C-noten%2C-popcorn-%26-gedroogd-fruit/Chips/Aardappelchips/Paprika-chips/p/881891"
+        }
+      ],
+      "errors": [],
+      "metadata": {
+        "api_url": "https://www.sligro.nl/api/product-overview/sligro-nl/nl/promotion/query",
+        "page_url": "https://www.sligro.nl/aanbiedingen.html",
+        "total_pages": 29,
+        "page_size": 48,
+        "max_pages_tested": 1
+      }
+    },
+    {
+      "method_id": "sligro_folder_pdf",
+      "name": "Sligro folder PDF (Publitas)",
+      "success": true,
+      "requires_account": false,
+      "http_status": 200,
+      "record_count": 11,
+      "has_prices": true,
+      "has_ean": false,
+      "notes": "Promo-prijzen + art.nrs in PDF; geen EAN in ruwe tekst.",
+      "sample": [
+        {
+          "raw_line": "Per kilo 21.95 19.99"
+        },
+        {
+          "raw_line": "Per kilo 25.50  22.50"
+        },
+        {
+          "raw_line": "Per kilo 26.95  24.50"
+        },
+        {
+          "raw_line": "Per kilo 29.95  26.99"
+        },
+        {
+          "raw_line": "Per kilo 8.95  6.99"
+        }
+      ],
+      "errors": [],
+      "metadata": {
+        "folder_links": [
+          "https://folder.sligro.nl/20252397_bbq_terrasspecial_05_v3_publi",
+          "https://folder.sligro.nl/20252399_wijn_07_v3_publi",
+          "https://folder.sligro.nl/big-deals-07-2026",
+          "https://folder.sligro.nl/big-deals-cafetaria-07-2026",
+          "https://folder.sligro.nl/foodvers-07-2026",
+          "https://folder.sligro.nl/foodvers-08-2026",
+          "https://folder.sligro.nl/non-food-07-2026",
+          "https://folder.sligro.nl/non-food-08-2026",
+          "https://folder.sligro.nl/sligros-seizoen-puur-zomer",
+          "https://folder.sligro.nl/wijn-08-2026",
+          "https://folder.sligro.nl/wrcp-07-2026"
+        ],
+        "tested_folder": "https://folder.sligro.nl/foodvers-07-2026",
+        "pdf_url": "https://view.publitas.com/249/3024395/pdfs/d213500b-3129-4191-869a-6fbdbffe865d.pdf?response-content-disposition=attachment",
+        "pdf_bytes": 82499912,
+        "pdf_pages_readable": 2
+      }
+    },
+    {
+      "method_id": "hanos_occ_api",
+      "name": "HANOS OCC product-API",
+      "success": true,
+      "requires_account": false,
+      "http_status": 200,
+      "record_count": 27378,
+      "has_prices": true,
+      "has_ean": false,
+      "notes": "27k+ producten met prijzen en actie-info; EAN niet in search-response.",
+      "sample": [
+        {
+          "code": "41203796",
+          "name": "Hamburger bun brioche 113mm 109gr",
+          "price": "19,95",
+          "promotion": false,
+          "old_price": null,
+          "packaging": "DOOS",
+          "manufacturer": "Pastridor",
+          "url": "https://www.hanos.nl/Assortiment/Diepvries/Brood/Klein-brood/HAMBURGER-BUN-BRIOCHE-113MM-109GR/p/41203796",
+          "detail_promotion": "Actie"
+        },
+        {
+          "code": "41219130",
+          "name": "Hamburger bun sesam 82gr voorgesn.5 inch",
+          "price": "9,95",
+          "promotion": false,
+          "old_price": null,
+          "packaging": "DOOS",
+          "manufacturer": "Pastridor",
+          "url": "https://www.hanos.nl/Assortiment/Diepvries/Brood/Klein-brood/HAMBURGER-BUN-SESAM-82GR-VOORGESN-5-INCH/p/41219130"
+        },
+        {
+          "code": "41204350",
+          "name": "Hamburger bun rustiek 125mm 105gr",
+          "price": "14,95",
+          "promotion": false,
+          "old_price": null,
+          "packaging": "DOOS",
+          "manufacturer": "Pastridor",
+          "url": "https://www.hanos.nl/Assortiment/Diepvries/Brood/Klein-brood/HAMBURGER-BUN-RUSTIEK-125MM-105GR/p/41204350"
+        }
+      ],
+      "errors": [],
+      "metadata": {
+        "detail_price_fields": [
+          "currencyIso",
+          "dynamic",
+          "dynamicDiscount",
+          "formattedOldPrice",
+          "formattedValue",
+          "formattedValueWithVat",
+          "longPromotionLabel",
+          "oldPrice",
+          "priceType",
+          "promotion",
+          "promotionFromDate",
+          "promotionLabel",
+          "promotionToDate",
+          "value",
+          "valueWithVat"
+        ],
+        "api_base": "https://api.hanos.nl/occ/v2/hanos-nl",
+        "total_pages": 5476
+      }
+    },
+    {
+      "method_id": "open_food_facts",
+      "name": "Open Food Facts API",
+      "success": true,
+      "requires_account": false,
+      "http_status": 503,
+      "record_count": 1,
+      "has_prices": false,
+      "has_ean": true,
+      "notes": "EAN-verrijking en productnamen; geen inkoopprijzen.",
+      "sample": [
+        {
+          "ean": "8710398307583",
+          "name": "paprika doos",
+          "brands": "Lay's",
+          "source": "sligro_gtin_crossref"
+        }
+      ],
+      "errors": [
+        "search HTTP 503"
+      ],
+      "metadata": {
+        "search_url": "https://world.openfoodfacts.org/cgi/search.pl"
+      }
+    },
+    {
+      "method_id": "blocked_wholesalers",
+      "name": "Bidfood / Makro (publieke toegang)",
+      "success": false,
+      "requires_account": false,
+      "http_status": 403,
+      "record_count": 0,
+      "has_prices": false,
+      "has_ean": false,
+      "notes": "Cloudflare/WAF blokkeert server-requests; Playwright + account waarschijnlijk nodig.",
+      "sample": [],
+      "errors": [],
+      "metadata": {
+        "sites": [
+          {
+            "site": "bidfood",
+            "url": "https://www.bidfood.nl",
+            "status": 403,
+            "accessible": false
+          },
+          {
+            "site": "makro",
+            "url": "https://www.makro.nl/nl/aanbiedingen",
+            "status": 403,
+            "accessible": false
+          }
+        ]
+      }
+    }
+  ]
+}
