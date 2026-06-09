@@ -18,6 +18,7 @@
 |---|---|---|
 | Registratie + bedrijfsprofiel (inkoopomvang) | `/register` | ✅ |
 | Prijsupload (foto, PDF, e-mail, handmatig) | `/prices` | ✅ |
+| Factuur doorsturen per e-mail (forward) | — | 🔲 Gepland |
 | Groothandels koppelen | `/my-wholesalers` | ✅ |
 | Prijsvergelijking met marktrange | `/compare` | ✅ (PR #14) |
 | Dashboard-inzicht (boven markt) | `/dashboard` | 🔲 Fase 3b |

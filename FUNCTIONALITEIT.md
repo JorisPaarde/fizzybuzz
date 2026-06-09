@@ -4,7 +4,7 @@
 > Elke agent die aan dit project werkt, leest dit bestand eerst en werkt alleen aan functionaliteit die hierin staat beschreven — of werkt dit document bij vóór implementatie van nieuwe features.
 
 **Laatste update:** juni 2026  
-**Versie document:** 1.3  
+**Versie document:** 1.4  
 **Live site:** https://jorispaarde.github.io/fizzybuzz/  
 **Taal product:** Nederlands (NL)
 
@@ -182,6 +182,30 @@ Upload of e-mail ontvangen
 - API-key via `OPENAI_API_KEY` in `.env` (nooit in git)
 - E-mail: inbound webhook (`POST /webhooks/inbound-email`) via Mailgun → zelfde extractie-pipeline
 
+#### E-mail doorsturen (forward) — gepland
+
+Leden ontvangen facturen en prijslijsten vaak al per e-mail van hun groothandel. In plaats van downloaden en opnieuw uploaden, moeten ze de ontvangen mail kunnen **doorsturen** naar een vast PriceSignal-adres (bijv. `upload@pricesignal.nl`).
+
+**Gewenste flow:**
+
+```
+Lid ontvangt factuur-mail van groothandel
+    → Doorsturen (forward) naar upload@pricesignal.nl
+    → Platform herkent lid via afzender-e-mailadres
+    → Bijlagen (PDF) en/of mailtekst → extractie-pipeline
+    → Review-scherm in de app → bevestigen → opslaan
+```
+
+**Vereisten (nog te implementeren):**
+
+- Duidelijk platform-adres zichtbaar in app en onboarding
+- Herkenning van geregistreerd lid op basis van doorstuur-e-mailadres
+- Ondersteuning voor doorgestuurde mails (incl. `Fwd:` / `Doorst:` en ingesloten bijlagen)
+- Bevestiging per e-mail dat import ontvangen is (of foutmelding)
+- Zelfde review-stap als bij foto/PDF — nooit direct opslaan
+
+> **Technische basis:** inbound webhook (Mailgun) bestaat al; de volledige forward-ervaring voor eindgebruikers is nog niet af.
+
 #### Gegevens per prijsregel
 
 | Veld | Verplicht | Beschrijving |
@@ -198,6 +222,7 @@ Upload of e-mail ontvangen
 #### Acceptatiecriteria
 
 - [x] Vier invoerkanalen: handmatig, foto, PDF, e-mail (webhook)
+- [ ] Facturen doorsturen per e-mail (forward naar platform-adres)
 - [x] Geëxtraheerde regels zijn bewerkbaar vóór opslaan (review-scherm)
 - [x] Lid kan meerdere groothandels koppelen (`/my-wholesalers`)
 - [x] Lid kan opgeslagen prijzen bewerken en verwijderen
@@ -546,6 +571,7 @@ Aggregatie (berekend, niet opgeslagen als ruwe data)
 | **Fase 1** | Registratie & basis-dashboard | 4.2 🟡 |
 | **Fase 2** | Prijsupload (handmatig + foto/PDF + review) | 4.3 ✅ |
 | **Fase 2b** | E-mail upload (inbound mail) | 4.3 (e-mail) ✅ |
+| **Fase 2c** | E-mail doorsturen (forward facturen) | 4.3 (forward) 🔲 |
 | **Fase 3a** | Vergelijking basis (zoeken + marktrange + inkoopsegment) | 4.4 ✅ |
 | **Fase 3b** | Filters + dashboard-inzicht | 4.4, 4.5 🟡 ← **volgende stap** |
 | **Fase 3c** | Productcatalogus & matching | 4.6 |
