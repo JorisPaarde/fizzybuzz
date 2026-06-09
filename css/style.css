@@ -256,15 +256,39 @@ a {
   font-weight: 600;
 }
 
-.hero-sub {
+.hero-value {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.hero-value-card {
+  padding: 1.125rem 1.25rem;
+  background: var(--color-bg-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+.hero-value-card--accent {
+  background: var(--color-accent-soft);
+  border-color: rgba(46, 107, 168, 0.25);
+}
+
+.hero-value-label {
+  display: block;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 0.5rem;
+}
+
+.hero-value-card p {
   font-size: 0.9375rem;
   color: var(--color-text-muted);
-  max-width: 42ch;
-  margin-bottom: 2rem;
-  padding: 1rem 1.25rem;
-  background: var(--color-bg-subtle);
-  border-radius: var(--radius);
-  border-left: 3px solid var(--color-primary);
+  line-height: 1.5;
 }
 
 .hero-actions {
@@ -278,6 +302,84 @@ a {
   font-size: 0.875rem;
   color: var(--color-text-muted);
   max-width: 42ch;
+}
+
+/* Outcomes — wat levert het op */
+
+.outcomes {
+  padding-block: 4.5rem;
+  background: var(--color-surface);
+  color: var(--color-text-inverse);
+}
+
+.outcomes .eyebrow {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.outcomes .section-intro h2 {
+  color: var(--color-text-inverse);
+}
+
+.outcomes .section-lead {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.outcomes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.outcome-card {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-lg);
+  padding: 2rem 1.75rem;
+}
+
+.outcome-card--accent {
+  background: rgba(46, 107, 168, 0.2);
+  border-color: rgba(46, 107, 168, 0.35);
+}
+
+.outcome-icon {
+  display: inline-flex;
+  width: 2.5rem;
+  height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.outcome-card h3 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-bottom: 0.625rem;
+  color: var(--color-text-inverse);
+}
+
+.outcome-card p {
+  font-size: 0.9375rem;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.55;
+}
+
+.outcomes-footnote {
+  text-align: center;
+  font-size: 0.9375rem;
+  color: rgba(255, 255, 255, 0.65);
+  max-width: 52ch;
+  margin-inline: auto;
+}
+
+.outcomes-footnote strong {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 600;
 }
 
 /* Tour section */
@@ -1574,9 +1676,19 @@ a {
   .hero-grid,
   .benefits-layout,
   .sharing-layout,
-  .tour-layout {
+  .tour-layout,
+  .hero-value,
+  .outcomes-grid {
     grid-template-columns: 1fr;
     gap: 3rem;
+  }
+
+  .hero-value {
+    gap: 1rem;
+  }
+
+  .outcomes-grid {
+    gap: 1rem;
   }
 
   .product-grid,

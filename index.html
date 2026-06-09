@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=3.2.1">
+  <link rel="stylesheet" href="css/style.css?v=3.3.0">
 </head>
 <body>
   <header class="site-header">
@@ -25,10 +25,9 @@
         PriceSignal
       </a>
       <nav class="nav" aria-label="Hoofdnavigatie">
-        <a href="#rondleiding">Gratis rondleiding</a>
-        <a href="#product">Wat het is</a>
-        <a href="#waarom-delen">Waarom delen</a>
-        <a href="#hoe-het-werkt">Hoe het werkt</a>
+        <a href="#wat-het-doet">Wat het doet</a>
+        <a href="#opbrengst">Wat jij krijgt</a>
+        <a href="#rondleiding">Rondleiding</a>
         <a href="#aanmelden" class="nav-cta">Word lid</a>
       </nav>
     </div>
@@ -49,22 +48,27 @@
     <section class="hero">
       <div class="container hero-grid">
         <div class="hero-content">
-          <p class="eyebrow">Voor restaurants, cafés en hotels</p>
-          <h1>Je onderhandelt blind.<br>Je concurrent niet.</h1>
+          <p class="eyebrow">Prijsinzicht voor de horeca</p>
+          <h1>Zie wat de markt betaalt.<br>Betaal niet te veel voor inkopen.</h1>
           <p class="hero-lead">
-            Vergelijkbare horecabedrijven betalen soms flink minder voor hetzelfde product — zonder
-            dat jij dat weet. PriceSignal laat je ontdekken of <em>jouw</em> prijzen lager kunnen:
-            anoniem delen wat jij betaalt, en zien wat anderen in de markt betalen.
+            PriceSignal vergelijkt <em>jouw</em> groothandelsprijzen met wat vergelijkbare restaurants,
+            cafés en hotels betalen — anoniem, per product en per leverancier.
           </p>
-          <p class="hero-sub">
-            Geen giswerk meer. Hoe meer ondernemers meedoen, hoe scherper je ziet waar jij te veel
-            betaalt — en hoe je met bewijs kunt onderhandelen.
-          </p>
+          <div class="hero-value" id="wat-het-doet">
+            <div class="hero-value-card">
+              <span class="hero-value-label">Wat het doet</span>
+              <p>Je deelt wat jij betaalt (foto, PDF of handmatig). Wij maken er anonieme marktdata van — zonder jouw bedrijfsnaam te tonen.</p>
+            </div>
+            <div class="hero-value-card hero-value-card--accent">
+              <span class="hero-value-label">Wat jij krijgt</span>
+              <p>Per product: zit ik te hoog? Waar is het goedkoper? Met peildatum en harde cijfers om te onderhandelen.</p>
+            </div>
+          </div>
           <div class="hero-actions">
             <a href="rondleiding.html" class="btn btn-primary">Start gratis rondleiding</a>
             <a href="#aanmelden" class="btn btn-secondary">Doe mee — deel en ontvang</a>
           </div>
-          <p class="hero-tour-note">Geen account nodig. Bekijk echte producten en groothandels — prijzen zie je pas na aanmelding.</p>
+          <p class="hero-tour-note">Geen account nodig voor de rondleiding. Lid worden = marktprijzen zien en je eigen lijst bijhouden.</p>
         </div>
         <div class="hero-visual" aria-hidden="true">
           <div class="price-card price-card--highlight">
@@ -90,6 +94,38 @@
             <p class="price-card-muted"><strong>Zonder PriceSignal</strong> zie je alleen jouw prijs. Met PriceSignal zie je de markt — anoniem en geaggregeerd.</p>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- Directe opbrengst — wat levert het concreet op -->
+    <section class="outcomes" id="opbrengst">
+      <div class="container">
+        <div class="section-intro section-intro--center">
+          <p class="eyebrow">Concreet voordeel</p>
+          <h2>Wat levert PriceSignal jou op?</h2>
+          <p class="section-lead">Geen abstract platform — drie dingen die je morgen al merkt in je portemonnee en je gesprek met leveranciers.</p>
+        </div>
+        <div class="outcomes-grid">
+          <article class="outcome-card">
+            <span class="outcome-icon" aria-hidden="true">€</span>
+            <h3>Lagere inkoopkosten</h3>
+            <p>Zie waar je per product en groothandel boven de markt zit. Veel leden vinden honderden euro's per maand — zonder ander assortiment.</p>
+          </article>
+          <article class="outcome-card outcome-card--accent">
+            <span class="outcome-icon" aria-hidden="true">↔</span>
+            <h3>Onderhandelen met bewijs</h3>
+            <p>Geen “ik wil korting” meer. Je komt met marktprijzen en peildata. Dat verandert het gesprek met je leverancier.</p>
+          </article>
+          <article class="outcome-card">
+            <span class="outcome-icon" aria-hidden="true">◎</span>
+            <h3>Grip op je marge</h3>
+            <p>Inzicht in prijsverloop en leveranciersverschillen — de informatie die groothandels wél hebben en jij tot nu toe miste.</p>
+          </article>
+        </div>
+        <p class="outcomes-footnote">
+          Jij deelt anoniem wat je betaalt → je krijgt terug wat de markt betaalt.
+          <strong>Hoe meer horeca meedoet, hoe scherper jouw beeld wordt.</strong>
+        </p>
       </div>
     </section>
 
@@ -184,12 +220,10 @@
     <section class="product" id="product">
       <div class="container">
         <div class="section-intro section-intro--center">
-          <p class="eyebrow">Het product</p>
-          <h2>Wat PriceSignal doet — in één zin</h2>
+          <p class="eyebrow">Zo werkt het</p>
+          <h2>Drie stappen — van factuur naar inzicht</h2>
           <p class="section-lead">
-            PriceSignal is een <strong>collectieve prijsdatabase voor de horeca</strong>. Leden voeren
-            in wat zij betalen bij groothandels. Dat wordt anonieme marktkennis. Jij gebruikt die kennis
-            om te ontdekken of je te veel betaalt — en om met bewijs te onderhandelen.
+            Geen spreadsheet. Geen uren typen. Upload, vergelijk, onderhandel.
           </p>
         </div>
         <div class="product-grid">
@@ -201,7 +235,7 @@
           <article class="product-card product-card--accent">
             <span class="product-card-icon" aria-hidden="true">◆</span>
             <h3>Wij anonimiseren</h3>
-            <p>Jouw bedrijf is nooit herleidbaar. Anderen zien alleen gemiddelden en bandbreedtes — pas bij voldoende datapunten.</p>
+            <p>Jouw bedrijf is nooit herleidbaar. Anderen zien alleen geaggregeerde marktprijzen — nooit jouw bedrijfsnaam.</p>
           </article>
           <article class="product-card">
             <span class="product-card-icon" aria-hidden="true">↓</span>
@@ -282,10 +316,11 @@
     <section class="problem" id="waarom">
       <div class="container">
         <div class="section-intro">
-          <h2>Elke dag zonder inzicht kost je geld — stilletjes</h2>
+          <p class="eyebrow">Waarom nu</p>
+          <h2>Zonder benchmark betaal je stilletjes te veel</h2>
           <p>
-            Niet dramatisch. Geen faillissement. Gewoon € 200 hier, € 400 daar, per maand, per
-            product, per leverancier. Het soort geld dat je nooit mist omdat je het nooit hebt gezien.
+            Niet dramatisch — gewoon € 200 hier, € 400 daar per maand. Geld dat je nooit mist
+            omdat je nooit wist dat anderen minder betaalden voor hetzelfde product.
           </p>
         </div>
         <div class="problem-grid">
@@ -420,10 +455,10 @@
 
     <section class="cta" id="aanmelden">
       <div class="container cta-inner">
-        <h2>Deel je prijzen. Krijg de markt terug.</h2>
+        <h2>Klaar om te zien wat jij betaalt t.o.v. de markt?</h2>
         <p>
-          Gratis aanmelden. Upload je eerste factuur. Ontdek wat je miste.
-          Het kost je twee minuten — en het kan je duizenden euro's per jaar schelen.
+          Gratis aanmelden. Upload je eerste factuur. Zie per product waar je staat —
+          en wat je kunt besparen. Twee minuten werk.
         </p>
         <form class="signup-form" action="#" method="post">
           <label for="email" class="visually-hidden">E-mailadres</label>

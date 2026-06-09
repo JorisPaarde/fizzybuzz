@@ -96,16 +96,15 @@ Onderstaande modules beschrijven de volledige beoogde functionaliteit. Per modul
 
 | Sectie | Inhoud |
 |---|---|
-| Header | Logo, navigatie (Hoe het werkt, Waarom, Voordelen), CTA "Word lid" |
-| Hero | Waardepropositie + visuele prijsvergelijkingskaart (voorbeelddata) |
-| Probleem | Drie pijnpunten: ondoorzichtige prijzen, geen vergelijkingspunt, stijgende kosten |
-| Hoe het werkt | Drie stappen: uploaden → vergelijken → onderhandelen |
-| Voordelen | Vier voordelen + quote + statistieken |
-| Product | Wat PriceSignal doet: delen → anonimiseren → ontvangen |
+| Header | Logo, navigatie (Wat het doet, Wat jij krijgt, Rondleiding), CTA "Word lid" |
+| Hero | Directe waardepropositie + **Wat het doet / Wat jij krijgt** (twee kaarten) + voorbeeldvergelijking |
+| Opbrengst | Drie concrete voordelen: lagere inkoop, onderhandelen met bewijs, grip op marge |
+| Rondleiding | Gratis interactieve demo (`rondleiding.html`) — Sutherland: eerst kijken, dan delen |
+| Product | Drie stappen: delen → anonimiseren → ontvangen |
 | Waarom delen | Reciprociteit, reframing bezwaren, uitwisselingskaart |
-| Probleem | Loss framing: kosten van geen inzicht |
-| Hoe het werkt | Drie stappen incl. foto/PDF/e-mail |
-| Voordelen | Anonimiteit, collectief, signaling |
+| Probleem | Loss framing: kosten van geen benchmark |
+| Hoe het werkt | Uitgewerkte drie stappen incl. foto/PDF/e-mail |
+| Voordelen | Anonimiteit, collectief, signaling + statistieken |
 | Samen | Netwerkeffect / social proof |
 | Aanmelden | E-mailformulier (placeholder, nog niet functioneel) |
 | Footer | Tagline en copyright |
