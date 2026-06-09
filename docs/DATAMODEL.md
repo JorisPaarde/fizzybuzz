@@ -3,7 +3,7 @@
 > Technische referentie voor het databaseschema van de Laravel-app (`app/`).  
 > Functionele context: [`FUNCTIONALITEIT.md`](../FUNCTIONALITEIT.md)
 
-**Laatste update:** juni 2026  
+**Laatste update:** juni 2026 (geplande uitbreiding §4.12 toegevoegd)  
 **Database (dev):** SQLite · **Database (prod):** PostgreSQL (gepland)
 
 ---
@@ -362,6 +362,54 @@ Alle migraties staan in `app/database/migrations/`. Volgorde:
 
 ```bash
 cd app && php artisan migrate
+```
+
+---
+
+## Geplande uitbreidingen (Fase 3d — §4.12)
+
+> **Nog niet geïmplementeerd.** Specificatie: [`FUNCTIONALITEIT.md`](../FUNCTIONALITEIT.md) §4.12.
+
+### `user_products` (nieuw)
+
+Persoonlijke productlijst per lid.
+
+| Kolom | Type | Verplicht | Beschrijving |
+|---|---|:---:|---|
+| `id` | bigint | ✓ | |
+| `user_id` | FK → users | ✓ | |
+| `product_id` | FK → products | ✓ | |
+| `added_via` | string(16) | ✓ | `upload` · `manual` |
+| `created_at` / `updated_at` | timestamp | ✓ | |
+
+**Uniek:** `(user_id, product_id)`
+
+**Gedrag:** verwijderen uit lijst = rij wissen; `price_submissions` blijven bestaan.
+
+### Omzetklasse (`revenue_tranche`)
+
+Vervangt `purchase_size` op `users` en `aggregated_prices`.
+
+| Sleutel | Label | Jaaromzet |
+|---|---|---|
+| `t100k` | Tot €100k | &lt; €100.000 |
+| `t500k` | €100k – €500k | |
+| `t1m` | €500k – €1 mln | |
+| `t2m` | €1 – €2 mln | |
+| `t5m` | €2 – €5 mln | |
+| `t10m` | €5 – €10 mln | |
+| `t10m_plus` | €10 mln+ | |
+
+Enum: gepland `App\Enums\RevenueTranche`. Migratie van bestaande `small` / `medium` / `large` bij implementatie.
+
+### Datastroom Mijn producten
+
+```
+price_submissions (approved) ──► user_products (auto, added_via=upload)
+handmatige zoekactie ──────────► user_products (added_via=manual)
+user_products ─────────────────► /my-products (lijst + filters)
+user_products + product ───────► /my-products/{product} (detail, historie)
+aggregated_prices (revenue_tranche) ──► marktprijzen op lijst en detail
 ```
 
 ---

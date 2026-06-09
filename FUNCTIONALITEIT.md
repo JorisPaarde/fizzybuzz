@@ -4,7 +4,7 @@
 > Elke agent die aan dit project werkt, leest dit bestand eerst en werkt alleen aan functionaliteit die hierin staat beschreven — of werkt dit document bij vóór implementatie van nieuwe features.
 
 **Laatste update:** juni 2026  
-**Versie document:** 1.8  
+**Versie document:** 1.9  
 **Live site:** https://jorispaarde.github.io/fizzybuzz/  
 **Taal product:** Nederlands (NL)
 
@@ -133,7 +133,7 @@ Onderstaande modules beschrijven de volledige beoogde functionaliteit. Per modul
   - Bedrijfsnaam
   - Type horeca (restaurant, café, hotel, catering, overig)
   - Locatie (regio/stad — voor aggregatie, niet publiek per bedrijf)
-  - Maandelijkse inkoopomvang (klein / middel / groot — voor segmentatie)
+  - **Jaaromzet** (omzetklasse — voor segmentatie bij vergelijkingen; zie §4.12)
   - Aantal medewerkers (optioneel)
 - Akkoord met voorwaarden, met nadruk op anonimiteitsregels
 - Inloggen / uitloggen
@@ -144,8 +144,9 @@ Onderstaande modules beschrijven de volledige beoogde functionaliteit. Per modul
 - [ ] Alleen geverifieerde horecabedrijven krijgen toegang (e-mailverificatie nog niet actief)
 - [x] Eén account per bedrijf (uniek e-mailadres)
 - [x] Duidelijke uitleg bij registratie over wat er gedeeld wordt en wat niet
-- [x] Bedrijfsprofiel bij registratie (naam, type, regio, inkoopomvang)
+- [x] Bedrijfsprofiel bij registratie (naam, type, regio, inkoopomvang) — *tijdelijk: maandelijkse inkoopomvang; wordt omzetklasse, zie §4.12*
 - [x] Bedrijfsprofiel bewerkbaar in profiel (inkoopomvang, regio, type)
+- [ ] Omzetklasse bij registratie en profiel (vervangt `purchase_size`; zie §4.12)
 - [x] Basis-dashboard na inloggen
 - [ ] Inloggen / uitloggen op productie-VPS
 
@@ -239,6 +240,7 @@ Lid ontvangt factuur-mail van groothandel
 - [x] Data pas na review opgeslagen; status `approved` na bevestiging door lid
 - [x] Nederlandse foutmeldingen bij onvolledige invoer
 - [x] OpenAI-fouten worden netjes getoond (geen crash)
+- [ ] Goedgekeurde upload voegt producten automatisch toe aan **Mijn producten** (§4.12)
 
 ---
 
@@ -263,7 +265,7 @@ Lid ontvangt factuur-mail van groothandel
   - **Goedkoopste leverancier** bij EAN-match over groothandels
   - Aantal datapunten (hoeveel leden hebben dit product gemeld)
 - **Eigen positie**: waar het eigen bedrijf staat t.o.v. de marktrange (onder / binnen / boven)
-- **Inkoopomvang**: vergelijkingen binnen dezelfde categorie (klein &lt; €5k/maand, middel €5–20k, groot &gt; €20k)
+- **Omzetklasse**: vergelijkingen binnen dezelfde omzettranche (zie §4.12) — *huidige implementatie gebruikt nog maandelijkse inkoopomvang (`small` / `medium` / `large`)*
 - **Filters**:
   - Groothandel
   - Productcategorie
@@ -288,8 +290,9 @@ Lid ontvangt factuur-mail van groothandel
 - [x] Filters op vergelijking (groothandel, periode 30/90/365 dagen)
 - [x] Dashboard-samenvatting: producten boven marktrange met directe links
 - [x] Publieke preview zonder login (`/compare`) met gebluurde prijsdata en aanmeld-CTA
-- [ ] Trend over tijd — Fase 3c
+- [ ] Trend over tijd — Fase 3c / productdetail (§4.12)
 - [ ] Export van vergelijkingsrapport (PDF) — Fase 4
+- [ ] Persoonlijke productlijst als primaire vergelijkingsbron — §4.12
 
 ---
 
@@ -376,6 +379,142 @@ Lid ontvangt factuur-mail van groothandel
 - [ ] Rapport bevat geen herleidbare gegevens van andere individuele bedrijven
 - [ ] Rapport is downloadbaar en deelbaar (PDF)
 - [ ] Data in rapport is actueel (max. 90 dagen oud, tenzij anders vermeld)
+- [ ] Rapport kan worden gegenereerd vanuit **Mijn producten** (§4.12) — gefilterde set of volledige lijst
+
+---
+
+### 4.12 Mijn producten & productdetail
+
+**Doel:** Elk lid heeft een **persoonlijke productlijst** — de set artikelen waarvoor PriceSignal prijzen checkt en inzicht geeft. De lijst is het dagelijkse startpunt voor vergelijking, filters en onderhandeling.
+
+**Status:** 🔲 Nog te bouwen
+
+#### Navigatie
+
+- Nieuw hoofdmenu-item: **Mijn producten** (`/my-products`)
+- Bestaand **Vergelijken** (`/compare`) blijft voor vrije zoekopdrachten en gasten-preview
+- Klik op een product in Mijn producten → **productdetailpagina** (`/my-products/{product}`)
+
+#### 4.12.1 Persoonlijke productlijst
+
+**Kernregel:** Alleen producten op deze lijst worden actief gemonitord voor het lid (dashboard-alerts, “elders goedkoper”-filter, onderhandelingsrapporten).
+
+| Actie | Gedrag |
+|---|---|
+| **Automatisch toevoegen** | Bij goedkeuring van een upload (`price_submissions` met status `approved`): elk uniek `product_id` uit die upload komt op de lijst, tenzij het er al staat |
+| **Handmatig toevoegen** | Zoekveld op productnaam (en later EAN); resultaat toevoegen met één klik |
+| **Verwijderen** | Prullenbak-icoon per regel — verwijdert alleen de koppeling lid↔product, **niet** de onderliggende prijsdata of uploads |
+| **Her-toevoegen** | Verwijderd product kan later opnieuw worden toegevoegd (handmatig of via nieuwe upload) |
+
+**Lijstweergave (per regel):**
+
+| Kolom | Inhoud |
+|---|---|
+| Product | Naam (+ categorie indien bekend) |
+| Jouw prijs | Laatste goedgekeurde prijs bij jouw groothandel |
+| Markt (jouw omzetklasse) | Laagste marktprijs of range — alleen bij ≥3 datapunten |
+| Verschil | Indicatie: elders goedkoper / vergelijkbaar / boven markt |
+| Acties | Naar detail · verwijderen (prullenbak) |
+
+**Sortering (standaard):** grootste potentiële besparing eerst (indien berekenbaar), anders alfabetisch.
+
+#### 4.12.2 Filter: elders goedkoper
+
+Toggle of filterchip: **“Elders goedkoper”**.
+
+Toont alleen producten waar:
+
+1. Het lid een eigen goedgekeurde prijs heeft, én
+2. In de **eigen omzetklasse** (§4.12.4) een lagere anonieme marktprijs bestaat (minimaal van een andere groothandel of dezelfde groothandel via aggregatie), én
+3. Het verschil minstens een configureerbare drempel overschrijdt (start: 5%; later instelbaar)
+
+Producten zonder voldoende marktdata (minder dan 3 andere leden in dezelfde omzetklasse) vallen buiten dit filter — niet tonen alsof ze “goedkoop” zijn.
+
+#### 4.12.3 Productdetailpagina
+
+**Route:** `/my-products/{product}` (leden) · optioneel publieke verkorte versie later
+
+**Secties:**
+
+| Sectie | Inhoud |
+|---|---|
+| **Header** | Productnaam, categorie, EAN (indien bekend), link terug naar Mijn producten |
+| **Jouw situatie** | Jouw laatste prijs, groothandel, datum, positie t.o.v. markt in **jouw omzetklasse** |
+| **Prijsgeschiedenis** | Grafiek: eigen prijsverloop over tijd + anonieme marktgemiddelde-lijn (zelfde omzetklasse). Periode: 30 / 90 / 365 dagen |
+| **Leveranciers** | Tabel: welke groothandels dit product (of via EAN hetzelfde artikel) leveren, met actuele geaggregeerde prijs per groothandel |
+| **Prijzen per omzetklasse** | Tabel met kolommen per omzettranche; **standaard geselecteerd: de klasse van het ingelogde lid**. Andere klassen uitklapbaar of via tabs |
+| **Vergelijkbare producten** | Zelfde categorie of EAN-match — 🔲 afhankelijk van §4.6 |
+
+**Interactie:**
+
+- Wisselen omzetklasse op detailpagina verandert alle marktprijzen in de tabel (eigen prijs blijft van het lid)
+- Geen ruwe prijzen van andere individuele bedrijven — alleen aggregaten (§4.8)
+- Als lid geen eigen prijs heeft: detail toont alleen marktdata + CTA om prijs te uploaden of product uit lijst te halen
+
+#### 4.12.4 Omzetklasse (segmentatie)
+
+Vergelijkingen en aggregaties lopen binnen de **zelfde omzetklasse** — vergelijkbaar onderhandelingsvermogen en schaal.
+
+| Sleutel | Label (NL) | Jaaromzet (indicatief) |
+|---|---|---|
+| `t100k` | Tot €100k | &lt; €100.000 |
+| `t500k` | €100k – €500k | €100.000 – €500.000 |
+| `t1m` | €500k – €1 mln | €500.000 – €1.000.000 |
+| `t2m` | €1 – €2 mln | €1.000.000 – €2.000.000 |
+| `t5m` | €2 – €5 mln | €2.000.000 – €5.000.000 |
+| `t10m` | €5 – €10 mln | €5.000.000 – €10.000.000 |
+| `t10m_plus` | €10 mln+ | ≥ €10.000.000 |
+
+**Invulling:**
+
+- Verplicht veld bij registratie en bewerkbaar in profiel
+- Vervangt de huidige `purchase_size` (maandelijkse inkoopomvang: klein/middel/groot) in nieuwe implementatie
+- Migratie bestaande leden: mapping of herkies bij eerste login na update (te bepalen bij implementatie)
+- `aggregated_prices` en live-vergelijking segmenteren op `revenue_tranche` i.p.v. `purchase_size`
+
+#### 4.12.5 Relatie met andere modules
+
+| Module | Koppeling |
+|---|---|
+| §4.3 Prijsupload | Upload → goedgekeurde producten → automatisch op Mijn producten |
+| §4.4 Vergelijken | Vrije zoekopdracht; resultaat kan aan Mijn producten worden toegevoegd |
+| §4.6 EAN | Zelfde EAN over groothandels → één productdetail met leveranciersmatrix |
+| §4.7 Rapport | PDF gebruikt producten uit Mijn producten (eventueel gefilterd) |
+| §4.9 Notificaties | Alerts alleen voor producten op Mijn producten |
+| Dashboard | “Boven marktrange”-inzicht baseert op Mijn producten i.p.v. alle uploads |
+
+#### Acceptatiecriteria
+
+**Mijn producten**
+
+- [ ] Tab/nav-item **Mijn producten** zichtbaar voor ingelogde leden
+- [ ] Lijst toont alle gekoppelde producten met eigen prijs en marktindicatie
+- [ ] Producten uit goedgekeurde uploads worden automatisch toegevoegd (geen duplicaten)
+- [ ] Zoeken en handmatig toevoegen van producten uit catalogus
+- [ ] Verwijderen via prullenbak-icoon (alleen lijstkoppeling, data blijft bewaard)
+- [ ] Filter **Elders goedkoper** werkt binnen eigen omzetklasse
+- [ ] Lege staat met uitleg + link naar prijsupload
+
+**Productdetail**
+
+- [ ] Klik op product opent detailpagina met prijsgeschiedenis-grafiek
+- [ ] Leverancierstabel met geaggregeerde prijzen per groothandel
+- [ ] Prijzen per omzetklasse zichtbaar; standaard de klasse van het lid
+- [ ] Wisselen van omzetklasse werkt zonder pagina-reload (filter/tab)
+- [ ] Minimaal 3 datapunten-regel blijft gelden (§4.8)
+
+**Omzetklasse**
+
+- [ ] Registratie en profiel vragen omzetklasse (7 tranches)
+- [ ] Aggregatie en vergelijking gebruiken omzetklasse
+- [ ] Migratiepad van `purchase_size` gedocumenteerd en uitgevoerd
+
+**Technisch (referentie, nog niet bouwen)**
+
+- Nieuwe pivot-tabel `user_products` (`user_id`, `product_id`, `added_via` enum: `upload` / `manual`, `created_at`)
+- `users.revenue_tranche` vervangt `users.purchase_size`
+- `aggregated_prices.revenue_tranche` vervangt `purchase_size`-kolom
+- Zie ook `docs/DATAMODEL.md` (gepland)
 
 ---
 
@@ -678,6 +817,8 @@ Aggregatie (berekend, niet opgeslagen als ruwe data)
 | Authenticatie | Laravel Breeze | 🟡 Registratie + login lokaal |
 | Anonimisering | `AnonymizationService` | ✅ Aggregatie per segment (≥3 datapunten) |
 | Prijsvergelijking | `PriceComparisonService` + `/compare` | ✅ Zoeken, marktrange, inkoopsegment |
+| Mijn producten | `/my-products` + productdetail | 🔲 Zie §4.12 |
+| Omzetklasse | `revenue_tranche` op users + aggregatie | 🔲 Vervangt `purchase_size` (§4.12) |
 | Prijsupload | Handmatig + foto/PDF + e-mail + review | ✅ Lokaal |
 | AI-extractie | OpenAI `gpt-4o-mini` | 🟡 Via `OPENAI_API_KEY` |
 | Externe data-sync | Playwright + Laravel jobs | 🔲 Zie §4.11 |
@@ -785,7 +926,8 @@ Getest via `scripts/public-data-probe/probe.py`. Resultaten in `scripts/public-d
 | **Fase 3a** | Vergelijking basis (zoeken + marktrange + inkoopsegment) | 4.4 ✅ |
 | **Fase 3b** | Filters + dashboard-inzicht | 4.4 ✅ |
 | **Fase 3c** | Productcatalogus & matching | 4.6 |
-| **Fase 4** | Onderhandelingsrapporten | 4.7 ← **volgende stap** |
+| **Fase 3d** | Mijn producten + productdetail + omzetklasse | 4.12 ← **volgende stap** |
+| **Fase 4** | Onderhandelingsrapporten (PDF) | 4.7 |
 | **Fase 5** | Bestandsupload (prijslijsten/facturen) | 4.3 (bestand) |
 | **Fase 6** | Notificaties | 4.9 |
 | **Fase 7** | Beheer & moderatie | 4.10 |
@@ -810,10 +952,11 @@ Getest via `scripts/public-data-probe/probe.py`. Resultaten in `scripts/public-d
 | 3. Prijzen delen | Foto, PDF, e-mail, handmatig → review → opslaan | ✅ Lokaal |
 | 4. Vergelijken | Zoek product → marktrange (leden) of preview (gasten) | ✅ Lokaal |
 | 5. Inzicht | Dashboard: welke producten zijn duurder dan markt? | ✅ Lokaal |
-| 6. Onderhandelen | PDF-rapport met harde cijfers | 🔲 Fase 4 |
-| 7. Productie | App op VPS, echte gebruikers | 🔲 Deploy |
+| 6. Mijn producten | Persoonlijke lijst, elders-goedkoper-filter, productdetail | 🔲 Fase 3d |
+| 7. Onderhandelen | PDF-rapport met harde cijfers | 🔲 Fase 4 |
+| 8. Productie | App op VPS, echte gebruikers | 🔲 Deploy |
 
-**Volgende stap MVP:** **Fase 4** — onderhandelingsrapport (PDF) met harde cijfers per product/groothandel.
+**Volgende stap MVP:** **Fase 3d** — Mijn producten (persoonlijke lijst), productdetail met prijsgeschiedenis en omzetklasse-segmentatie (§4.12). Daarna Fase 4 (PDF-rapport).
 
 Parallel optioneel: **VPS-deploy** (Fase 1 afronden) zodat early adopters de app kunnen testen.
 
