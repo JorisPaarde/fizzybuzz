@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Mijn prijzen</h2>
-            <a href="{{ route('prices.import.create') }}" class="inline-flex items-center rounded-md bg-amber-500 px-4 py-2 text-sm font-semibold text-slate-950 hover:bg-amber-400">
+            <a href="{{ route('prices.import.create') }}" class="inline-flex items-center rounded-md bg-brand-blue px-4 py-2 text-sm font-semibold text-white hover:bg-brand-navy">
                 Prijzen toevoegen
             </a>
         </div>
@@ -15,7 +15,7 @@
             @endif
 
             @if ($pendingReviews > 0)
-                <div class="rounded-md bg-amber-50 border border-amber-200 p-4 text-sm text-amber-900">
+                <div class="rounded-md bg-sky-50 border border-sky-200 p-4 text-sm text-brand-navy">
                     Je hebt {{ $pendingReviews }} import(s) die wachten op controle.
                     <a href="{{ route('prices.import.create') }}" class="font-semibold underline">Bekijk en bevestig →</a>
                 </div>
@@ -42,8 +42,8 @@
                                     </div>
                                     <div class="flex items-center gap-3">
                                         @if ($import->status === 'review')
-                                            <span class="rounded-full bg-amber-100 px-2 py-1 text-xs font-medium text-amber-800">Wacht op controle</span>
-                                            <a href="{{ route('prices.import.review', $import) }}" class="text-sm font-semibold text-amber-600 hover:underline">Controleren</a>
+                                            <span class="rounded-full bg-sky-100 px-2 py-1 text-xs font-medium text-brand-navy">Wacht op controle</span>
+                                            <a href="{{ route('prices.import.review', $import) }}" class="text-sm font-semibold text-brand-blue hover:underline">Controleren</a>
                                         @elseif ($import->status === 'confirmed')
                                             <span class="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-800">Opgeslagen</span>
                                         @elseif ($import->status === 'failed')
@@ -63,7 +63,7 @@
                     <h3 class="font-semibold text-gray-900 mb-4">Prijsregels</h3>
                     @if ($submissions->isEmpty())
                         <p class="text-gray-600">Je hebt nog geen prijzen gedeeld.</p>
-                        <a href="{{ route('prices.import.create') }}" class="mt-4 inline-block text-amber-600 font-semibold hover:underline">
+                        <a href="{{ route('prices.import.create') }}" class="mt-4 inline-block text-brand-blue font-semibold hover:underline">
                             Upload een foto, PDF of voer handmatig in →
                         </a>
                     @else
@@ -88,7 +88,7 @@
                                             <td class="py-3 pe-4">{{ $submission->effective_date->format('d-m-Y') }}</td>
                                             <td class="py-3 pe-4 text-gray-500">{{ $submission->source }}</td>
                                             <td class="py-3 text-right">
-                                                <a href="{{ route('prices.edit', $submission) }}" class="text-amber-600 hover:underline">Bewerken</a>
+                                                <a href="{{ route('prices.edit', $submission) }}" class="text-brand-blue hover:underline">Bewerken</a>
                                             </td>
                                         </tr>
                                     @endforeach

@@ -1,4 +1,4 @@
-# Prijsplein — Functioneel overzicht
+# PriceSignal — Functioneel overzicht
 
 > **Dit document is de enige bron van waarheid voor productfunctionaliteit.**
 > Elke agent die aan dit project werkt, leest dit bestand eerst en werkt alleen aan functionaliteit die hierin staat beschreven — of werkt dit document bij vóór implementatie van nieuwe features.
@@ -12,7 +12,7 @@
 
 ## 1. Productvisie
 
-**Prijsplein** is een platform waar horecabedrijven (restaurants, cafés, hotels en vergelijkbare ondernemingen) de inkoopprijzen die zij betalen bij groothandels met elkaar vergelijken.
+**PriceSignal** (pricesignal.nl) is een platform waar horecabedrijven (restaurants, cafés, hotels en vergelijkbare ondernemingen) de inkoopprijzen die zij betalen bij groothandels met elkaar vergelijken.
 
 ### Kernprobleem
 
@@ -79,7 +79,7 @@ Onderstaande modules beschrijven de volledige beoogde functionaliteit. Per modul
 
 ### 4.1 Landingspagina (marketing)
 
-**Doel:** Uitleggen wat Prijsplein is en bezoekers overtuigen om lid te worden.
+**Doel:** Uitleggen wat PriceSignal is en bezoekers overtuigen om lid te worden.
 
 **Status:** ✅ Geïmplementeerd (`index.html`)
 
@@ -92,7 +92,7 @@ Onderstaande modules beschrijven de volledige beoogde functionaliteit. Per modul
 | Probleem | Drie pijnpunten: ondoorzichtige prijzen, geen vergelijkingspunt, stijgende kosten |
 | Hoe het werkt | Drie stappen: uploaden → vergelijken → onderhandelen |
 | Voordelen | Vier voordelen + quote + statistieken |
-| Product | Wat Prijsplein doet: delen → anonimiseren → ontvangen |
+| Product | Wat PriceSignal doet: delen → anonimiseren → ontvangen |
 | Waarom delen | Reciprociteit, reframing bezwaren, uitwisselingskaart |
 | Probleem | Loss framing: kosten van geen inzicht |
 | Hoe het werkt | Drie stappen incl. foto/PDF/e-mail |
@@ -501,12 +501,13 @@ Aggregatie (berekend, niet opgeslagen als ruwe data)
 
 | Element | Waarde |
 |---|---|
-| Achtergrond | Donker (#0f1419) |
-| Accent | Amber/goud (#e8a838) |
-| Tekst | Licht (#e8e4dc) |
-| Display-font | Fraunces (serif) |
-| Body-font | DM Sans (sans-serif) |
-| Toon | Professioneel, betrouwbaar, direct — geen jargon |
+| Merknaam | PriceSignal — pricesignal.nl |
+| Achtergrond | Licht (#f4f7fb) |
+| Primair | Navy (#0c2d4a / #1b4f8a) |
+| Accent | Signal teal (#0891b2) |
+| Tekst | Donker (#0f172a) |
+| Font | Inter (sans-serif) |
+| Toon | Corporate, betrouwbaar, professioneel — geen jargon |
 
 ### Tone of voice
 

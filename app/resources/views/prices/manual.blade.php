@@ -31,7 +31,7 @@
                     <div class="space-y-4">
                         <div class="flex items-center justify-between">
                             <h3 class="font-semibold text-gray-900">Prijsregels</h3>
-                            <button type="button" @click="addRow()" class="text-sm font-semibold text-amber-600 hover:underline">+ Regel toevoegen</button>
+                            <button type="button" @click="addRow()" class="text-sm font-semibold text-brand-blue hover:underline">+ Regel toevoegen</button>
                         </div>
 
                         <template x-for="(row, index) in rows" :key="row.id">

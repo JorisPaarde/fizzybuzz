@@ -14,12 +14,12 @@
             @endphp
 
             @if ($pendingImports->isNotEmpty())
-                <div class="rounded-md bg-amber-50 border border-amber-200 p-4">
-                    <p class="text-sm font-semibold text-amber-900">Openstaande controles</p>
+                <div class="rounded-md bg-sky-50 border border-sky-200 p-4">
+                    <p class="text-sm font-semibold text-brand-navy">Openstaande controles</p>
                     <ul class="mt-2 space-y-1">
                         @foreach ($pendingImports as $pending)
                             <li>
-                                <a href="{{ route('prices.import.review', $pending) }}" class="text-sm text-amber-800 underline">
+                                <a href="{{ route('prices.import.review', $pending) }}" class="text-sm text-brand-blue underline">
                                     {{ ucfirst($pending->source) }} — {{ $pending->created_at->format('d-m-Y H:i') }} controleren
                                 </a>
                             </li>
@@ -69,7 +69,7 @@
             </div>
 
             <p class="text-center">
-                <a href="{{ route('wholesalers.index') }}" class="text-sm text-amber-600 hover:underline">Beheer je groothandels →</a>
+                <a href="{{ route('wholesalers.index') }}" class="text-sm text-brand-blue hover:underline">Beheer je groothandels →</a>
             </p>
         </div>
     </div>

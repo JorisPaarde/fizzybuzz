@@ -1,7 +1,7 @@
 {
-  "name": "prijsplein",
-  "version": "2.3.0",
-  "description": "Homepage for Prijsplein — horeca wholesale price comparison platform",
+  "name": "pricesignal",
+  "version": "3.0.0",
+  "description": "PriceSignal (pricesignal.nl) — horeca wholesale price comparison platform",
   "private": true,
   "scripts": {
     "start": "npx --yes serve . -p 3000",

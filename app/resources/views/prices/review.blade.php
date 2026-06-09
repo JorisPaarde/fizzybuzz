@@ -5,7 +5,7 @@
 
     <div class="py-12">
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
-            <div class="mb-4 rounded-md bg-amber-50 p-4 text-sm text-amber-900">
+            <div class="mb-4 rounded-md bg-sky-50 p-4 text-sm text-sky-900">
                 Controleer alle regels. Pas fouten aan voordat je opslaat — AI kan soms verkeerd lezen.
             </div>
 
@@ -34,7 +34,7 @@
                     <div class="space-y-4">
                         <div class="flex items-center justify-between">
                             <h3 class="font-semibold text-gray-900">Gevonden regels</h3>
-                            <button type="button" @click="addRow()" class="text-sm font-semibold text-amber-600 hover:underline">+ Regel toevoegen</button>
+                            <button type="button" @click="addRow()" class="text-sm font-semibold text-brand-blue hover:underline">+ Regel toevoegen</button>
                         </div>
 
                         <template x-for="(row, index) in rows" :key="row.id">

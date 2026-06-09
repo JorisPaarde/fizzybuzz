@@ -1,6 +1,6 @@
-# Prijsplein — Laravel app
+# PriceSignal — Laravel app
 
-De applicatie-backend voor Prijsplein. Draait lokaal; de marketing-site blijft op GitHub Pages.
+De applicatie-backend voor **pricesignal.nl**. Draait lokaal; de marketing-site op GitHub Pages (later pricesignal.nl).
 
 ## Vereisten
 

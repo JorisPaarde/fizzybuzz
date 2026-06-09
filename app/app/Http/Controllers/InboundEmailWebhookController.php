@@ -53,7 +53,7 @@ class InboundEmailWebhookController extends Controller
 
     private function verifyMailgunSignature(Request $request): bool
     {
-        $signingKey = config('prijsplein.mailgun_webhook_signing_key');
+        $signingKey = config('pricesignal.mailgun_webhook_signing_key');
 
         if (blank($signingKey)) {
             return app()->environment(['local', 'testing']);

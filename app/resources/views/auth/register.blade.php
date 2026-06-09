@@ -1,6 +1,6 @@
 <x-guest-layout>
     <div class="mb-6">
-        <h1 class="text-xl font-semibold text-gray-900">Word lid van Prijsplein</h1>
+        <h1 class="text-xl font-semibold text-brand-navy">Word lid van PriceSignal</h1>
         <p class="mt-2 text-sm text-gray-600">
             Jouw prijsinzichten worden anoniem gedeeld. Andere leden zien nooit welk bedrijf welke prijs betaalt.
         </p>

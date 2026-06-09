@@ -12,7 +12,15 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Inter', ...defaultTheme.fontFamily.sans],
+            },
+            colors: {
+                brand: {
+                    navy: '#0C2D4A',
+                    blue: '#1B4F8A',
+                    signal: '#0891B2',
+                    muted: '#5B6B7C',
+                },
             },
         },
     },

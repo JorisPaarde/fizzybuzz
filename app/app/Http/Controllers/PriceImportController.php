@@ -15,7 +15,7 @@ class PriceImportController extends Controller
     public function create(): View
     {
         return view('prices.import', [
-            'emailUploadAddress' => config('prijsplein.inbound_email'),
+            'emailUploadAddress' => config('pricesignal.inbound_email'),
             'userEmail' => auth()->user()->email,
         ]);
     }

@@ -1,6 +1,6 @@
-# Prijsplein
+# PriceSignal
 
-Platform waar horecabedrijven inkoopprijzen bij groothandels vergelijken en samen scherpere tarieven onderhandelen.
+**pricesignal.nl** — platform waar horecabedrijven inkoopprijzen bij groothandels vergelijken en samen scherpere tarieven onderhandelen.
 
 > **Productdocumentatie:** [`FUNCTIONALITEIT.md`](FUNCTIONALITEIT.md) — lees dit eerst.
 
